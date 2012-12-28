@@ -7,8 +7,15 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		3E1AC9FD168E1ABE00F8B28D /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3E1AC9FC168E1ABE00F8B28D /* main.cpp */; };
+		3E1AC9FD168E1ABE00F8B28D /* main_MacOS.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3E1AC9FC168E1ABE00F8B28D /* main_MacOS.cpp */; };
 		3E1AC9FF168E1ABE00F8B28D /* test.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = 3E1AC9FE168E1ABE00F8B28D /* test.1 */; };
+		3E1ACA25168E1AFE00F8B28D /* CompiledModel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3E1ACA09168E1AFE00F8B28D /* CompiledModel.cpp */; };
+		3E1ACA27168E1AFE00F8B28D /* GameEngine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3E1ACA0E168E1AFE00F8B28D /* GameEngine.cpp */; };
+		3E1ACA28168E1AFE00F8B28D /* sampler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3E1ACA19168E1AFE00F8B28D /* sampler.cpp */; };
+		3E1ACA2A168E1AFE00F8B28D /* utils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3E1ACA1F168E1AFE00F8B28D /* utils.cpp */; };
+		3E1ACA2D168E1C2100F8B28D /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E1ACA2C168E1C2100F8B28D /* OpenGL.framework */; };
+		3E1ACA30168E20A300F8B28D /* MacOS.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3E1ACA2F168E20A300F8B28D /* MacOS.cpp */; };
+		3E1ACA32168E22C800F8B28D /* GLUT.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E1ACA31168E22C800F8B28D /* GLUT.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -26,8 +33,39 @@
 
 /* Begin PBXFileReference section */
 		3E1AC9F8168E1ABE00F8B28D /* test */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = test; sourceTree = BUILT_PRODUCTS_DIR; };
-		3E1AC9FC168E1ABE00F8B28D /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		3E1AC9FC168E1ABE00F8B28D /* main_MacOS.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main_MacOS.cpp; sourceTree = "<group>"; };
 		3E1AC9FE168E1ABE00F8B28D /* test.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = test.1; sourceTree = "<group>"; };
+		3E1ACA05168E1AFE00F8B28D /* App.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = App.h; sourceTree = "<group>"; };
+		3E1ACA06168E1AFE00F8B28D /* bezier_curve.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = bezier_curve.h; sourceTree = "<group>"; };
+		3E1ACA07168E1AFE00F8B28D /* bezier_surface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = bezier_surface.h; sourceTree = "<group>"; };
+		3E1ACA08168E1AFE00F8B28D /* common_types.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = common_types.h; sourceTree = "<group>"; };
+		3E1ACA09168E1AFE00F8B28D /* CompiledModel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CompiledModel.cpp; sourceTree = "<group>"; };
+		3E1ACA0A168E1AFE00F8B28D /* CompiledModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CompiledModel.h; sourceTree = "<group>"; };
+		3E1ACA0B168E1AFE00F8B28D /* complex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = complex.h; sourceTree = "<group>"; };
+		3E1ACA0E168E1AFE00F8B28D /* GameEngine.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameEngine.cpp; sourceTree = "<group>"; };
+		3E1ACA0F168E1AFE00F8B28D /* GameEngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameEngine.h; sourceTree = "<group>"; };
+		3E1ACA10168E1AFE00F8B28D /* GameEntity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameEntity.h; sourceTree = "<group>"; };
+		3E1ACA11168E1AFE00F8B28D /* GameScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameScene.h; sourceTree = "<group>"; };
+		3E1ACA12168E1AFE00F8B28D /* IGraphicsContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IGraphicsContext.h; sourceTree = "<group>"; };
+		3E1ACA13168E1AFE00F8B28D /* IResourceManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IResourceManager.h; sourceTree = "<group>"; };
+		3E1ACA14168E1AFE00F8B28D /* ISystem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISystem.h; sourceTree = "<group>"; };
+		3E1ACA15168E1AFE00F8B28D /* ISystemListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISystemListener.h; sourceTree = "<group>"; };
+		3E1ACA16168E1AFE00F8B28D /* matrix.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = matrix.h; sourceTree = "<group>"; };
+		3E1ACA17168E1AFE00F8B28D /* Model.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Model.h; sourceTree = "<group>"; };
+		3E1ACA18168E1AFE00F8B28D /* quaternion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = quaternion.h; sourceTree = "<group>"; };
+		3E1ACA19168E1AFE00F8B28D /* sampler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = sampler.cpp; sourceTree = "<group>"; };
+		3E1ACA1A168E1AFE00F8B28D /* sampler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sampler.h; sourceTree = "<group>"; };
+		3E1ACA1B168E1AFE00F8B28D /* SceneGraph.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SceneGraph.h; sourceTree = "<group>"; };
+		3E1ACA1D168E1AFE00F8B28D /* Timer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Timer.h; sourceTree = "<group>"; };
+		3E1ACA1E168E1AFE00F8B28D /* tree.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tree.h; sourceTree = "<group>"; };
+		3E1ACA1F168E1AFE00F8B28D /* utils.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = utils.cpp; sourceTree = "<group>"; };
+		3E1ACA20168E1AFE00F8B28D /* utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = utils.h; sourceTree = "<group>"; };
+		3E1ACA21168E1AFE00F8B28D /* vector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = vector.h; sourceTree = "<group>"; };
+		3E1ACA22168E1AFE00F8B28D /* Window.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Window.h; sourceTree = "<group>"; };
+		3E1ACA2C168E1C2100F8B28D /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
+		3E1ACA2E168E1E4E00F8B28D /* MacOS.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MacOS.h; sourceTree = "<group>"; };
+		3E1ACA2F168E20A300F8B28D /* MacOS.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MacOS.cpp; sourceTree = "<group>"; };
+		3E1ACA31168E22C800F8B28D /* GLUT.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLUT.framework; path = System/Library/Frameworks/GLUT.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -35,6 +73,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3E1ACA32168E22C800F8B28D /* GLUT.framework in Frameworks */,
+				3E1ACA2D168E1C2100F8B28D /* OpenGL.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -44,6 +84,8 @@
 		3E1AC9ED168E1ABD00F8B28D = {
 			isa = PBXGroup;
 			children = (
+				3E1ACA31168E22C800F8B28D /* GLUT.framework */,
+				3E1ACA2C168E1C2100F8B28D /* OpenGL.framework */,
 				3E1AC9FB168E1ABE00F8B28D /* test */,
 				3E1AC9F9168E1ABE00F8B28D /* Products */,
 			);
@@ -60,10 +102,79 @@
 		3E1AC9FB168E1ABE00F8B28D /* test */ = {
 			isa = PBXGroup;
 			children = (
-				3E1AC9FC168E1ABE00F8B28D /* main.cpp */,
+				3E1ACA37168E264B00F8B28D /* MacOS */,
+				3E1ACA36168E263900F8B28D /* Core */,
+				3E1ACA35168E255A00F8B28D /* System */,
+				3E1ACA34168E253B00F8B28D /* GameEngine */,
+				3E1ACA33168E252700F8B28D /* Interfaces */,
 				3E1AC9FE168E1ABE00F8B28D /* test.1 */,
 			);
 			path = test;
+			sourceTree = "<group>";
+		};
+		3E1ACA33168E252700F8B28D /* Interfaces */ = {
+			isa = PBXGroup;
+			children = (
+				3E1ACA12168E1AFE00F8B28D /* IGraphicsContext.h */,
+				3E1ACA13168E1AFE00F8B28D /* IResourceManager.h */,
+				3E1ACA14168E1AFE00F8B28D /* ISystem.h */,
+				3E1ACA15168E1AFE00F8B28D /* ISystemListener.h */,
+			);
+			name = Interfaces;
+			sourceTree = "<group>";
+		};
+		3E1ACA34168E253B00F8B28D /* GameEngine */ = {
+			isa = PBXGroup;
+			children = (
+				3E1ACA09168E1AFE00F8B28D /* CompiledModel.cpp */,
+				3E1ACA0A168E1AFE00F8B28D /* CompiledModel.h */,
+				3E1ACA11168E1AFE00F8B28D /* GameScene.h */,
+				3E1ACA0E168E1AFE00F8B28D /* GameEngine.cpp */,
+				3E1ACA0F168E1AFE00F8B28D /* GameEngine.h */,
+				3E1ACA10168E1AFE00F8B28D /* GameEntity.h */,
+				3E1ACA17168E1AFE00F8B28D /* Model.h */,
+				3E1ACA1B168E1AFE00F8B28D /* SceneGraph.h */,
+			);
+			name = GameEngine;
+			sourceTree = "<group>";
+		};
+		3E1ACA35168E255A00F8B28D /* System */ = {
+			isa = PBXGroup;
+			children = (
+				3E1ACA05168E1AFE00F8B28D /* App.h */,
+				3E1ACA22168E1AFE00F8B28D /* Window.h */,
+			);
+			name = System;
+			sourceTree = "<group>";
+		};
+		3E1ACA36168E263900F8B28D /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				3E1ACA06168E1AFE00F8B28D /* bezier_curve.h */,
+				3E1ACA07168E1AFE00F8B28D /* bezier_surface.h */,
+				3E1ACA08168E1AFE00F8B28D /* common_types.h */,
+				3E1ACA0B168E1AFE00F8B28D /* complex.h */,
+				3E1ACA16168E1AFE00F8B28D /* matrix.h */,
+				3E1ACA18168E1AFE00F8B28D /* quaternion.h */,
+				3E1ACA19168E1AFE00F8B28D /* sampler.cpp */,
+				3E1ACA1A168E1AFE00F8B28D /* sampler.h */,
+				3E1ACA1D168E1AFE00F8B28D /* Timer.h */,
+				3E1ACA1E168E1AFE00F8B28D /* tree.h */,
+				3E1ACA1F168E1AFE00F8B28D /* utils.cpp */,
+				3E1ACA20168E1AFE00F8B28D /* utils.h */,
+				3E1ACA21168E1AFE00F8B28D /* vector.h */,
+			);
+			name = Core;
+			sourceTree = "<group>";
+		};
+		3E1ACA37168E264B00F8B28D /* MacOS */ = {
+			isa = PBXGroup;
+			children = (
+				3E1ACA2E168E1E4E00F8B28D /* MacOS.h */,
+				3E1ACA2F168E20A300F8B28D /* MacOS.cpp */,
+				3E1AC9FC168E1ABE00F8B28D /* main_MacOS.cpp */,
+			);
+			name = MacOS;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -117,7 +228,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3E1AC9FD168E1ABE00F8B28D /* main.cpp in Sources */,
+				3E1AC9FD168E1ABE00F8B28D /* main_MacOS.cpp in Sources */,
+				3E1ACA25168E1AFE00F8B28D /* CompiledModel.cpp in Sources */,
+				3E1ACA27168E1AFE00F8B28D /* GameEngine.cpp in Sources */,
+				3E1ACA28168E1AFE00F8B28D /* sampler.cpp in Sources */,
+				3E1ACA2A168E1AFE00F8B28D /* utils.cpp in Sources */,
+				3E1ACA30168E20A300F8B28D /* MacOS.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
