@@ -7,10 +7,13 @@
 #include <memory>
 #include <functional>
 #include <algorithm>
+
+#include "Model.h"
 	
 WinOS::WinOS()
 {
 	//std::for_each(listeners_.begin(), listeners);
+	std::unique_ptr<Model> modelPtr = Model::CreateFromObj("C:\\temp\\cube.obj");
 
 }
 
