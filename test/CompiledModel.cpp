@@ -2,7 +2,7 @@
 
 CompiledModel::CompiledModel(core::uint vertexBufferID, core::uint indexBufferID, ReleaseCallback releaseCallback) 
 	: vertexBufferID_(vertexBufferID),
-	  indexBufferID_(indexBufferID_),
+	  indexBufferID_(indexBufferID),
 	   releaseCallback_(releaseCallback)
 {
 
