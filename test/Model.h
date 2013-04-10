@@ -16,12 +16,22 @@ class Model
 public:
     ~Model();
     
+    struct Vertex
+    {
+        core::vector3 position;
+        core::vector2 texcoord;
+        core::vector3 normal;
+    };
+    
     // REQUIRES: fileName exists on disk and is correct obj file
-    // PROMISE: 
+    // PROMISE: Will return valid model or the exception will be thrown
     static std::unique_ptr<Model>  CreateFromObj(std::string const& fileName);
 
-    bool HasNormals() const;
-    bool HasTexcoords() const;
+    Vertex const* GetVertexArrayPointer() const;
+    unsigned short const* GetIndexArrayPointer() const;
+    core::uint GetVertexCount() const;
+    core::uint GetIndexCount() const;
+    core::uint GetVertexSizeInBytes() const;
     
 private:
     struct Index
@@ -45,10 +55,10 @@ private:
     std::vector<core::vector3> vertices_;
     std::vector<core::vector3> normals_;
     std::vector<core::vector2> texcoords_;
-    
-    
-    
     std::vector<Index> indices_;
+    
+    std::vector<Vertex> interleavedData_;
+    std::vector<unsigned short> interleavedIndices_;
 };
 
 #endif 

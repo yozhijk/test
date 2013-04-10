@@ -185,16 +185,6 @@ inline uint Model::StoreFace(std::vector<Index> const& indices)
     return static_cast<uint>(indices_.size() - 1);
 }
 
-bool Model::HasNormals() const
-{
-    return normals_.size() != 0;
-}
-
-bool Model::HasTexcoords() const
-{
-    return texcoords_.size() != 0;
-}
-
 unique_ptr<Model>  Model::CreateFromObj(string const& fileName)
 {
     ifstream in(fileName);
@@ -205,7 +195,39 @@ unique_ptr<Model>  Model::CreateFromObj(string const& fileName)
         modelPtr->LoadFromObjStream(in);
         return modelPtr;
     }
-    
-    return nullptr;
+    else
+    {
+        throw std::runtime_error("Shit happens: check the path to your models");
+        return nullptr;
+    }
+}
+
+Model::Vertex const* Model::GetVertexArrayPointer() const
+{
+    assert(interleavedData_.size() > 0);
+    return &interleavedData_[0];
+}
+
+unsigned short const* Model::GetIndexArrayPointer() const
+{
+    assert(interleavedIndices_.size() > 0);
+    return &interleavedIndices_[0];
+}
+
+core::uint Model::GetVertexCount() const
+{
+    assert(interleavedData_.size() > 0);
+    return static_cast<uint>(interleavedData_.size());
+}
+
+core::uint Model::GetIndexCount() const
+{
+    assert(interleavedIndices_.size() > 0);
+    return static_cast<uint>(interleavedIndices_.size());
+}
+
+core::uint Model::GetVertexSizeInBytes() const
+{
+    return sizeof(Vertex);
 }
 

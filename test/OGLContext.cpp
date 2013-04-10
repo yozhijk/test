@@ -1,4 +1,5 @@
 #include "OGLContext.h"
+#include "Model.h"
 #include "CompiledModel.h"
 #include <GLUT/glut.h>
 
@@ -68,10 +69,31 @@ IResourceManager& OGLContext::GetResourceManager()
 
 std::unique_ptr<CompiledModel> OGLContext::CompileModel(Model const& model)
 {
-    return std::unique_ptr<CompiledModel>(new CompiledModel(0, 0, std::bind(&OGLContext::OnReleaseModel, this, std::placeholders::_1)));
+    GLuint vertexBufferId, indexBufferId;
+    
+    glGenBuffers(1, &vertexBufferId);
+    glGenBuffers(1, &indexBufferId);
+    
+    // create vertex buffer
+    glBindBuffer(GL_ARRAY_BUFFER, vertexBufferId);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBufferId);
+    
+    // fill data
+    glBufferData(GL_ARRAY_BUFFER, model.GetVertexCount() * model.GetVertexSizeInBytes(), model.GetVertexArrayPointer(), GL_STATIC_DRAW);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, model.GetIndexCount() * sizeof(unsigned short), model.GetIndexArrayPointer(), GL_STATIC_DRAW);
+
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+    
+    return std::unique_ptr<CompiledModel>(
+        new CompiledModel(vertexBufferId, indexBufferId, std::bind(&OGLContext::OnReleaseModel, this, std::placeholders::_1))
+                                        );
 }
 
 void OGLContext::OnReleaseModel( CompiledModel const& model )
 {
-    
+    GLuint vertexBufferId = model.GetVertexBufferID();
+    GLuint indexBufferId  = model.GetIndexBufferID();
+    glDeleteBuffers(1, &vertexBufferId);
+    glDeleteBuffers(1, &indexBufferId);
 }

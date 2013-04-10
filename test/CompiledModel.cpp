@@ -16,12 +16,12 @@ CompiledModel::~CompiledModel()
 	}
 }
 	
-inline core::uint CompiledModel::GetVertexBufferID() const
+core::uint CompiledModel::GetVertexBufferID() const
 {
 	return vertexBufferID_;
 }
 
-inline	core::uint CompiledModel::GetIndexBufferID() const
+core::uint CompiledModel::GetIndexBufferID() const
 {
 	return indexBufferID_;
 }
