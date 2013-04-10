@@ -1,0 +1,126 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="GameEngine">
+      <UniqueIdentifier>{cc4cd77a-4a5e-4d4e-8fb9-1920b9e0d3f1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Interfaces">
+      <UniqueIdentifier>{070ba829-40f4-4511-9af0-91b51781244f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core">
+      <UniqueIdentifier>{8135a2cf-4654-4435-a1f7-447194f40b46}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="System">
+      <UniqueIdentifier>{a4154d52-ebec-4a68-ade1-d188dd694c90}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Windows">
+      <UniqueIdentifier>{4cf21143-de7d-4b99-b71c-fa82e0754f82}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="tree.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="vector.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="matrix.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="quaternion.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="complex.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="sampler.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="utils.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="common_types.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="bezier_curve.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="bezier_surface.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="ISystemListener.h">
+      <Filter>Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="ISystem.h">
+      <Filter>Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="Timer.h">
+      <Filter>System</Filter>
+    </ClInclude>
+    <ClInclude Include="Window.h">
+      <Filter>System</Filter>
+    </ClInclude>
+    <ClInclude Include="IGraphicsContext.h">
+      <Filter>Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="App.h">
+      <Filter>System</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngine.h">
+      <Filter>GameEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="GameScene.h">
+      <Filter>GameEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneGraph.h">
+      <Filter>GameEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="WinOS.h">
+      <Filter>Windows</Filter>
+    </ClInclude>
+    <ClInclude Include="DX11Context.h">
+      <Filter>Windows</Filter>
+    </ClInclude>
+    <ClInclude Include="Model.h">
+      <Filter>GameEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="IResourceManager.h">
+      <Filter>Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="CompiledModel.h">
+      <Filter>GameEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEntity.h">
+      <Filter>GameEngine</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="sampler.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="utils.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="App.cpp">
+      <Filter>System</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngine.cpp">
+      <Filter>GameEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="test.cpp">
+      <Filter>Windows</Filter>
+    </ClCompile>
+    <ClCompile Include="WinOS.cpp">
+      <Filter>Windows</Filter>
+    </ClCompile>
+    <ClCompile Include="DX11Context.cpp">
+      <Filter>Windows</Filter>
+    </ClCompile>
+    <ClCompile Include="CompiledModel.cpp">
+      <Filter>GameEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="Model.cpp">
+      <Filter>GameEngine</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>
