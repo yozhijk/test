@@ -3,6 +3,7 @@
 #include "ISystemListener.h"
 #include "IGraphicsContext.h"
 #include "OGLContext.h"
+#include "Model.h"
 
 #include <memory>
 #include <functional>
@@ -11,7 +12,7 @@
 MacOS::MacOS()
 {
 	//std::for_each(listeners_.begin(), listeners);
-    
+    std::unique_ptr<Model> modelPtr = Model::CreateFromObj("cube.obj");
 }
 
 MacOS::~MacOS()
