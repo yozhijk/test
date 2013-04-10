@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2E81D03E17154B3800E2CC55 /* Model.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E81D03D17154B3800E2CC55 /* Model.cpp */; };
 		3E1AC9FD168E1ABE00F8B28D /* main_MacOS.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3E1AC9FC168E1ABE00F8B28D /* main_MacOS.cpp */; };
 		3E1AC9FF168E1ABE00F8B28D /* test.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = 3E1AC9FE168E1ABE00F8B28D /* test.1 */; };
 		3E1ACA25168E1AFE00F8B28D /* CompiledModel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3E1ACA09168E1AFE00F8B28D /* CompiledModel.cpp */; };
@@ -34,6 +35,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		2E81D03D17154B3800E2CC55 /* Model.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Model.cpp; sourceTree = "<group>"; };
 		3E1AC9F8168E1ABE00F8B28D /* test */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = test; sourceTree = BUILT_PRODUCTS_DIR; };
 		3E1AC9FC168E1ABE00F8B28D /* main_MacOS.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main_MacOS.cpp; sourceTree = "<group>"; };
 		3E1AC9FE168E1ABE00F8B28D /* test.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = test.1; sourceTree = "<group>"; };
@@ -131,6 +133,7 @@
 		3E1ACA34168E253B00F8B28D /* GameEngine */ = {
 			isa = PBXGroup;
 			children = (
+				2E81D03D17154B3800E2CC55 /* Model.cpp */,
 				3E1ACA09168E1AFE00F8B28D /* CompiledModel.cpp */,
 				3E1ACA0A168E1AFE00F8B28D /* CompiledModel.h */,
 				3E1ACA11168E1AFE00F8B28D /* GameScene.h */,
@@ -244,6 +247,7 @@
 				3E1ACA30168E20A300F8B28D /* MacOS.cpp in Sources */,
 				3EEBF8CA168F0F3000211510 /* OGLContext.cpp in Sources */,
 				3EEBF8CC168F141900211510 /* App.cpp in Sources */,
+				2E81D03E17154B3800E2CC55 /* Model.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
