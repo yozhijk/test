@@ -2,6 +2,7 @@
 
 #include "ISystemListener.h"
 #include "IGraphicsContext.h"
+#include "OGLContext.h"
 
 #include <memory>
 #include <functional>
@@ -25,7 +26,7 @@ void MacOS::AddListener( ISystemListener* systemListener )
 
 std::unique_ptr<IGraphicsContext> MacOS::CreateGraphicsContext(Window const& window)
 {
-	return std::unique_ptr<IGraphicsContext>(/*new DX11Context(static_cast<HWND>(window_.handle))*/);
+	return std::unique_ptr<IGraphicsContext>(new OGLContext());
 }
 
 void MacOS::SetWindowParams(core::ui_rect const& rect)
