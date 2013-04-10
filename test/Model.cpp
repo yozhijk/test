@@ -13,6 +13,7 @@
 #include <algorithm>
 #include <string>
 #include <iterator>
+#include <map>
 
 using namespace std;
 using namespace core;
@@ -158,6 +159,8 @@ void Model::LoadFromObjStream(ifstream& objStream)
             tokens.clear();
         }
     }
+    
+    PackInterleavedData();
 }
 
 inline uint Model::StoreVertex(vector3 const& v)
@@ -230,5 +233,51 @@ core::uint Model::GetIndexCount() const
 core::uint Model::GetVertexSizeInBytes() const
 {
     return sizeof(Vertex);
+}
+
+void Model::PackInterleavedData()
+{
+    map<Index, unsigned short> tempIdx;
+    for_each(indices_.begin(), indices_.end(), [&](Index const& index)
+             {
+                 auto idx = tempIdx.find(index);
+                 
+                 if ( idx != tempIdx.end())
+                 {
+                     interleavedIndices_.push_back(idx->second);
+                 }
+                 else
+                 {
+                     Vertex vertexData;
+                     
+                     vertexData.position = vertices_[index.vIdx];
+                     
+                     if (HasNormals())
+                         vertexData.normal = normals_[index.nIdx];
+                     
+                     if (HasTexcoords())
+                         vertexData.texcoord = texcoords_[index.tIdx];
+                    
+                     interleavedData_.push_back(vertexData);
+                     
+                     unsigned short indexToStore = static_cast<unsigned short>(interleavedData_.size()-1);
+                     
+                     interleavedIndices_.push_back(indexToStore);
+                     
+                     tempIdx[index] = indexToStore;
+                 }
+             }
+             );
+    
+}
+
+inline bool Model::HasNormals() const
+{
+    return !normals_.empty();
+}
+
+inline bool Model::HasTexcoords() const
+{
+    return !texcoords_.empty();
 }
 

@@ -40,13 +40,21 @@ private:
         core::uint nIdx;
         core::uint tIdx;
         Index() : vIdx(0xFFFFFFFF), nIdx(0xFFFFFFFF), tIdx(0xFFFFFFFF) {}
+        bool operator < (Index const& other) const
+        {
+            return vIdx < other.vIdx;
+        }
     };
     
+    void PackInterleavedData();
     void LoadFromObjStream(std::ifstream& objStream);
     core::uint StoreVertex(core::vector3 const& v);
     core::uint StoreNormal(core::vector3 const& n);
     core::uint StoreTexcoord(core::vector2 const& t);
     core::uint StoreFace(std::vector<Index> const& indices);
+    
+    bool HasNormals() const;
+    bool HasTexcoords() const;
     
     Model();
 	Model(Model const&);
