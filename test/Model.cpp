@@ -110,6 +110,9 @@ void Model::LoadFromObjStream(ifstream& objStream)
                          [&](std::string& s)
                          {
                              sscanf(s.c_str(), "%d//%d", &tempIdx.vIdx, &tempIdx.nIdx);
+							 // account for 1-based arrays in obj file
+							 --tempIdx.vIdx;
+							 --tempIdx.nIdx;
                              indices.push_back(tempIdx);
                          }
                          );
@@ -123,6 +126,8 @@ void Model::LoadFromObjStream(ifstream& objStream)
                          [&](std::string& s)
                          {
                              sscanf(s.c_str(), "%d/%d", &tempIdx.vIdx, &tempIdx.tIdx);
+							 --tempIdx.vIdx;
+							 --tempIdx.tIdx;
                              indices.push_back(tempIdx);
                          }
                          );
@@ -135,6 +140,9 @@ void Model::LoadFromObjStream(ifstream& objStream)
                          [&](std::string& s)
                          {
                              sscanf(s.c_str(), "%d/%d/%d", &tempIdx.vIdx, &tempIdx.tIdx, &tempIdx.nIdx);
+							 --tempIdx.vIdx;
+							 --tempIdx.nIdx;
+							 --tempIdx.tIdx;
                              indices.push_back(tempIdx);
                          }
                          );
@@ -147,6 +155,7 @@ void Model::LoadFromObjStream(ifstream& objStream)
                          [&](std::string& s)
                          {
                              sscanf(s.c_str(), "%d", &tempIdx.vIdx);
+							 --tempIdx.vIdx;
                              indices.push_back(tempIdx);
                          }
                          );

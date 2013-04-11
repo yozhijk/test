@@ -42,7 +42,11 @@ private:
         Index() : vIdx(0xFFFFFFFF), nIdx(0xFFFFFFFF), tIdx(0xFFFFFFFF) {}
         bool operator < (Index const& other) const
         {
-            return vIdx < other.vIdx;
+            return (vIdx < other.vIdx) ? true : 
+				   (vIdx > other.vIdx) ? false :
+				   (nIdx < other.nIdx) ? true :
+				   (nIdx > other.nIdx) ? false :
+				   (tIdx < other.tIdx) ? true : false;
         }
     };
     
