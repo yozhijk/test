@@ -1,6 +1,7 @@
 #include "DX11Context.h"
-#include "CompiledModel.h"
-#include "Model.h"
+#include "CompiledMesh.h"
+#include "Mesh.h"
+
 #include <stdexcept>
 
 #define THROW_IF_FAILED(x,m) if((x)!=S_OK) throw std::runtime_error(m)
@@ -133,7 +134,7 @@ void DX11Context::SetProjectionMatrix(core::matrix4x4 const& projMatrix)
 
 }
 
-void DX11Context::DrawModel(/*CompiledModel& model*/)
+void DX11Context::DrawMesh(/*CompiledModel& model*/)
 {
 }
 
@@ -153,40 +154,40 @@ IResourceManager& DX11Context::GetResourceManager()
 	return *this;
 }
 
-std::unique_ptr<CompiledModel> DX11Context::CompileModel(Model const& model)
+std::unique_ptr<CompiledMesh> DX11Context::CompileMesh(Mesh const& mesh)
 {
 	D3D11_BUFFER_DESC bufDesc;
 	ZeroMemory(&bufDesc, sizeof(bufDesc));
 
 	bufDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
-	bufDesc.ByteWidth = model.GetVertexCount() * model.GetVertexSizeInBytes();
+	bufDesc.ByteWidth = mesh.GetVertexCount() * mesh.GetVertexSizeInBytes();
 	bufDesc.Usage = D3D11_USAGE_DEFAULT;
 
 	D3D11_SUBRESOURCE_DATA srData;
 	ZeroMemory(&srData, sizeof(srData));
-	srData.pSysMem = model.GetVertexArrayPointer();
+	srData.pSysMem = mesh.GetVertexArrayPointer();
 
 	ID3D11Buffer* pVertexBuffer = nullptr;
 	THROW_IF_FAILED(device_->CreateBuffer(&bufDesc, &srData, &pVertexBuffer), "Cannot create mesh vertex buffer");
 
 	bufDesc.BindFlags = D3D11_BIND_INDEX_BUFFER;
-	bufDesc.ByteWidth = model.GetIndexCount() * sizeof(unsigned short);
+	bufDesc.ByteWidth = mesh.GetIndexCount() * sizeof(unsigned short);
 	bufDesc.Usage = D3D11_USAGE_DEFAULT;
 
 	ZeroMemory(&srData, sizeof(srData));
-	srData.pSysMem = model.GetIndexArrayPointer();
+	srData.pSysMem = mesh.GetIndexArrayPointer();
 
 	ID3D11Buffer* pIndexBuffer = nullptr;
 	THROW_IF_FAILED(device_->CreateBuffer(&bufDesc, &srData, &pIndexBuffer), "Cannot create mesh index buffer");
 
 	/// Potential 64-bit compatibily issue, fix later
-	return std::unique_ptr<CompiledModel>(new CompiledModel(reinterpret_cast<core::uint>(pVertexBuffer), reinterpret_cast<core::uint>(pIndexBuffer), std::bind(&DX11Context::OnReleaseModel, this, std::placeholders::_1)));
+	return std::unique_ptr<CompiledMesh>(new CompiledMesh(reinterpret_cast<core::uint>(pVertexBuffer), reinterpret_cast<core::uint>(pIndexBuffer), std::bind(&DX11Context::OnReleaseMesh, this, std::placeholders::_1)));
 }
 
-void DX11Context::OnReleaseModel(CompiledModel const& model)
+void DX11Context::OnReleaseMesh(CompiledMesh const& mesh)
 {
-	ID3D11Buffer* pVertexBuffer = reinterpret_cast<ID3D11Buffer*>(model.GetVertexBufferID());
-	ID3D11Buffer* pIndexBuffer = reinterpret_cast<ID3D11Buffer*>(model.GetIndexBufferID());
+	ID3D11Buffer* pVertexBuffer = reinterpret_cast<ID3D11Buffer*>(mesh.GetVertexBufferID());
+	ID3D11Buffer* pIndexBuffer = reinterpret_cast<ID3D11Buffer*>(mesh.GetIndexBufferID());
 	
 	/// Release index/vertex buffers etc
 	pVertexBuffer->Release();

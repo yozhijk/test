@@ -1,12 +1,12 @@
 //
-//  Model.cpp
+//  Mesh.cpp
 //  test
 //
 //  Created by Dmitry Kozlov on 08.04.13.
 //  Copyright (c) 2013 Dmitry Kozlov. All rights reserved.
 //
 
-#include "Model.h"
+#include "Mesh.h"
 #include <fstream>
 #include <sstream>
 #include <cassert>
@@ -23,15 +23,15 @@ using namespace std;
 using namespace core;
 
 
-Model::Model()
+Mesh::Mesh()
 {
 }
     
-Model::~Model()
+Mesh::~Mesh()
 {
 }
 
-void Model::LoadFromObjStream(ifstream& objStream)
+void Mesh::LoadFromObjStream(ifstream& objStream)
 {
     string line;
     while(getline(objStream,line))
@@ -176,25 +176,25 @@ void Model::LoadFromObjStream(ifstream& objStream)
     PackInterleavedData();
 }
 
-inline uint Model::StoreVertex(vector3 const& v)
+inline uint Mesh::StoreVertex(vector3 const& v)
 {
     vertices_.push_back(v);
     return static_cast<uint>(vertices_.size() - 1);
 }
 
-inline uint Model::StoreNormal(vector3 const& n)
+inline uint Mesh::StoreNormal(vector3 const& n)
 {
     normals_.push_back(n);
     return static_cast<uint>(normals_.size() - 1);
 }
 
-inline uint Model::StoreTexcoord(vector2 const& t)
+inline uint Mesh::StoreTexcoord(vector2 const& t)
 {
     texcoords_.push_back(t);
     return static_cast<uint>(texcoords_.size() - 1);
 }
 
-inline uint Model::StoreFace(std::vector<Index> const& indices)
+inline uint Mesh::StoreFace(std::vector<Index> const& indices)
 {
     // Add support for n-gons later
     assert(indices.size() == 3);
@@ -202,13 +202,13 @@ inline uint Model::StoreFace(std::vector<Index> const& indices)
     return static_cast<uint>(indices_.size() - 1);
 }
 
-unique_ptr<Model>  Model::CreateFromObj(string const& fileName)
+unique_ptr<Mesh>  Mesh::CreateFromObj(string const& fileName)
 {
     ifstream in(fileName);
     
     if (in)
     {
-        unique_ptr<Model> modelPtr(new Model());
+        unique_ptr<Mesh> modelPtr(new Mesh());
         modelPtr->LoadFromObjStream(in);
         return modelPtr;
     }
@@ -219,36 +219,36 @@ unique_ptr<Model>  Model::CreateFromObj(string const& fileName)
     }
 }
 
-Model::Vertex const* Model::GetVertexArrayPointer() const
+Mesh::Vertex const* Mesh::GetVertexArrayPointer() const
 {
     assert(interleavedData_.size() > 0);
     return &interleavedData_[0];
 }
 
-unsigned short const* Model::GetIndexArrayPointer() const
+unsigned short const* Mesh::GetIndexArrayPointer() const
 {
     assert(interleavedIndices_.size() > 0);
     return &interleavedIndices_[0];
 }
 
-core::uint Model::GetVertexCount() const
+core::uint Mesh::GetVertexCount() const
 {
     assert(interleavedData_.size() > 0);
     return static_cast<uint>(interleavedData_.size());
 }
 
-core::uint Model::GetIndexCount() const
+core::uint Mesh::GetIndexCount() const
 {
     assert(interleavedIndices_.size() > 0);
     return static_cast<uint>(interleavedIndices_.size());
 }
 
-core::uint Model::GetVertexSizeInBytes() const
+core::uint Mesh::GetVertexSizeInBytes() const
 {
     return sizeof(Vertex);
 }
 
-void Model::PackInterleavedData()
+void Mesh::PackInterleavedData()
 {
     map<Index, unsigned short> tempIdx;
     for_each(indices_.begin(), indices_.end(), [&](Index const& index)
@@ -284,12 +284,12 @@ void Model::PackInterleavedData()
     
 }
 
-inline bool Model::HasNormals() const
+inline bool Mesh::HasNormals() const
 {
     return !normals_.empty();
 }
 
-inline bool Model::HasTexcoords() const
+inline bool Mesh::HasTexcoords() const
 {
     return !texcoords_.empty();
 }

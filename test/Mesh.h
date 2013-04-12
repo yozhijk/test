@@ -1,5 +1,5 @@
-#ifndef MODEL_H
-#define MODEL_H
+#ifndef MESH_H
+#define MESH_H
 
 #include <vector>
 #include <string>
@@ -11,10 +11,10 @@
 ////////////////////////////////////
 // This is just a holder for
 // the geometry & animation data
-class Model
+class Mesh
 {
 public:
-    ~Model();
+    ~Mesh();
     
     struct Vertex
     {
@@ -25,7 +25,7 @@ public:
     
     // REQUIRES: fileName exists on disk and is correct obj file
     // PROMISE: Will return valid model or the exception will be thrown
-    static std::unique_ptr<Model>  CreateFromObj(std::string const& fileName);
+    static std::unique_ptr<Mesh>  CreateFromObj(std::string const& fileName);
 
     Vertex const* GetVertexArrayPointer() const;
     unsigned short const* GetIndexArrayPointer() const;
@@ -60,9 +60,9 @@ private:
     bool HasNormals() const;
     bool HasTexcoords() const;
     
-    Model();
-	Model(Model const&);
-	Model& operator = (Model const&);
+    Mesh();
+	Mesh(Mesh const&);
+	Mesh& operator = (Mesh const&);
     
     std::vector<core::vector3> vertices_;
     std::vector<core::vector3> normals_;

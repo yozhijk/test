@@ -8,12 +8,12 @@
 #include <functional>
 #include <algorithm>
 
-#include "Model.h"
+#include "Mesh.h"
 	
 WinOS::WinOS()
 {
 	//std::for_each(listeners_.begin(), listeners);
-	std::unique_ptr<Model> modelPtr = Model::CreateFromObj("C:\\temp\\cube.obj");
+	std::unique_ptr<Mesh> modelPtr = Mesh::CreateFromObj("C:\\temp\\cube.obj");
 
 }
 

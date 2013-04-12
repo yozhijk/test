@@ -81,16 +81,16 @@
     <ClInclude Include="DX11Context.h">
       <Filter>Windows</Filter>
     </ClInclude>
-    <ClInclude Include="Model.h">
-      <Filter>GameEngine</Filter>
-    </ClInclude>
     <ClInclude Include="IResourceManager.h">
       <Filter>Interfaces</Filter>
     </ClInclude>
-    <ClInclude Include="CompiledModel.h">
+    <ClInclude Include="GameEntity.h">
       <Filter>GameEngine</Filter>
     </ClInclude>
-    <ClInclude Include="GameEntity.h">
+    <ClInclude Include="Mesh.h">
+      <Filter>GameEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="CompiledMesh.h">
       <Filter>GameEngine</Filter>
     </ClInclude>
   </ItemGroup>
@@ -116,10 +116,10 @@
     <ClCompile Include="DX11Context.cpp">
       <Filter>Windows</Filter>
     </ClCompile>
-    <ClCompile Include="CompiledModel.cpp">
+    <ClCompile Include="Mesh.cpp">
       <Filter>GameEngine</Filter>
     </ClCompile>
-    <ClCompile Include="Model.cpp">
+    <ClCompile Include="CompiledMesh.cpp">
       <Filter>GameEngine</Filter>
     </ClCompile>
   </ItemGroup>

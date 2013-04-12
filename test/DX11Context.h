@@ -17,6 +17,9 @@
 #include "IGraphicsContext.h"
 #include "IResourceManager.h"
 
+class Mesh;
+class CompiledMesh;
+
 /////////////////////////////////////////////////////
 /// DX11Context, currently holding roles of the context
 ///	and resource manager simultaneously, should probably
@@ -42,7 +45,7 @@ public:
 	void SetProjectionMatrix(core::matrix4x4 const& projMatrix);
 
 	/// Draw 3D model with default lighting / effects
-	void DrawModel( /*CompiledModel& model*/ );
+	void DrawMesh( /*CompiledModel& model*/ );
 	/// Clear canvas
 	void Clear(core::color_rgba const& color);
 	/// Present backbuffer
@@ -52,11 +55,11 @@ public:
 
 	/// IResourceManager overrides
 	/// Transform model into API-friendly form (would look into AssImp)
-	std::unique_ptr<CompiledModel> CompileModel(Model const& model);
+	std::unique_ptr<CompiledMesh> CompileMesh(Mesh const& mesh);
 
 protected:
 	/// CompiledModel release callback
-	void OnReleaseModel(CompiledModel const& model);
+	void OnReleaseMesh(CompiledMesh const& mesh);
 
 private:
 	DX11Context(DX11Context const&);
