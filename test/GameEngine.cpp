@@ -35,7 +35,7 @@ void GameEngine::Update(core::real timeDelta)
 
 void GameEngine::RenderScene(IGraphicsContext& graphicsContext)
 {
-	// assert(currentScene_);
+	assert(currentScene_);
 	/// State handling and rendering code here
 	if (STATE_RUNNING == engineState_)
 	{
