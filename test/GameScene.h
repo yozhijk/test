@@ -1,15 +1,27 @@
 #ifndef GAMESCENE_H
 #define GAMESCENE_H
 
-class SceneGraph;
+#include "common_types.h"
+#include <vector>
+//#include "SceneGraph.h"
+
+class CompiledMesh;
+class IGraphicsContext;
+
 class GameScene
 {
 public:
 	GameScene();
-	SceneGraph& GetSceneGraph() { return *sceneGraph_; }
+
+	void Render(IGraphicsContext& graphicsContext);
+	void Update(core::real timeDelta);
 
 private:
-	std::unique_ptr<SceneGraph> sceneGraph_;
+	// SceneGraph sceneGraph_;
+	// static geometry
+	// dynamic objects
+	// etc
+	std::vector<CompiledMesh> staticObjects_;
 };
 
 

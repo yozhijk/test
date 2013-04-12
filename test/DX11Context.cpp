@@ -47,8 +47,14 @@ void DX11Context::Init()
 	D3D_FEATURE_LEVEL featureLevels[] = {D3D_FEATURE_LEVEL_10_0, D3D_FEATURE_LEVEL_11_0};
 	UINT numLevels = sizeof(featureLevels)/sizeof(D3D_FEATURE_LEVEL);
 
+	DWORD flags = 0;
+
+#ifdef _DEBUG
+	flags |= D3D11_CREATE_DEVICE_DEBUG;
+#endif
+
 	// Attempt to create device and swap chain
-	if (FAILED(D3D11CreateDeviceAndSwapChain(NULL, D3D_DRIVER_TYPE_HARDWARE, 0, D3D11_CREATE_DEVICE_DEBUG, featureLevels, numLevels, D3D11_SDK_VERSION,
+	if (FAILED(D3D11CreateDeviceAndSwapChain(NULL, D3D_DRIVER_TYPE_HARDWARE, 0, flags, featureLevels, numLevels, D3D11_SDK_VERSION,
 		&swapChainDesc, &swapChain_, &device_, &featureLevel_, &immediateContext_ )))
 	{
 		throw std::runtime_error("Couldn't create device and swap chain");
@@ -86,8 +92,8 @@ void DX11Context::ResizeBuffer(core::ui_size const& size)
 	depthTextureDesc.ArraySize = 1;
 	depthTextureDesc.BindFlags = D3D11_BIND_DEPTH_STENCIL;
 	depthTextureDesc.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
-	depthTextureDesc.Height = size.w;
-	depthTextureDesc.Width = size.h;
+	depthTextureDesc.Height = size.h;
+	depthTextureDesc.Width = size.w;
 	depthTextureDesc.MipLevels = 1;
 	depthTextureDesc.SampleDesc.Count = 1;
 	depthTextureDesc.Usage = D3D11_USAGE_DEFAULT;
@@ -134,7 +140,7 @@ void DX11Context::SetProjectionMatrix(core::matrix4x4 const& projMatrix)
 
 }
 
-void DX11Context::DrawMesh(/*CompiledModel& model*/)
+void DX11Context::DrawMesh(CompiledMesh const& mesh)
 {
 }
 

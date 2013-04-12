@@ -36,7 +36,7 @@ public:
 	void SetProjectionMatrix(core::matrix4x4 const& projMatrix);
     
 	/// Draw 3D model with default lighting / effects
-	void DrawMesh( /*CompiledModel const& model*/ );
+	void DrawMesh(CompiledMesh const& mesh);
     
 	/// Clear canvas
 	void Clear(core::color_rgba const& color);

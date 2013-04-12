@@ -122,5 +122,8 @@
     <ClCompile Include="CompiledMesh.cpp">
       <Filter>GameEngine</Filter>
     </ClCompile>
+    <ClCompile Include="GameScene.cpp">
+      <Filter>GameEngine</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

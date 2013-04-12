@@ -46,7 +46,7 @@ void OGLContext::SetProjectionMatrix(core::matrix4x4 const& projMatrix)
     
 }
 
-void OGLContext::DrawMesh( /*CompiledModel const& model*/ )
+void OGLContext::DrawMesh(CompiledMesh const& mesh)
 {
     
 }

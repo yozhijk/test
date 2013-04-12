@@ -6,5 +6,4 @@ class SceneGraph
 
 };
 
-
 #endif //SCENEGRAPH_H

@@ -9,11 +9,14 @@
 #include <algorithm>
 
 #include "Mesh.h"
+
+using namespace std;
+using namespace core;
 	
 WinOS::WinOS()
 {
 	//std::for_each(listeners_.begin(), listeners);
-	std::unique_ptr<Mesh> modelPtr = Mesh::CreateFromObj("C:\\temp\\cube.obj");
+	unique_ptr<Mesh> modelPtr = Mesh::CreateFromObj("C:\\temp\\cube.obj");
 
 }
 
@@ -27,29 +30,29 @@ void WinOS::AddListener( ISystemListener* systemListener )
 	listeners_.push_back(systemListener);
 }
 
-std::unique_ptr<IGraphicsContext> WinOS::CreateGraphicsContext(Window const& window)
+unique_ptr<IGraphicsContext> WinOS::CreateGraphicsContext(Window const& window)
 {
-	return std::unique_ptr<IGraphicsContext>(new DX11Context(static_cast<HWND>(window_.handle)));
+	return unique_ptr<IGraphicsContext>(new DX11Context(static_cast<HWND>(window_.handle)));
 }
 
-void WinOS::SetWindowParams(HWND hWnd, core::ui_rect const& rect)
+void WinOS::SetWindowParams(HWND hWnd, ui_rect const& rect)
 {
 	/// Set window parameters
 	window_.handle = static_cast<void*>(hWnd);
 	window_.rect = rect;
 
 	/// Fire an event
-	std::for_each(listeners_.begin(), listeners_.end(), std::bind(&(ISystemListener::OnStartup), std::placeholders::_1, std::cref(window_)));
+	for_each(listeners_.begin(), listeners_.end(), bind(&(ISystemListener::OnStartup), placeholders::_1, cref(window_)));
 }
 
-void WinOS::Loop(core::real timeDelta)
+void WinOS::Loop(real timeDelta)
 {
 	/// Fire an event
-	std::for_each(listeners_.begin(), listeners_.end(), std::bind(&(ISystemListener::OnUpdate), std::placeholders::_1, timeDelta));
+	for_each(listeners_.begin(), listeners_.end(), bind(&(ISystemListener::OnUpdate), placeholders::_1, timeDelta));
 }
 
-void WinOS::ResizeWindow(core::ui_size const& size)
+void WinOS::ResizeWindow(ui_size const& size)
 {
 	/// Fire an event
-	std::for_each(listeners_.begin(), listeners_.end(), std::bind(&(ISystemListener::OnResizeWindow), std::placeholders::_1, size));
+	for_each(listeners_.begin(), listeners_.end(), bind(&(ISystemListener::OnResizeWindow), placeholders::_1, size));
 }
