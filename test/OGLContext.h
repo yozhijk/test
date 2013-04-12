@@ -11,7 +11,8 @@
 #include "IResourceManager.H"
 
 struct Window;
-class CompiledModel;
+class Mesh;
+class CompiledMesh;
 
 class OGLContext : public IGraphicsContext, IResourceManager
 {
@@ -35,7 +36,7 @@ public:
 	void SetProjectionMatrix(core::matrix4x4 const& projMatrix);
     
 	/// Draw 3D model with default lighting / effects
-	void DrawModel( /*CompiledModel const& model*/ );
+	void DrawMesh( /*CompiledModel const& model*/ );
     
 	/// Clear canvas
 	void Clear(core::color_rgba const& color);
@@ -49,11 +50,11 @@ public:
     
     /// IResourceManager overrides
     /// Transform model into API-friendly form (would look into AssImp)
-	std::unique_ptr<CompiledModel> CompileModel(Model const& model);
+	std::unique_ptr<CompiledMesh> CompileMesh(Mesh const& mesh);
     
 protected:
     /// Release model callback
-    void OnReleaseModel( CompiledModel const& model );
+    void OnReleaseMesh( CompiledMesh const& mesh );
 };
 
 

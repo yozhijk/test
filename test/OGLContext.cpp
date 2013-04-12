@@ -1,6 +1,6 @@
 #include "OGLContext.h"
-#include "Model.h"
-#include "CompiledModel.h"
+#include "Mesh.h"
+#include "CompiledMesh.h"
 #include <GLUT/glut.h>
 
 OGLContext::OGLContext()
@@ -46,7 +46,7 @@ void OGLContext::SetProjectionMatrix(core::matrix4x4 const& projMatrix)
     
 }
 
-void OGLContext::DrawModel( /*CompiledModel const& model*/ )
+void OGLContext::DrawMesh( /*CompiledModel const& model*/ )
 {
     
 }
@@ -67,7 +67,7 @@ IResourceManager& OGLContext::GetResourceManager()
     return *this;
 }
 
-std::unique_ptr<CompiledModel> OGLContext::CompileModel(Model const& model)
+std::unique_ptr<CompiledMesh> OGLContext::CompileMesh(const Mesh &mesh)
 {
     GLuint vertexBufferId, indexBufferId;
     
@@ -79,21 +79,21 @@ std::unique_ptr<CompiledModel> OGLContext::CompileModel(Model const& model)
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBufferId);
     
     // fill data
-    glBufferData(GL_ARRAY_BUFFER, model.GetVertexCount() * model.GetVertexSizeInBytes(), model.GetVertexArrayPointer(), GL_STATIC_DRAW);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, model.GetIndexCount() * sizeof(unsigned short), model.GetIndexArrayPointer(), GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, mesh.GetVertexCount() * mesh.GetVertexSizeInBytes(), mesh.GetVertexArrayPointer(), GL_STATIC_DRAW);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, mesh.GetIndexCount() * sizeof(unsigned short), mesh.GetIndexArrayPointer(), GL_STATIC_DRAW);
 
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
     
-    return std::unique_ptr<CompiledModel>(
-        new CompiledModel(vertexBufferId, indexBufferId, std::bind(&OGLContext::OnReleaseModel, this, std::placeholders::_1))
+    return std::unique_ptr<CompiledMesh>(
+        new CompiledMesh(vertexBufferId, indexBufferId, std::bind(&OGLContext::OnReleaseMesh, this, std::placeholders::_1))
                                         );
 }
 
-void OGLContext::OnReleaseModel( CompiledModel const& model )
+void OGLContext::OnReleaseMesh(const CompiledMesh &mesh)
 {
-    GLuint vertexBufferId = model.GetVertexBufferID();
-    GLuint indexBufferId  = model.GetIndexBufferID();
+    GLuint vertexBufferId = mesh.GetVertexBufferID();
+    GLuint indexBufferId  = mesh.GetIndexBufferID();
     glDeleteBuffers(1, &vertexBufferId);
     glDeleteBuffers(1, &indexBufferId);
 }
