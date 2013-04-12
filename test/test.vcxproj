@@ -100,6 +100,7 @@
     <ClInclude Include="sampler.h" />
     <ClInclude Include="ISystemListener.h" />
     <ClInclude Include="SceneGraph.h" />
+    <ClInclude Include="ShaderCommon.h" />
     <ClInclude Include="Timer.h" />
     <ClInclude Include="tree.h" />
     <ClInclude Include="utils.h" />

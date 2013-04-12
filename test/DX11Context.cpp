@@ -137,7 +137,6 @@ void DX11Context::SetViewMatrix(core::matrix4x4 const& viewMatrix)
 }
 void DX11Context::SetProjectionMatrix(core::matrix4x4 const& projMatrix)
 {
-
 }
 
 void DX11Context::DrawMesh(CompiledMesh const& mesh)

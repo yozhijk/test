@@ -1,5 +1,10 @@
+#include "ShaderCommon.h"
 
-float4 main() : SV_Position
+PSInput main(VSInput input)
 {
-	return float4(1,1,1,1);
+	PSInput output;
+	output.pos = mul(float4(input.pos, 1), g_mWorldViewProj);
+	output.normal = mul(float4(input.pos, 0), g_mWorld).xyz;
+	output.tex = input.tex;
+	return output;
 }
