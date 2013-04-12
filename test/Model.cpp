@@ -15,6 +15,10 @@
 #include <iterator>
 #include <map>
 
+// get rid of crazy ms "switch to non-portable sscanf_s" warning
+#pragma warning(push)
+#pragma warning(disable:4996)
+
 using namespace std;
 using namespace core;
 
@@ -290,3 +294,4 @@ inline bool Model::HasTexcoords() const
     return !texcoords_.empty();
 }
 
+#pragma warning(pop)

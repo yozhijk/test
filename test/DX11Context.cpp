@@ -3,6 +3,8 @@
 #include "Model.h"
 #include <stdexcept>
 
+#define THROW_IF_FAILED(x,m) if((x)!=S_OK) throw std::runtime_error(m)
+
 DX11Context::DX11Context(HWND hWnd) : 
 hWnd_(hWnd)
 {
@@ -66,25 +68,14 @@ void DX11Context::ResizeBuffer(core::ui_size const& size)
 	defaultDepthBuffer_.Release();
 
 	// Resize swapchain accordingly
-	if(FAILED(swapChain_->ResizeBuffers(0, 0, 0, DXGI_FORMAT_UNKNOWN, 0)))
-	{
-		throw std::runtime_error("Couldn't resize swap chain");
-	}
+	THROW_IF_FAILED(swapChain_->ResizeBuffers(0, 0, 0, DXGI_FORMAT_UNKNOWN, 0), "Couldn't resize swap chain");
 
 	// Retrieve default render target
 	CComPtr<ID3D11Texture2D> pBackBuffer = nullptr;
-	if (FAILED(swapChain_->GetBuffer(0, __uuidof(ID3D11Texture2D), (void**)&pBackBuffer)))
-	{
-		throw std::runtime_error("Couldn't retrieve back buffer");
-	}
+	THROW_IF_FAILED(swapChain_->GetBuffer(0, __uuidof(ID3D11Texture2D), (void**)&pBackBuffer), "Couldn't retrieve back buffer");
 
 	// Create default render target view
-	if (FAILED(device_->CreateRenderTargetView(pBackBuffer, nullptr, &defaultRenderTarget_)))
-	{
-		throw std::runtime_error("Couldn't create default render target view");
-	}
-
-	pBackBuffer.Release();
+	THROW_IF_FAILED(device_->CreateRenderTargetView(pBackBuffer, nullptr, &defaultRenderTarget_), "Couldn't create default render target view");
 
 	CComPtr<ID3D11Texture2D> depthTexture;
 
@@ -100,10 +91,7 @@ void DX11Context::ResizeBuffer(core::ui_size const& size)
 	depthTextureDesc.SampleDesc.Count = 1;
 	depthTextureDesc.Usage = D3D11_USAGE_DEFAULT;
 
-	if (FAILED(device_->CreateTexture2D(&depthTextureDesc, nullptr, &depthTexture.p)))
-	{
-		throw std::runtime_error("Couldn't create default depth-stencil");
-	}
+	THROW_IF_FAILED(device_->CreateTexture2D(&depthTextureDesc, nullptr, &depthTexture.p), "Couldn't create default depth-stencil");
 
 	// Create depth-stencil view
 	D3D11_DEPTH_STENCIL_VIEW_DESC depthViewDesc;
@@ -112,10 +100,7 @@ void DX11Context::ResizeBuffer(core::ui_size const& size)
 	depthViewDesc.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2D;
 	depthViewDesc.Texture2D.MipSlice = 0;
 
-	if (FAILED(device_->CreateDepthStencilView(depthTexture, &depthViewDesc, &defaultDepthBuffer_)))
-	{
-		throw std::runtime_error("Couldn't create default depth-stencil view");
-	}
+	THROW_IF_FAILED(device_->CreateDepthStencilView(depthTexture, &depthViewDesc, &defaultDepthBuffer_),"Couldn't create default depth-stencil view");
 
 	// Set default render targte and depth stencil
 	immediateContext_->OMSetRenderTargets(1, &defaultRenderTarget_.p, defaultDepthBuffer_);
@@ -170,10 +155,40 @@ IResourceManager& DX11Context::GetResourceManager()
 
 std::unique_ptr<CompiledModel> DX11Context::CompileModel(Model const& model)
 {
-	return std::unique_ptr<CompiledModel>(new CompiledModel(0, 0, std::bind(&DX11Context::OnReleaseModel, this, std::placeholders::_1)));
+	D3D11_BUFFER_DESC bufDesc;
+	ZeroMemory(&bufDesc, sizeof(bufDesc));
+
+	bufDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
+	bufDesc.ByteWidth = model.GetVertexCount() * model.GetVertexSizeInBytes();
+	bufDesc.Usage = D3D11_USAGE_DEFAULT;
+
+	D3D11_SUBRESOURCE_DATA srData;
+	ZeroMemory(&srData, sizeof(srData));
+	srData.pSysMem = model.GetVertexArrayPointer();
+
+	ID3D11Buffer* pVertexBuffer = nullptr;
+	THROW_IF_FAILED(device_->CreateBuffer(&bufDesc, &srData, &pVertexBuffer), "Cannot create mesh vertex buffer");
+
+	bufDesc.BindFlags = D3D11_BIND_INDEX_BUFFER;
+	bufDesc.ByteWidth = model.GetIndexCount() * sizeof(unsigned short);
+	bufDesc.Usage = D3D11_USAGE_DEFAULT;
+
+	ZeroMemory(&srData, sizeof(srData));
+	srData.pSysMem = model.GetIndexArrayPointer();
+
+	ID3D11Buffer* pIndexBuffer = nullptr;
+	THROW_IF_FAILED(device_->CreateBuffer(&bufDesc, &srData, &pIndexBuffer), "Cannot create mesh index buffer");
+
+	/// Potential 64-bit compatibily issue, fix later
+	return std::unique_ptr<CompiledModel>(new CompiledModel(reinterpret_cast<core::uint>(pVertexBuffer), reinterpret_cast<core::uint>(pIndexBuffer), std::bind(&DX11Context::OnReleaseModel, this, std::placeholders::_1)));
 }
 
 void DX11Context::OnReleaseModel(CompiledModel const& model)
 {
+	ID3D11Buffer* pVertexBuffer = reinterpret_cast<ID3D11Buffer*>(model.GetVertexBufferID());
+	ID3D11Buffer* pIndexBuffer = reinterpret_cast<ID3D11Buffer*>(model.GetIndexBufferID());
+	
 	/// Release index/vertex buffers etc
+	pVertexBuffer->Release();
+	pIndexBuffer->Release();
 }
