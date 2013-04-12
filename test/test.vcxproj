@@ -121,7 +121,7 @@
     <ClCompile Include="WinOS.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <CustomBuild Include="simple.ps">
+    <CustomBuild Include="simple.psh">
       <FileType>Document</FileType>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(DXSDK_DIR)Utilities\bin\x86\"fxc.exe  /T ps_5_0 /Fo "$(Configuration)\%(Filename)PS.fxo" "%(FullPath)"</Command>
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">PS compilation step</Message>
@@ -132,7 +132,7 @@
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
-    <CustomBuild Include="simple.vs">
+    <CustomBuild Include="simple.vsh">
       <FileType>Document</FileType>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(DXSDK_DIR)Utilities\bin\x86\"fxc.exe  /T vs_5_0 /Fo "$(Configuration)\%(Filename)VS.fxo" "%(FullPath)"</Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(Filename)VS.fxo</Outputs>

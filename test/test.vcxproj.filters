@@ -133,10 +133,10 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <CustomBuild Include="simple.ps">
+    <CustomBuild Include="simple.psh">
       <Filter>Shaders</Filter>
     </CustomBuild>
-    <CustomBuild Include="simple.vs">
+    <CustomBuild Include="simple.vsh">
       <Filter>Shaders</Filter>
     </CustomBuild>
   </ItemGroup>
