@@ -7,8 +7,10 @@
 #ifndef OGLCONTEXT_H
 #define OGLCONTEXT_H
 
+#include <GLUT/GLUT.h>
 #include "IGraphicsContext.h"
-#include "IResourceManager.H"
+#include "IResourceManager.h"
+#include "OGLShaderManager.h"
 
 struct Window;
 class Mesh;
@@ -55,6 +57,17 @@ public:
 protected:
     /// Release model callback
     void OnReleaseMesh( CompiledMesh const& mesh );
+    
+private:
+    
+    OGLContext(OGLContext const&);
+    OGLContext& operator = (OGLContext const&);
+    
+    OGLShaderManager shaderManager_;
+    
+    core::matrix4x4 worldMatrix_;
+    core::matrix4x4 viewMatrix_;
+    core::matrix4x4 projMatrix_;
 };
 
 

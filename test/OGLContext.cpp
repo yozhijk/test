@@ -33,21 +33,25 @@ void OGLContext::SetViewport(core::ui_rect const& vp)
 
 void OGLContext::SetWorldMatrix(core::matrix4x4 const& worldMatrix)
 {
-    
+    worldMatrix_ = worldMatrix;
 }
 
 void OGLContext::SetViewMatrix(core::matrix4x4 const& viewMatrix)
 {
-    
+    viewMatrix_ = viewMatrix;
 }
 
 void OGLContext::SetProjectionMatrix(core::matrix4x4 const& projMatrix)
 {
-    
+    projMatrix_ = projMatrix;
 }
 
 void OGLContext::DrawMesh(CompiledMesh const& mesh)
 {
+    GLuint program = shaderManager_.GetShaderProgram("Simple");
+    
+    glUseProgram(program);
+    
     
 }
 
