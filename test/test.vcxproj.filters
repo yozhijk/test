@@ -16,6 +16,9 @@
     <Filter Include="Windows">
       <UniqueIdentifier>{4cf21143-de7d-4b99-b71c-fa82e0754f82}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Shaders">
+      <UniqueIdentifier>{6b85f7fa-732e-463c-830f-462d00a49090}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="tree.h">
@@ -125,5 +128,13 @@
     <ClCompile Include="GameScene.cpp">
       <Filter>GameEngine</Filter>
     </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="simple.ps">
+      <Filter>Shaders</Filter>
+    </CustomBuild>
+    <CustomBuild Include="simple.vs">
+      <Filter>Shaders</Filter>
+    </CustomBuild>
   </ItemGroup>
 </Project>
