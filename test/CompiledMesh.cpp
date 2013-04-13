@@ -1,9 +1,10 @@
 #include "CompiledMesh.h"
 
-CompiledMesh::CompiledMesh(core::uint vertexBufferID, core::uint indexBufferID, ReleaseCallback releaseCallback) 
-	: vertexBufferID_(vertexBufferID),
-	  indexBufferID_(indexBufferID),
-	   releaseCallback_(releaseCallback)
+CompiledMesh::CompiledMesh(core::uint vertexBufferID, core::uint indexBufferID, core::uint vertexCount, ReleaseCallback releaseCallback)
+	: vertexBufferID_(vertexBufferID)
+	  ,indexBufferID_(indexBufferID)
+      ,vertexCount_(vertexCount)
+      ,releaseCallback_(releaseCallback)
 {
 
 }
@@ -24,4 +25,9 @@ core::uint CompiledMesh::GetVertexBufferID() const
 core::uint CompiledMesh::GetIndexBufferID() const
 {
 	return indexBufferID_;
+}
+
+core::uint CompiledMesh::GetVertexCount() const
+{
+    return vertexCount_;
 }

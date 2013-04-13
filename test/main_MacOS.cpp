@@ -46,6 +46,9 @@ void reshape(GLint w, GLint h)
 
 int main(int argc, char** argv)
 {
+    try
+    {
+        
     g_OS.reset(new MacOS());
     g_App.reset(new App(*g_OS));
     
@@ -73,5 +76,10 @@ int main(int argc, char** argv)
     
     // Turn the flow of control over to GLUT
     glutMainLoop ();
+    }
+    catch (std::runtime_error& e)
+    {
+        std::cout << e.what();
+    }
     return 0;
 }

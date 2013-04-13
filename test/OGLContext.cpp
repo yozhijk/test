@@ -48,7 +48,7 @@ void OGLContext::SetProjectionMatrix(core::matrix4x4 const& projMatrix)
 
 void OGLContext::DrawMesh(CompiledMesh const& mesh)
 {
-    GLuint program = shaderManager_.GetShaderProgram("Simple");
+    GLuint program = shaderManager_.GetShaderProgram("simple_ogl");
     
     glUseProgram(program);
     
@@ -90,7 +90,7 @@ std::unique_ptr<CompiledMesh> OGLContext::CompileMesh(const Mesh &mesh)
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
     
     return std::unique_ptr<CompiledMesh>(
-        new CompiledMesh(vertexBufferId, indexBufferId, std::bind(&OGLContext::OnReleaseMesh, this, std::placeholders::_1))
+        new CompiledMesh(vertexBufferId, indexBufferId,  mesh.GetVertexCount(), std::bind(&OGLContext::OnReleaseMesh, this, std::placeholders::_1))
                                         );
 }
 

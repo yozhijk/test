@@ -12,7 +12,7 @@
 MacOS::MacOS()
 {
 	//std::for_each(listeners_.begin(), listeners);
-    std::unique_ptr<Mesh> modelPtr = Mesh::CreateFromObj("cube.obj");
+    //std::unique_ptr<Mesh> modelPtr = Mesh::CreateFromObj("cube.obj");
 }
 
 MacOS::~MacOS()

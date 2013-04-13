@@ -1,4 +1,5 @@
 #include "OGLShaderManager.h"
+#include "utils.h"
 #include <vector>
 #include <string>
 #include <stdexcept>
@@ -39,28 +40,65 @@ static GLuint CompileShader(std::vector<GLchar> const& shaderSource, GLenum type
 
 OGLShaderManager::OGLShaderManager()
 {
+    // testing code
+    // core::uint program = GetShaderProgram("simple_ogl");
 }
 
 
 OGLShaderManager::~OGLShaderManager()
 {
-    
+    for (auto cIter = shaderCache_.cbegin(); cIter != shaderCache_.cend(); ++cIter)
+    {
+        glDeleteProgram(cIter->second);
+    }
 }
 
 GLuint OGLShaderManager::CompileProgram(std::string const& programName)
 {
     std::string vertexShaderName = programName + ".vsh";
-    std::string pixelShaderName = programName + ".psh";
+    std::string fragmentShaderName = programName + ".psh";
     
-    // Load source
+    // Need to wrap the shader program here to be exception-safe
+    std::vector<GLchar> sourceCode;
     
-    // Compile shaders
+    core::load_file_contents(vertexShaderName, sourceCode);
+    GLuint vertexShader = CompileShader(sourceCode, GL_VERTEX_SHADER);
     
-    // Attach to program
+    /// This part is not exception safe:
+    /// if the VS compilation succeeded
+    /// and PS compilation fails then VS object will leak
+    /// fix this by wrapping the shaders into a class
+    core::load_file_contents(fragmentShaderName, sourceCode);
+    GLuint fragmentShader = CompileShader(sourceCode, GL_FRAGMENT_SHADER);
+
+    GLuint program = glCreateProgram();
+
+    glAttachShader(program, vertexShader);
+    glAttachShader(program, fragmentShader);
     
-    // Check integrity
+    glDeleteShader(vertexShader);
+    glDeleteShader(fragmentShader);
     
-    // Return 
+    glLinkProgram(program);
+    
+    GLint result = GL_TRUE;
+    glGetProgramiv(program, GL_LINK_STATUS, &result);
+    
+	if(result == GL_FALSE)
+    {
+		GLint length = 0;
+        std::vector<char> log;
+        
+		glGetProgramiv(program, GL_INFO_LOG_LENGTH, &length);
+		
+        log.resize(length);
+		
+        glGetProgramInfoLog(program, length, &result, &log[0]);
+        
+        glDeleteProgram(program);
+        
+        throw std::runtime_error(std::string(log.begin(), log.end()));
+	}
     
     return 0;
 }

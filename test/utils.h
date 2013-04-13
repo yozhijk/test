@@ -10,6 +10,8 @@
 #include "common_types.h"
 #include <time.h>
 #include <stdlib.h>
+#include <string>
+#include <vector>
 
 namespace core
 {
@@ -70,13 +72,25 @@ namespace core
 	matrix4x4 rotation_matrix_z(real const& ang);
 	matrix4x4 rotation_matrix(vector3 const& axis, real const& ang);
 	matrix4x4 scale_matrix(vector3 const& v);
-	matrix4x4 perspective_proj_matrix(real const& l, real const& r, real const& b, real const& t, real const& n, real const& f);
+    
+    /// This perspective projection matrix effectively maps view frustum to [-1,1]x[-1,1]x[0,1] clip space, i.e. DirectX depth
+	matrix4x4 perspective_proj_matrix_lh_dx(real const& l, real const& r, real const& b, real const& t, real const& n, real const& f);
+    
+    /// This perspective projection matrix effectively maps view frustum to [-1,1]x[-1,1]x[-1,1] clip space, i.e. OpenGL depth
+    matrix4x4 perspective_proj_matrix_rh_gl(real const& l, real const& r, real const& b, real const& t, real const& n, real const& f);
+
 	matrix4x4 perspective_proj_fovy_matrix(real const& fovy, real const& aspect, real const& n, real const& f);
 	matrix4x4 lookat_matrix( vector3 const& pos, vector3 const& at, vector3 const& up);
 
 	/// Quaternion transforms
 	quat    rotation_quat(vector3 const& axis, real const& angle);
     vector4 rotate_vector( vector4 const& v, quat const& q );
+    
+    
+    /// Load a contents of a text file
+    void load_file_contents(std::string const& name, std::vector<char>& contents, bool binary = false);
+    
+    
 }
 
 #endif

@@ -1,5 +1,6 @@
 #include "utils.h"
 #include <cassert>
+#include <fstream>
 
 namespace core
 {
@@ -63,19 +64,34 @@ namespace core
 		return matrix4x4(v.x(), 0, 0, 0, 0, v.y(), 0, 0, 0, 0, v.z(), 0, 0, 0, 0, 1);
 	}
 
-	matrix4x4 perspective_proj_matrix(real const& l, real const& r, real const& b, real const& t, real const& n, real const& f)
+	matrix4x4 perspective_proj_matrix_lh_dx(real const& l, real const& r, real const& b, real const& t, real const& n, real const& f)
 	{
 		return matrix4x4(2*n/(r-l), 0, 0, 0, 
 						 0, 2*n/(t-b), 0, 0,
 						 -(r + l)/(r - l), -(t + b)/(t - b), f/(f - n), 1,
 						 0, 0, -f*n/(f - n), 0);  
 	}
+    
+    matrix4x4 perspective_proj_matrix_rh_gl(real const& l, real const& r, real const& b, real const& t, real const& n, real const& f)
+	{
+		return matrix4x4(2*n/(r-l), 0, 0, 0,
+						 0, 2*n/(t-b), 0, 0,
+						 (r + l)/(r - l), (t + b)/(t - b), -(f + n)/(f - n), -1,
+						 0, 0, -2*f*n/(f - n), 0);
+	}
 
-	matrix4x4 perspective_proj_fovy_matrix(real const& fovy, real const& aspect, real const& n, real const& f)
+	matrix4x4 perspective_proj_fovy_matrix_lh_dx(real const& fovy, real const& aspect, real const& n, real const& f)
 	{
 		real hH = tan(fovy) * n;
 		real hW  = hH * aspect;
-		return perspective_proj_matrix( -hW, hW, -hH, hH, n, f);
+		return perspective_proj_matrix_lh_dx( -hW, hW, -hH, hH, n, f);
+	}
+    
+    matrix4x4 perspective_proj_fovy_matrix_rh_gl(real const& fovy, real const& aspect, real const& n, real const& f)
+	{
+		real hH = tan(fovy) * n;
+		real hW  = hH * aspect;
+		return perspective_proj_matrix_rh_gl( -hW, hW, -hH, hH, n, f);
 	}
 
 	matrix4x4 lookat_matrix( vector3 const& pos, vector3 const& at, vector3 const& up)
@@ -109,4 +125,29 @@ namespace core
 		quat tp = q * p * q.inverse();
 		return vector4(tp.qx(), tp.qy(), tp.qz(), tp.qw());
 	}
+    
+    void load_file_contents(std::string const& name, std::vector<char>& contents, bool binary)
+    {
+        std::ifstream in(name, std::ios::in | (binary?std::ios::binary : 0));
+        
+        if (in)
+        {
+            std::streamoff beg = in.tellg();
+        
+            in.seekg(0, std::ios::end);
+        
+            std::streamoff fileSize = in.tellg() - beg;
+        
+            in.seekg(0, std::ios::beg);
+        
+            contents.resize(fileSize);
+        
+            in.read(&contents[0], fileSize);
+        }
+        else
+        {
+            throw std::runtime_error("Cannot read the contents of a file");
+        }
+        
+    }
 }
