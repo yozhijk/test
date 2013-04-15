@@ -140,7 +140,7 @@ namespace core
         
             in.seekg(0, std::ios::beg);
         
-            contents.resize(fileSize);
+            contents.resize(static_cast<core::uint>(fileSize));
         
             in.read(&contents[0], fileSize);
         }

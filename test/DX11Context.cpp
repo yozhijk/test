@@ -186,7 +186,7 @@ std::unique_ptr<CompiledMesh> DX11Context::CompileMesh(Mesh const& mesh)
 	THROW_IF_FAILED(device_->CreateBuffer(&bufDesc, &srData, &pIndexBuffer), "Cannot create mesh index buffer");
 
 	/// Potential 64-bit compatibily issue, fix later
-	return std::unique_ptr<CompiledMesh>(new CompiledMesh(reinterpret_cast<core::uint>(pVertexBuffer), reinterpret_cast<core::uint>(pIndexBuffer), std::bind(&DX11Context::OnReleaseMesh, this, std::placeholders::_1)));
+	return std::unique_ptr<CompiledMesh>(new CompiledMesh(reinterpret_cast<core::uint>(pVertexBuffer), reinterpret_cast<core::uint>(pIndexBuffer), mesh.GetVertexCount(), std::bind(&DX11Context::OnReleaseMesh, this, std::placeholders::_1)));
 }
 
 void DX11Context::OnReleaseMesh(CompiledMesh const& mesh)
