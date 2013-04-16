@@ -27,21 +27,21 @@ LRESULT CALLBACK    WndProc( HWND, UINT, WPARAM, LPARAM );
 //--------------------------------------------------------------------------------------
 int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLine, int nCmdShow )
 {
-	UNREFERENCED_PARAMETER( hPrevInstance );
+    UNREFERENCED_PARAMETER( hPrevInstance );
     UNREFERENCED_PARAMETER( lpCmdLine );
 
-	g_OS.reset(new WinOS());
-	g_App.reset(new App(*g_OS.get()));
+    g_OS.reset(new WinOS());
+    g_App.reset(new App(*g_OS.get()));
 
     if( FAILED( InitWindow( hInstance, nCmdShow ) ) )
         return 0;
 
-	g_OS->SetWindowParams(g_hWnd, core::ui_rect(0,0,100,100));
+    g_OS->SetWindowParams(g_hWnd, core::ui_rect(0,0,100,100));
 
-	LARGE_INTEGER prevTime;
-	LARGE_INTEGER freq;
-	QueryPerformanceCounter(&prevTime);
-	QueryPerformanceFrequency(&freq);
+    LARGE_INTEGER prevTime;
+    LARGE_INTEGER freq;
+    QueryPerformanceCounter(&prevTime);
+    QueryPerformanceFrequency(&freq);
 
 
     // Main message loop
@@ -55,20 +55,20 @@ int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdL
         }
         else
         {
-			
-			LARGE_INTEGER currentTime;
-			QueryPerformanceCounter(&currentTime);
 
-			core::real timeDelta = static_cast<core::real>(currentTime.QuadPart - prevTime.QuadPart)/(freq.QuadPart);
-			
-			g_OS->Loop(timeDelta);
-			
-			prevTime = currentTime;
+            LARGE_INTEGER currentTime;
+            QueryPerformanceCounter(&currentTime);
+
+            core::real timeDelta = static_cast<core::real>(currentTime.QuadPart - prevTime.QuadPart)/(freq.QuadPart);
+
+            g_OS->Loop(timeDelta);
+
+            prevTime = currentTime;
 
 #ifdef _DEBUG
-	char message[255];
-	sprintf_s(message, "Timestamp: %f\n", timeDelta);
-	OutputDebugStringA(message);
+            char message[255];
+            sprintf_s(message, "Timestamp: %f\n", timeDelta);
+            OutputDebugStringA(message);
 #endif
         }
     }
@@ -104,9 +104,9 @@ HRESULT InitWindow( HINSTANCE hInstance, int nCmdShow )
     RECT rc = { 0, 0, 640, 480 };
     AdjustWindowRect( &rc, WS_OVERLAPPEDWINDOW, FALSE );
     g_hWnd = CreateWindow( L"Test", L"Test",
-                           WS_OVERLAPPEDWINDOW,
-                           CW_USEDEFAULT, CW_USEDEFAULT, rc.right - rc.left, rc.bottom - rc.top, NULL, NULL, hInstance,
-                           NULL );
+        WS_OVERLAPPEDWINDOW,
+        CW_USEDEFAULT, CW_USEDEFAULT, rc.right - rc.left, rc.bottom - rc.top, NULL, NULL, hInstance,
+        NULL );
     if( !g_hWnd )
         return E_FAIL;
 
@@ -129,23 +129,23 @@ LRESULT CALLBACK WndProc( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam 
 
     switch( message )
     {
-        case WM_PAINT:
-            hdc = BeginPaint( hWnd, &ps );
-            EndPaint( hWnd, &ps );
-            break;
+    case WM_PAINT:
+        hdc = BeginPaint( hWnd, &ps );
+        EndPaint( hWnd, &ps );
+        break;
 
-        case WM_DESTROY:
-            PostQuitMessage( 0 );
-            break;
+    case WM_DESTROY:
+        PostQuitMessage( 0 );
+        break;
 
-		case WM_SIZE:
-			// TODO: fix object lifetimes, now the following line causes a crash
-			// when firing dead listener's callback
-			// g_OS->ResizeWindow(core::ui_size(LOWORD(lParam), HIWORD(lParam)));
-			break;
+    case WM_SIZE:
+        // TODO: fix object lifetimes, now the following line causes a crash
+        // when firing dead listener's callback
+        // g_OS->ResizeWindow(core::ui_size(LOWORD(lParam), HIWORD(lParam)));
+        break;
 
-        default:
-            return DefWindowProc( hWnd, message, wParam, lParam );
+    default:
+        return DefWindowProc( hWnd, message, wParam, lParam );
     }
 
     return 0;
