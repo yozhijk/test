@@ -11,17 +11,17 @@ class IGraphicsContext;
 class GameScene
 {
 public:
-	GameScene();
+    GameScene();
 
-	void Render(IGraphicsContext& graphicsContext);
-	void Update(core::real timeDelta);
+    void Render(IGraphicsContext& graphicsContext);
+    void Update(core::real timeDelta);
 
 private:
-	// SceneGraph sceneGraph_;
-	// static geometry
-	// dynamic objects
-	// etc
-	std::vector<CompiledMesh> staticObjects_;
+    // SceneGraph sceneGraph_;
+    // static geometry
+    // dynamic objects
+    // etc
+    std::vector<CompiledMesh> staticObjects_;
 };
 
 

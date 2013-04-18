@@ -6,9 +6,9 @@
 
 
 App::App(ISystem& os) 
-	: os_(os)
+    : os_(os)
 {
-	os_.AddListener(this);
+    os_.AddListener(this);
 }
 
 App::~App()
@@ -18,29 +18,29 @@ App::~App()
 /// ISystemListener overrides
 void App::OnStartup(Window const& window)
 {
-	graphicsContext_ = os_.CreateGraphicsContext(window);
-	graphicsContext_->Init();
+    graphicsContext_ = os_.CreateGraphicsContext(window);
+    graphicsContext_->Init();
 
-	gameEngine_.reset(new GameEngine());
-	gameEngine_->Init(graphicsContext_->GetResourceManager());
+    gameEngine_.reset(new GameEngine());
+    gameEngine_->Init(graphicsContext_->GetResourceManager());
 }
 
 void App::OnShutdown()
 {
-	gameEngine_->Shutdown();
+    gameEngine_->Shutdown();
 }
 
 void App::OnUpdate(core::real timeDelta)
 {
-	/// Advance objects
-	gameEngine_->Update(timeDelta);
-	/// Draw objects
-	gameEngine_->RenderScene(*graphicsContext_);
-	/// Present rendered stuff
-	graphicsContext_->Present();
+    /// Advance objects
+    gameEngine_->Update(timeDelta);
+    /// Draw objects
+    gameEngine_->RenderScene(*graphicsContext_);
+    /// Present rendered stuff
+    graphicsContext_->Present();
 }
 
 void App::OnResizeWindow(core::ui_size const& size)
 {
-	graphicsContext_->ResizeBuffer(size);
+    graphicsContext_->ResizeBuffer(size);
 }

@@ -5,8 +5,8 @@
 
 struct Window
 {
-	core::ui_rect rect;
-	void* handle;
+    core::ui_rect rect;
+    void* handle;
 };
 
 

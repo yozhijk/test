@@ -26,7 +26,7 @@ using namespace core;
 Mesh::Mesh()
 {
 }
-    
+
 Mesh::~Mesh()
 {
 }
@@ -42,9 +42,9 @@ void Mesh::LoadFromObjStream(ifstream& objStream)
             istringstream inStream(line);
             string tmp;
             real x,y,z;
-            
+
             inStream >> tmp >> x >> y >> z;
-            
+
             StoreNormal(vector3(x,y,z));
         }
         // texcoord
@@ -53,9 +53,9 @@ void Mesh::LoadFromObjStream(ifstream& objStream)
             istringstream inStream(line);
             string tmp;
             real x,y;
-            
+
             inStream >> tmp >> x >> y;
-            
+
             StoreTexcoord(vector2(x,y));
         }
         // vertex
@@ -64,18 +64,18 @@ void Mesh::LoadFromObjStream(ifstream& objStream)
             istringstream inStream(line);
             string tmp;
             real x,y,z;
-            
+
             inStream >> tmp >> x >> y >> z;
-            
+
             StoreVertex(vector3(x,y,z));
         }
         // no support for groups, materials etc yet
     }
-    
+
     // second pass to extract faces
     objStream.clear();
     objStream.seekg(0, ios::beg);
-    
+
     std::vector<string> tokens;
     while(getline(objStream,line))
     {
@@ -83,24 +83,24 @@ void Mesh::LoadFromObjStream(ifstream& objStream)
         {
             istringstream inStream(line);
             copy(istream_iterator<string>(inStream), istream_iterator<string>(), back_inserter(tokens));
-                      
+
             // handle tokens only triangles for the moment
             assert(tokens.size() == 4);
             tokens.erase(tokens.begin());
-            
+
             // remove extra spaces
             for_each(tokens.begin(), tokens.end(),
-                          [&](string& s)
-                          {
-                              s.erase(remove(s.begin(), s.end(), ' '), s.end());
-                          }
-                          );
-            
+                [&](string& s)
+            {
+                s.erase(remove(s.begin(), s.end(), ' '), s.end());
+            }
+            );
+
             // reserve memory for a triangle
             std::vector<Index> indices;
             indices.reserve(3);
             Index tempIdx;
-            
+
             // There are 4 possible cases here
             // case 1: f 1 2 3
             // case 2: f 1/1 2/2 3/3
@@ -111,15 +111,15 @@ void Mesh::LoadFromObjStream(ifstream& objStream)
                 // case 4:
                 // scanf seems to be the fastest option here
                 for_each(tokens.begin(), tokens.end(),
-                         [&](std::string& s)
-                         {
-                             sscanf(s.c_str(), "%d//%d", &tempIdx.vIdx, &tempIdx.nIdx);
-							 // account for 1-based arrays in obj file
-							 --tempIdx.vIdx;
-							 --tempIdx.nIdx;
-                             indices.push_back(tempIdx);
-                         }
-                         );
+                    [&](std::string& s)
+                {
+                    sscanf(s.c_str(), "%d//%d", &tempIdx.vIdx, &tempIdx.nIdx);
+                    // account for 1-based arrays in obj file
+                    --tempIdx.vIdx;
+                    --tempIdx.nIdx;
+                    indices.push_back(tempIdx);
+                }
+                );
             }
             else if (count(tokens[0].begin(), tokens[0].end(), '/') == 1)
             {
@@ -127,52 +127,52 @@ void Mesh::LoadFromObjStream(ifstream& objStream)
                 // case 4:
                 // scanf seems to be the fastest option here
                 for_each(tokens.begin(), tokens.end(),
-                         [&](std::string& s)
-                         {
-                             sscanf(s.c_str(), "%d/%d", &tempIdx.vIdx, &tempIdx.tIdx);
-							 --tempIdx.vIdx;
-							 --tempIdx.tIdx;
-                             indices.push_back(tempIdx);
-                         }
-                         );
+                    [&](std::string& s)
+                {
+                    sscanf(s.c_str(), "%d/%d", &tempIdx.vIdx, &tempIdx.tIdx);
+                    --tempIdx.vIdx;
+                    --tempIdx.tIdx;
+                    indices.push_back(tempIdx);
+                }
+                );
             }
             else if (count(tokens[0].begin(), tokens[0].end(), '/') == 2)
             {
                 // case 3:
                 // scanf seems to be the fastest option here
                 for_each(tokens.begin(), tokens.end(),
-                         [&](std::string& s)
-                         {
-                             sscanf(s.c_str(), "%d/%d/%d", &tempIdx.vIdx, &tempIdx.tIdx, &tempIdx.nIdx);
-							 --tempIdx.vIdx;
-							 --tempIdx.nIdx;
-							 --tempIdx.tIdx;
-                             indices.push_back(tempIdx);
-                         }
-                         );
+                    [&](std::string& s)
+                {
+                    sscanf(s.c_str(), "%d/%d/%d", &tempIdx.vIdx, &tempIdx.tIdx, &tempIdx.nIdx);
+                    --tempIdx.vIdx;
+                    --tempIdx.nIdx;
+                    --tempIdx.tIdx;
+                    indices.push_back(tempIdx);
+                }
+                );
             }
             else
             {
                 // case 1:
                 // scanf seems to be the fastest option here
                 for_each(tokens.begin(), tokens.end(),
-                         [&](std::string& s)
-                         {
-                             sscanf(s.c_str(), "%d", &tempIdx.vIdx);
-							 --tempIdx.vIdx;
-                             indices.push_back(tempIdx);
-                         }
-                         );
+                    [&](std::string& s)
+                {
+                    sscanf(s.c_str(), "%d", &tempIdx.vIdx);
+                    --tempIdx.vIdx;
+                    indices.push_back(tempIdx);
+                }
+                );
             }
-                
+
 
             StoreFace(indices);
-            
+
             indices.clear();
             tokens.clear();
         }
     }
-    
+
     PackInterleavedData();
 }
 
@@ -205,7 +205,7 @@ inline uint Mesh::StoreFace(std::vector<Index> const& indices)
 unique_ptr<Mesh>  Mesh::CreateFromObj(string const& fileName)
 {
     ifstream in(fileName);
-    
+
     if (in)
     {
         unique_ptr<Mesh> modelPtr(new Mesh());
@@ -252,36 +252,36 @@ void Mesh::PackInterleavedData()
 {
     map<Index, unsigned short> tempIdx;
     for_each(indices_.begin(), indices_.end(), [&](Index const& index)
-             {
-                 auto idx = tempIdx.find(index);
-                 
-                 if ( idx != tempIdx.end())
-                 {
-                     interleavedIndices_.push_back(idx->second);
-                 }
-                 else
-                 {
-                     Vertex vertexData;
-                     
-                     vertexData.position = vertices_[index.vIdx];
-                     
-                     if (HasNormals())
-                         vertexData.normal = normals_[index.nIdx];
-                     
-                     if (HasTexcoords())
-                         vertexData.texcoord = texcoords_[index.tIdx];
-                    
-                     interleavedData_.push_back(vertexData);
-                     
-                     unsigned short indexToStore = static_cast<unsigned short>(interleavedData_.size()-1);
-                     
-                     interleavedIndices_.push_back(indexToStore);
-                     
-                     tempIdx[index] = indexToStore;
-                 }
-             }
-             );
-    
+    {
+        auto idx = tempIdx.find(index);
+
+        if ( idx != tempIdx.end())
+        {
+            interleavedIndices_.push_back(idx->second);
+        }
+        else
+        {
+            Vertex vertexData;
+
+            vertexData.position = vertices_[index.vIdx];
+
+            if (HasNormals())
+                vertexData.normal = normals_[index.nIdx];
+
+            if (HasTexcoords())
+                vertexData.texcoord = texcoords_[index.tIdx];
+
+            interleavedData_.push_back(vertexData);
+
+            unsigned short indexToStore = static_cast<unsigned short>(interleavedData_.size()-1);
+
+            interleavedIndices_.push_back(indexToStore);
+
+            tempIdx[index] = indexToStore;
+        }
+    }
+    );
+
 }
 
 inline bool Mesh::HasNormals() const
