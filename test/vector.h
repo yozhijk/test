@@ -132,6 +132,13 @@ namespace core
 	{
 		return vector_base<T,size>();
 	}
+    
+    template <typename T, size_t size> vector_base<T,size> normalize(const vector_base<T,size>& v)
+	{
+        vector_base<T,size> tmp = v;
+        tmp.normalize();
+		return tmp;
+	}
 
 	// back-end class for vector-base
 	template<typename T, size_t size> class vector : public vector_base<T,size>

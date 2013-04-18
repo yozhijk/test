@@ -96,9 +96,15 @@ namespace core
 
 	matrix4x4 lookat_matrix( vector3 const& pos, vector3 const& at, vector3 const& up)
 	{
-		/// TODO: implement this
-		assert(false);
-		return matrix4x4();
+        vector3 v = normalize(at - pos);
+        vector3 r = cross(normalize(up), v);
+        vector3 u = cross(v,r);
+        vector3 ip = vector3(-dot(r,pos), -dot(u,pos), -dot(v,pos));
+        
+		return matrix4x4(r.x(), u.x(), v.x(), 0,
+                         r.y(), u.y(), v.y(), 0,
+                         r.z(), u.z(), v.z(), 0,
+                         ip.x(), ip.y(), ip.z(), 1);
 	}
 
 
