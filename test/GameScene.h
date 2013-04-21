@@ -3,7 +3,7 @@
 
 #include "common_types.h"
 #include <vector>
-//#include "SceneGraph.h"
+#include "Camera.h"
 
 class CompiledMesh;
 class IGraphicsContext;
@@ -22,6 +22,7 @@ private:
     // dynamic objects
     // etc
     std::vector<CompiledMesh> staticObjects_;
+    Camera camera_;
 };
 
 

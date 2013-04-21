@@ -82,7 +82,7 @@ namespace core
 
     matrix4x4 perspective_proj_fovy_matrix_lh_dx(real const& fovy, real const& aspect, real const& n, real const& f)
     {
-        real hH = tan(fovy) * n;
+        real hH =  tan(fovy/2) * n;
         real hW  = hH * aspect;
         return perspective_proj_matrix_lh_dx( -hW, hW, -hH, hH, n, f);
     }
@@ -94,19 +94,18 @@ namespace core
         return perspective_proj_matrix_rh_gl( -hW, hW, -hH, hH, n, f);
     }
 
-	matrix4x4 lookat_matrix( vector3 const& pos, vector3 const& at, vector3 const& up)
-	{
+    matrix4x4 lookat_matrix_lh_dx( vector3 const& pos, vector3 const& at, vector3 const& up)
+    {
         vector3 v = normalize(at - pos);
         vector3 r = cross(normalize(up), v);
         vector3 u = cross(v,r);
         vector3 ip = vector3(-dot(r,pos), -dot(u,pos), -dot(v,pos));
         
-		return matrix4x4(r.x(), u.x(), v.x(), 0,
+    return matrix4x4(r.x(), u.x(), v.x(), 0,
                          r.y(), u.y(), v.y(), 0,
                          r.z(), u.z(), v.z(), 0,
                          ip.x(), ip.y(), ip.z(), 1);
-	}
-
+    }
 
     quat rotation_quat(vector4 const& axis, real const& angle )
     {

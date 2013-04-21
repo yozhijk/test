@@ -2,6 +2,11 @@
 #include "CompiledMesh.h"
 #include "Mesh.h"
 
+#ifdef _DEBUG
+#include <D3DX9.h>
+#include "utils.h"
+#endif
+
 #include <stdexcept>
 
 #define THROW_IF_FAILED(x,m) if((x)!=S_OK) throw std::runtime_error(m)
@@ -9,7 +14,24 @@
 DX11Context::DX11Context(HWND hWnd) : 
 hWnd_(hWnd)
 {
+#ifdef _DEBUG
+    /// Debug transforms testing code, will remove with the next CL
+    D3DXMATRIX matrix;
 
+    D3DXVECTOR3 at(0,0,0);
+    D3DXVECTOR3 c(0,0,-5);
+    D3DXVECTOR3 up(0,1,0);
+    D3DXMatrixLookAtLH(&matrix, &c, &at, &up);
+
+    core::matrix4x4 m;
+    m = core::lookat_matrix_lh_dx(core::vector3(0,0,-5), core::vector3(0,0,0), core::vector3(0,1,0));
+    m = m.transpose();
+
+    D3DXMatrixPerspectiveFovLH(&matrix, D3DX_PI/2, 1, 0.1, 100);
+
+    m = core::perspective_proj_fovy_matrix_lh_dx(D3DX_PI/2, 1, 0.1, 100);
+    m = m.transpose();
+#endif
 }
 
 void DX11Context::Init()
@@ -54,12 +76,18 @@ void DX11Context::Init()
 #endif
 
     // Attempt to create device and swap chain
-    if (FAILED(D3D11CreateDeviceAndSwapChain(NULL, D3D_DRIVER_TYPE_HARDWARE, 0, flags, featureLevels, numLevels, D3D11_SDK_VERSION,
-        &swapChainDesc, &swapChain_, &device_, &featureLevel_, &immediateContext_ )))
-    {
-        throw std::runtime_error("Couldn't create device and swap chain");
+    THROW_IF_FAILED(D3D11CreateDeviceAndSwapChain(NULL, D3D_DRIVER_TYPE_HARDWARE, 0, flags, featureLevels, numLevels, D3D11_SDK_VERSION,
+        &swapChainDesc, &swapChain_, &device_, &featureLevel_, &immediateContext_ ), "Couldn't create device and swap chain");
 
-    }
+    // Create transforms constant buffer
+    D3D11_BUFFER_DESC bufferDesc;
+    ZeroMemory(&bufferDesc, sizeof(bufferDesc));
+
+    bufferDesc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
+    bufferDesc.ByteWidth = sizeof(TransformData);
+    bufferDesc.StructureByteStride = sizeof(TransformData);
+    bufferDesc.Usage = D3D11_USAGE_DEFAULT;
+    THROW_IF_FAILED(device_->CreateBuffer(&bufferDesc, nullptr, &transformCB_), "Failed to create transforms constant buffer");
 
     // Create default render target and depth stencil
     ResizeBuffer(core::ui_size(bbWidth, bbHeight));
@@ -129,18 +157,44 @@ void DX11Context::SetViewport(core::ui_rect const& vp)
 
 void DX11Context::SetWorldMatrix(core::matrix4x4 const& worldMatrix)
 {
-
+    worldMatrix_ = worldMatrix;
 }
+
 void DX11Context::SetViewMatrix(core::matrix4x4 const& viewMatrix)
 {
-
+    viewMatrix_ = viewMatrix;
 }
+
 void DX11Context::SetProjectionMatrix(core::matrix4x4 const& projMatrix)
 {
+    projMatrix_ = projMatrix;
 }
 
 void DX11Context::DrawMesh(CompiledMesh const& mesh)
 {
+    // Set constant buffers
+    TransformData transformData;
+    transformData.mWorld = worldMatrix_;
+    transformData.mWorldViewProj = worldMatrix_ * viewMatrix_ * projMatrix_;
+
+    immediateContext_->UpdateSubresource(transformCB_, D3D11CalcSubresource(0, 0, 1), nullptr, &transformData, 0, 0);
+    immediateContext_->VSSetConstantBuffers(0, 1, &transformCB_);
+
+    // Set shaders & state
+    //immediateContext_->VSSetShader(shaderCache_.GetShaderProgram("simple").GetVertexShader());
+    //immediateContext_->PSSetShader(shaderCache_.GetShaderProgram("simple").GetPixelShader());
+
+    ID3D11Buffer* pVertexBuffer = reinterpret_cast<ID3D11Buffer*>(mesh.GetVertexBufferID());
+    ID3D11Buffer* pIndexBuffer = reinterpret_cast<ID3D11Buffer*>(mesh.GetIndexBufferID());
+
+    UINT stride = mesh.GetVertexSizeInBytes();
+    UINT offset = 0;
+    immediateContext_->IASetVertexBuffers(0, 1, &pVertexBuffer, &stride, &offset);
+    immediateContext_->IASetIndexBuffer(pIndexBuffer, DXGI_FORMAT_R16_UINT, 0);
+    immediateContext_->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+
+    immediateContext_->DrawIndexed(mesh.GetIndexCount(), 0, 0);
+    // Draw
 }
 
 void DX11Context::Clear(core::color_rgba const& color)
@@ -186,7 +240,7 @@ std::unique_ptr<CompiledMesh> DX11Context::CompileMesh(Mesh const& mesh)
     THROW_IF_FAILED(device_->CreateBuffer(&bufDesc, &srData, &pIndexBuffer), "Cannot create mesh index buffer");
 
     /// Potential 64-bit compatibily issue, fix later
-    return std::unique_ptr<CompiledMesh>(new CompiledMesh(reinterpret_cast<core::uint>(pVertexBuffer), reinterpret_cast<core::uint>(pIndexBuffer), mesh.GetVertexCount(), std::bind(&DX11Context::OnReleaseMesh, this, std::placeholders::_1)));
+    return std::unique_ptr<CompiledMesh>(new CompiledMesh(reinterpret_cast<core::uint>(pVertexBuffer), reinterpret_cast<core::uint>(pIndexBuffer), mesh.GetIndexCount(), mesh.GetVertexSizeInBytes(), std::bind(&DX11Context::OnReleaseMesh, this, std::placeholders::_1)));
 }
 
 void DX11Context::OnReleaseMesh(CompiledMesh const& mesh)

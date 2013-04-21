@@ -128,18 +128,13 @@ namespace core
             res += v1[i]*v2[i];
         return res;
     }
-    template <typename T, size_t size> vector_base<T,size> cross(const vector_base<T,size>& v1, const vector_base<T,size>& v2)
-    {
-        return vector_base<T,size>();
-    }
-
     template <typename T, size_t size> vector_base<T,size> normalize(const vector_base<T,size>& v)
-	{
+    {
         vector_base<T,size> tmp = v;
         tmp.normalize();
-		return tmp;
-	}
-    
+        return tmp;
+    }
+
     // back-end class for vector-base
     template<typename T, size_t size> class vector : public vector_base<T,size>
     {
@@ -207,6 +202,22 @@ namespace core
     private:
         enum {X, Y, Z};
     };
+
+    template <typename T> vector<T,3> cross(const vector<T,3>& v1, const vector<T,3>& v2)
+    {
+        /// |i     j     k|
+        /// |v1x  v1y  v1z|
+        /// |v2x  v2y  v2z|
+
+        return vector<T,3>(v1.y() * v2.z() - v2.y() * v1.z(), v2.x() * v1.z() - v1.x() * v2.z(), v1.x() * v2.y() - v1.y() * v2.x());
+    }
+
+    template <typename T> vector<T,3> normalize(const vector<T,3>& v)
+    {
+        vector<T,3> tmp = v;
+        tmp.normalize();
+        return tmp;
+    }
 
     template<typename T> class vector<T,4> : public vector_base<T,4>
     {
