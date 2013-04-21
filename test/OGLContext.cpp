@@ -1,7 +1,9 @@
 #include "OGLContext.h"
 #include "Mesh.h"
 #include "CompiledMesh.h"
+#include "utils.h"
 #include <GLUT/glut.h>
+
 
 OGLContext::OGLContext()
 {
@@ -48,11 +50,33 @@ void OGLContext::SetProjectionMatrix(core::matrix4x4 const& projMatrix)
 
 void OGLContext::DrawMesh(CompiledMesh const& mesh)
 {
+    core::matrix4x4 worldMatrix = worldMatrix_;
+    core::matrix4x4 worldViewProj = projMatrix_ * viewMatrix_ * worldMatrix_;
+    
     GLuint program = shaderManager_.GetShaderProgram("simple_ogl");
+    
+    glUniformMatrix4fv(glGetUniformLocation(program, "g_mWorld"), 1, true, &(worldMatrix(0,0)));
+    glUniformMatrix4fv(glGetUniformLocation(program, "g_mWorldViewProj"), 1, true, &(worldViewProj(0,0)));
     
     glUseProgram(program);
     
+    glBindBuffer(GL_ARRAY_BUFFER, mesh.GetVertexBufferID());
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh.GetIndexBufferID());
     
+    GLuint positionAttribId = glGetAttribLocation(program, "inPosition");
+    GLuint normalAttribId   = glGetAttribLocation(program, "inNormal");
+    GLuint texcoordAttribId = glGetAttribLocation(program, "inTexcoord");
+    
+    glVertexAttribPointer(positionAttribId, 3, GL_FLOAT, GL_FALSE, mesh.GetVertexSizeInBytes(), OFFSETOF(Mesh::Vertex,position));
+    glVertexAttribPointer(normalAttribId, 3, GL_FLOAT, GL_FALSE, mesh.GetVertexSizeInBytes(), OFFSETOF(Mesh::Vertex,normal));
+    glVertexAttribPointer(texcoordAttribId, 2, GL_FLOAT, GL_FALSE, mesh.GetVertexSizeInBytes(), OFFSETOF(Mesh::Vertex,texcoord));
+    
+    /// Move away this state changes later
+    glEnableVertexAttribArray(positionAttribId);
+    glEnableVertexAttribArray(normalAttribId);
+    glEnableVertexAttribArray(texcoordAttribId);
+    
+    glDrawElements(GL_TRIANGLES, mesh.GetIndexCount(), GL_UNSIGNED_SHORT, nullptr);
 }
 
 void OGLContext::Clear(core::color_rgba const& color)
@@ -90,7 +114,7 @@ std::unique_ptr<CompiledMesh> OGLContext::CompileMesh(const Mesh &mesh)
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
     
     return std::unique_ptr<CompiledMesh>(
-        new CompiledMesh(vertexBufferId, indexBufferId,  mesh.GetVertexCount(), std::bind(&OGLContext::OnReleaseMesh, this, std::placeholders::_1))
+        new CompiledMesh(vertexBufferId, indexBufferId,  mesh.GetIndexCount(), mesh.GetVertexSizeInBytes(), std::bind(&OGLContext::OnReleaseMesh, this, std::placeholders::_1))
                                         );
 }
 

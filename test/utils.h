@@ -13,6 +13,8 @@
 #include <string>
 #include <vector>
 
+#define OFFSETOF(struc,member) (&(((struc*)0)->member))
+
 namespace core
 {
     /// Convert 3d vector to homogenous point to apply trasnform to

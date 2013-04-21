@@ -11,7 +11,7 @@
 namespace core
 {
     // Floating point type to use within core library
-    typedef double        real;
+    typedef float        real;
     typedef unsigned int  uint;
     typedef unsigned char byte;
 
