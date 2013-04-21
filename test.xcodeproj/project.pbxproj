@@ -115,7 +115,10 @@
 				3E1AC9FB168E1ABE00F8B28D /* test */,
 				3E1AC9F9168E1ABE00F8B28D /* Products */,
 			);
+			indentWidth = 4;
 			sourceTree = "<group>";
+			tabWidth = 4;
+			usesTabs = 0;
 		};
 		3E1AC9F9168E1ABE00F8B28D /* Products */ = {
 			isa = PBXGroup;
