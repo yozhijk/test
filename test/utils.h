@@ -80,7 +80,10 @@ namespace core
     matrix4x4 perspective_proj_matrix_rh_gl(real const& l, real const& r, real const& b, real const& t, real const& n, real const& f);
 
     matrix4x4 perspective_proj_fovy_matrix(real const& fovy, real const& aspect, real const& n, real const& f);
-    matrix4x4 lookat_matrix( vector3 const& pos, vector3 const& at, vector3 const& up);
+    matrix4x4 perspective_proj_fovy_matrix_lh_dx(real const& fovy, real const& aspect, real const& n, real const& f);
+    matrix4x4 perspective_proj_fovy_matrix_rh_gl(real const& fovy, real const& aspect, real const& n, real const& f);
+
+    matrix4x4 lookat_matrix_lh_dx( vector3 const& pos, vector3 const& at, vector3 const& up);
 
     /// Quaternion transforms
     quat    rotation_quat(vector3 const& axis, real const& angle);

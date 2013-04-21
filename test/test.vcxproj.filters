@@ -99,6 +99,12 @@
     <ClInclude Include="ShaderCommon.h">
       <Filter>Shaders</Filter>
     </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>GameEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="DX11ShaderManager.h">
+      <Filter>Windows</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="sampler.cpp">
@@ -130,6 +136,12 @@
     </ClCompile>
     <ClCompile Include="GameScene.cpp">
       <Filter>GameEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>GameEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="DX11ShaderManager.cpp">
+      <Filter>Windows</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

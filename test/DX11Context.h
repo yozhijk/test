@@ -16,6 +16,7 @@
 
 #include "IGraphicsContext.h"
 #include "IResourceManager.h"
+#include "DX11ShaderManager.h"
 
 class Mesh;
 class CompiledMesh;
@@ -65,6 +66,12 @@ private:
     DX11Context(DX11Context const&);
     DX11Context& operator = (DX11Context const&);
 
+    struct TransformData
+    {
+        core::matrix4x4 mWorld;
+        core::matrix4x4 mWorldViewProj;
+    };
+
     /// Feature level
     D3D_FEATURE_LEVEL featureLevel_;
     /// Direct3D device
@@ -76,9 +83,19 @@ private:
     /// Default render target
     CComPtr<ID3D11RenderTargetView> defaultRenderTarget_;
     CComPtr<ID3D11DepthStencilView> defaultDepthBuffer_;
+    /// Transforms constant buffer
+    CComPtr<ID3D11Buffer> transformCB_;
 
     /// Window handle
     HWND hWnd_;
+
+    /// Transform matrices
+    core::matrix4x4 worldMatrix_;
+    core::matrix4x4 viewMatrix_;
+    core::matrix4x4 projMatrix_;
+
+    /// Shader cache
+    DX11ShaderManager shaderCache_;
 };
 
 #endif
