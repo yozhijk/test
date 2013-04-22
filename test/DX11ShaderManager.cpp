@@ -16,6 +16,12 @@ DX11ShaderManager::DX11ShaderManager()
 
 DX11ShaderManager::~DX11ShaderManager()
 {
+    for (auto cIter = shaderCache_.cbegin(); cIter != shaderCache_.cend(); ++cIter)
+    {
+        cIter->second.GetVertexShader()->Release();
+        cIter->second.GetPixelShader()->Release();
+        cIter->second.GetInputLayout()->Release();
+    }
 }
 
 DX11ShaderProgram const& DX11ShaderManager::GetShaderProgram(std::string const& name, ID3D11Device* device)
