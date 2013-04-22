@@ -15,7 +15,6 @@ struct PSInput
     float3 normal : NORMAL;
 };
 
-
 cbuffer PerFrameCB : register(c0)
 {
     float4x4 g_mWorld;

@@ -138,12 +138,11 @@ LRESULT CALLBACK WndProc( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam 
         break;
 
     case WM_DESTROY:
+        g_OS->Shutdown();
         PostQuitMessage( 0 );
         break;
 
     case WM_SIZE:
-        // TODO: fix object lifetimes, now the following line causes a crash
-        // when firing dead listener's callback
         g_OS->ResizeWindow(core::ui_size(LOWORD(lParam), HIWORD(lParam)));
         break;
 

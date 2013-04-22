@@ -12,6 +12,13 @@ GameEngine::GameEngine()
 
 }
 
+GameEngine::~GameEngine()
+{
+#ifdef _TEST
+    delete currentScene_;
+#endif
+}
+
 void GameEngine::Init(IResourceManager& resourceManager/*GameConfig const&*/)
 {
     /// Initialization code here

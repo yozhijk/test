@@ -7,7 +7,6 @@ CompiledMesh::CompiledMesh(core::uint vertexBufferID, core::uint indexBufferID, 
     ,vertexSizeInBytes_(vertexSizeInBytes)
     ,releaseCallback_(releaseCallback)
 {
-
 }
 
 CompiledMesh::~CompiledMesh()

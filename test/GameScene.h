@@ -13,6 +13,7 @@ class GameScene
 {
 public:
     GameScene();
+    ~GameScene();
     void Init(IResourceManager& resourceManager);
     void Render(IGraphicsContext& graphicsContext);
     void Update(core::real timeDelta);

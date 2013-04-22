@@ -52,3 +52,9 @@ void WinOS::ResizeWindow(ui_size const& size)
     /// Fire an event
     for_each(listeners_.begin(), listeners_.end(), bind(&(ISystemListener::OnResizeWindow), placeholders::_1, size));
 }
+
+void WinOS::Shutdown()
+{
+    /// Fire an event
+    for_each(listeners_.begin(), listeners_.end(), bind(&(ISystemListener::OnShutdown), placeholders::_1));
+}

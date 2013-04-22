@@ -35,6 +35,7 @@ public:
     void SetWindowParams(HWND hWnd, core::ui_rect const& rect);
     void Loop(core::real timeDelta);
     void ResizeWindow(core::ui_size const& size);
+    void Shutdown();
 
 private:
     std::vector<ISystemListener*> listeners_;

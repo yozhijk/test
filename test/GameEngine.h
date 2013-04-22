@@ -11,6 +11,7 @@ class GameEngine
 {
 public:
     GameEngine();
+    ~GameEngine();
     void Init (IResourceManager& resourceManager/*GameConfig const&*/);
     void Shutdown();
     void Update(core::real timeDelta);
