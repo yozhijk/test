@@ -85,6 +85,10 @@ private:
     CComPtr<ID3D11DepthStencilView> defaultDepthBuffer_;
     /// Transforms constant buffer
     CComPtr<ID3D11Buffer> transformCB_;
+    /// Raster state
+    CComPtr<ID3D11RasterizerState> rasterizerState_;
+    /// Depth & stencil state
+    CComPtr<ID3D11DepthStencilState> dsState_;;
 
     /// Window handle
     HWND hWnd_;

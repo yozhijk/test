@@ -14,7 +14,7 @@
 DX11Context::DX11Context(HWND hWnd) : 
 hWnd_(hWnd)
 {
-#ifdef _DEBUG
+#ifdef _TEST
     /// Debug transforms testing code, will remove with the next CL
     D3DXMATRIX matrix;
 
@@ -27,9 +27,9 @@ hWnd_(hWnd)
     m = core::lookat_matrix_lh_dx(core::vector3(0,0,-5), core::vector3(0,0,0), core::vector3(0,1,0));
     m = m.transpose();
 
-    D3DXMatrixPerspectiveFovLH(&matrix, D3DX_PI/2, 1, 0.1, 100);
+    D3DXMatrixPerspectiveFovLH(&matrix, D3DX_PI/4, 640.f/480.f, 0.1, 100);
 
-    m = core::perspective_proj_fovy_matrix_lh_dx(D3DX_PI/2, 1, 0.1, 100);
+    m = core::perspective_proj_fovy_matrix_lh_dx(D3DX_PI/4, 640.f/480.f, 0.1, 100);
     m = m.transpose();
 #endif
 }
@@ -66,7 +66,7 @@ void DX11Context::Init()
     swapChainDesc.Windowed = TRUE;
 
     // Required feature levels
-    D3D_FEATURE_LEVEL featureLevels[] = {D3D_FEATURE_LEVEL_10_0, D3D_FEATURE_LEVEL_11_0};
+    D3D_FEATURE_LEVEL featureLevels[] = {D3D_FEATURE_LEVEL_10_0};
     UINT numLevels = sizeof(featureLevels)/sizeof(D3D_FEATURE_LEVEL);
 
     DWORD flags = 0;
@@ -88,6 +88,46 @@ void DX11Context::Init()
     bufferDesc.StructureByteStride = sizeof(TransformData);
     bufferDesc.Usage = D3D11_USAGE_DEFAULT;
     THROW_IF_FAILED(device_->CreateBuffer(&bufferDesc, nullptr, &transformCB_), "Failed to create transforms constant buffer");
+
+    D3D11_RASTERIZER_DESC rasterDesc = 
+    {
+        D3D11_FILL_SOLID, //FillMode
+        D3D11_CULL_NONE, //CullMode
+        0x1, //FrontCounterClockwise
+        0x0, //DepthBias
+        0.f, //DepthBiasClamp
+        0.f, //SlopeScaledDepthBias
+        0x0, //DepthClipEnable this should be turned on after transforms are fixed
+        0x0, //ScissorEnable
+        0x0, //MultisampleEnable
+        0x0  //AntialiasedLineEnable
+    };
+
+    THROW_IF_FAILED(device_->CreateRasterizerState(&rasterDesc, &rasterizerState_), "Failed to create rasterizer state");
+
+    D3D11_DEPTH_STENCIL_DESC dsDesc = 
+    {
+        0x1, //DepthEnable
+        D3D11_DEPTH_WRITE_MASK_ALL, //DepthWriteMask
+        D3D11_COMPARISON_LESS_EQUAL, //DepthFunc
+        0x1, //StencilEnable
+        '\xFF', //StencilReadMask
+        '\xFF', //StencilWriteMask
+        {
+            D3D11_STENCIL_OP_KEEP, //StencilFailOp
+            D3D11_STENCIL_OP_KEEP, //StencilDepthFailOp
+            D3D11_STENCIL_OP_REPLACE, //StencilPassOp
+            D3D11_COMPARISON_ALWAYS  //StencilFunc
+        }, //FrontFace
+        {
+            D3D11_STENCIL_OP_KEEP, //StencilFailOp
+            D3D11_STENCIL_OP_KEEP, //StencilDepthFailOp
+            D3D11_STENCIL_OP_REPLACE, //StencilPassOp
+            D3D11_COMPARISON_ALWAYS  //StencilFunc
+        }  //BackFace
+    };
+
+    THROW_IF_FAILED(device_->CreateDepthStencilState(&dsDesc, &dsState_), "Failed to create depth state");;
 
     // Create default render target and depth stencil
     ResizeBuffer(core::ui_size(bbWidth, bbHeight));
@@ -178,7 +218,7 @@ void DX11Context::DrawMesh(CompiledMesh const& mesh)
     transformData.mWorldViewProj = (worldMatrix_ * viewMatrix_ * projMatrix_).transpose();
 
     immediateContext_->UpdateSubresource(transformCB_, D3D11CalcSubresource(0, 0, 1), nullptr, &transformData, 0, 0);
-    immediateContext_->VSSetConstantBuffers(0, 1, &transformCB_);
+    immediateContext_->VSSetConstantBuffers(0, 1, &transformCB_.p);
 
     // Set shaders & state
     immediateContext_->IASetInputLayout(shaderCache_.GetShaderProgram("simple", device_).GetInputLayout());
@@ -194,6 +234,9 @@ void DX11Context::DrawMesh(CompiledMesh const& mesh)
     immediateContext_->IASetIndexBuffer(pIndexBuffer, DXGI_FORMAT_R16_UINT, 0);
     immediateContext_->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
+    immediateContext_->RSSetState(rasterizerState_);
+    immediateContext_->OMSetDepthStencilState(dsState_, 0);
+
     immediateContext_->DrawIndexed(mesh.GetIndexCount(), 0, 0);
 }
 
@@ -201,6 +244,9 @@ void DX11Context::Clear(core::color_rgba const& color)
 {
     FLOAT clearColor[4] = {static_cast<FLOAT>(color.x()), static_cast<FLOAT>(color.y()), static_cast<FLOAT>(color.z()), static_cast<FLOAT>(color.w())};
     immediateContext_->ClearRenderTargetView(defaultRenderTarget_, clearColor);
+
+    /// move to ClearDepth method
+    immediateContext_->ClearDepthStencilView(defaultDepthBuffer_, D3D11_CLEAR_DEPTH, 1.0, 0);
 }
 
 void DX11Context::Present()

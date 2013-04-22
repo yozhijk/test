@@ -5,6 +5,9 @@
 #include "WinOS.h"
 #include "App.h"
 
+#define WINDOW_WIDTH 640
+#define WINDOW_HEIGHT 480
+
 std::unique_ptr<WinOS> g_OS;
 std::unique_ptr<App>   g_App;
 
@@ -36,7 +39,7 @@ int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdL
     if( FAILED( InitWindow( hInstance, nCmdShow ) ) )
         return 0;
 
-    g_OS->SetWindowParams(g_hWnd, core::ui_rect(0,0,100,100));
+    g_OS->SetWindowParams(g_hWnd, core::ui_rect(0,0,WINDOW_WIDTH,WINDOW_HEIGHT));
 
     LARGE_INTEGER prevTime;
     LARGE_INTEGER freq;
@@ -101,7 +104,7 @@ HRESULT InitWindow( HINSTANCE hInstance, int nCmdShow )
 
     // Create window
     g_hInst = hInstance;
-    RECT rc = { 0, 0, 640, 480 };
+    RECT rc = { 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT };
     AdjustWindowRect( &rc, WS_OVERLAPPEDWINDOW, FALSE );
     g_hWnd = CreateWindow( L"Test", L"Test",
         WS_OVERLAPPEDWINDOW,

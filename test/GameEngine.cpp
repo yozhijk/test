@@ -15,6 +15,11 @@ GameEngine::GameEngine()
 void GameEngine::Init(IResourceManager& resourceManager/*GameConfig const&*/)
 {
     /// Initialization code here
+    /// TEST CODE
+#ifdef _TEST
+    currentScene_ = new GameScene();
+    currentScene_->Init(resourceManager);
+#endif
 }
 
 void GameEngine::Shutdown()
@@ -39,7 +44,7 @@ void GameEngine::RenderScene(IGraphicsContext& graphicsContext)
     /// State handling and rendering code here
     if (STATE_RUNNING == engineState_)
     {
-        graphicsContext.Clear(core::color_rgba(0.0, 1.0, 0.0, 1.0));
+        graphicsContext.Clear(core::color_rgba(0.0, 0.0, 0.0, 1.0));
 
         currentScene_->Render(graphicsContext);
     }

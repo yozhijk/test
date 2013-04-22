@@ -3,16 +3,17 @@
 
 #include "common_types.h"
 #include <vector>
-#include "Camera.h"
+//#include "Camera.h"
 
 class CompiledMesh;
 class IGraphicsContext;
+class IResourceManager;
 
 class GameScene
 {
 public:
     GameScene();
-
+    void Init(IResourceManager& resourceManager);
     void Render(IGraphicsContext& graphicsContext);
     void Update(core::real timeDelta);
 
@@ -21,8 +22,8 @@ private:
     // static geometry
     // dynamic objects
     // etc
-    std::vector<CompiledMesh> staticObjects_;
-    Camera camera_;
+    std::vector<std::unique_ptr<CompiledMesh> > staticObjects_;
+    //Camera camera_;
 };
 
 
