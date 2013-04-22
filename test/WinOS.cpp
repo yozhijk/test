@@ -8,15 +8,11 @@
 #include <functional>
 #include <algorithm>
 
-#include "Mesh.h"
-
 using namespace std;
 using namespace core;
 
 WinOS::WinOS()
 {
-    //std::for_each(listeners_.begin(), listeners);
-    unique_ptr<Mesh> modelPtr = Mesh::CreateFromObj("C:\\temp\\cube.obj");
 
 }
 

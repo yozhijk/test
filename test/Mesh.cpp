@@ -37,7 +37,7 @@ void Mesh::LoadFromObjStream(ifstream& objStream)
     while(getline(objStream,line))
     {
         // normal
-        if (line.find("vn") != string::npos)
+        if (line.find("vn ") != string::npos)
         {
             istringstream inStream(line);
             string tmp;
@@ -48,7 +48,7 @@ void Mesh::LoadFromObjStream(ifstream& objStream)
             StoreNormal(vector3(x,y,z));
         }
         // texcoord
-        else if (line.find("vt") != string::npos)
+        else if (line.find("vt ") != string::npos)
         {
             istringstream inStream(line);
             string tmp;
@@ -59,7 +59,7 @@ void Mesh::LoadFromObjStream(ifstream& objStream)
             StoreTexcoord(vector2(x,y));
         }
         // vertex
-        else if (line.find("v") != string::npos)
+        else if (line.find("v ") != string::npos)
         {
             istringstream inStream(line);
             string tmp;

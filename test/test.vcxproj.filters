@@ -19,6 +19,9 @@
     <Filter Include="Shaders">
       <UniqueIdentifier>{6b85f7fa-732e-463c-830f-462d00a49090}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resources">
+      <UniqueIdentifier>{7fe0a16a-ffb2-47ff-8155-5b7a526eab89}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="tree.h">
@@ -150,6 +153,9 @@
     </CustomBuild>
     <CustomBuild Include="simple.vsh">
       <Filter>Shaders</Filter>
+    </CustomBuild>
+    <CustomBuild Include="monkey.objm">
+      <Filter>Resources</Filter>
     </CustomBuild>
   </ItemGroup>
 </Project>
