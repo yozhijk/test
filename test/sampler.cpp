@@ -68,12 +68,12 @@ namespace core
                 if (a > b)
                 {
                     r = a;
-                    phi = M_PI_4*(b/a);
+                    phi = (real)(M_PI_4*(b/a));
                 }
                 else /// a <= b
                 {
                     r = b;
-                    phi = M_PI_4*(2 - a/b);
+                    phi = (real)(M_PI_4*(2 - a/b));
                 }
             }
             else /// a <= -b
@@ -81,12 +81,12 @@ namespace core
                 if (a < b)
                 {
                     r = -a;
-                    phi = M_PI_4*(4 + a/b); 
+                    phi = (real)(M_PI_4*(4 + a/b)); 
                 }
                 else /// a >= b
                 {
                     r = -b;
-                    phi = (b == 0)?(0):(M_PI_4 * (6 - a/b));
+                    phi = (real)((b == 0)?(0):(M_PI_4 * (6 - a/b)));
                 }
             }
 
@@ -101,8 +101,8 @@ namespace core
 
         for (uint i = 0; i < numSamples;++i)
         {
-            real cos_phi  = cos(2*M_PI*_samples[i].x());
-            real sin_phi  = sin(2*M_PI*_samples[i].x());
+            real cos_phi  = (real)(cos((real)(2*M_PI*_samples[i].x())));
+            real sin_phi  = (real)(sin((real)(2*M_PI*_samples[i].x())));
             real cos_theta = pow((real)1-_samples[i].y(), (real)1/(1 + e));
             real sin_theta = (real)1 - cos_theta*cos_theta;
 

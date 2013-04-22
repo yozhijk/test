@@ -38,7 +38,7 @@ namespace core
     {
         real temp = atan2(cart.x(), cart.z());
         r = sqrt(cart.x()*cart.x() + cart.y()*cart.y() + cart.z()*cart.z());
-        phi = (temp >= 0)?temp:(temp + 2*M_PI);
+        phi = (real)((temp >= 0)?temp:(temp + 2*M_PI));
         theta = acos(cart.y()/r);
     }
 

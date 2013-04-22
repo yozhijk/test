@@ -174,15 +174,16 @@ void DX11Context::DrawMesh(CompiledMesh const& mesh)
 {
     // Set constant buffers
     TransformData transformData;
-    transformData.mWorld = worldMatrix_;
-    transformData.mWorldViewProj = worldMatrix_ * viewMatrix_ * projMatrix_;
+    transformData.mWorld = worldMatrix_.transpose();
+    transformData.mWorldViewProj = (worldMatrix_ * viewMatrix_ * projMatrix_).transpose();
 
     immediateContext_->UpdateSubresource(transformCB_, D3D11CalcSubresource(0, 0, 1), nullptr, &transformData, 0, 0);
     immediateContext_->VSSetConstantBuffers(0, 1, &transformCB_);
 
     // Set shaders & state
-    //immediateContext_->VSSetShader(shaderCache_.GetShaderProgram("simple").GetVertexShader());
-    //immediateContext_->PSSetShader(shaderCache_.GetShaderProgram("simple").GetPixelShader());
+    immediateContext_->IASetInputLayout(shaderCache_.GetShaderProgram("simple", device_).GetInputLayout());
+    immediateContext_->VSSetShader(shaderCache_.GetShaderProgram("simple", device_).GetVertexShader(), nullptr, 0);
+    immediateContext_->PSSetShader(shaderCache_.GetShaderProgram("simple", device_).GetPixelShader(), nullptr, 0);
 
     ID3D11Buffer* pVertexBuffer = reinterpret_cast<ID3D11Buffer*>(mesh.GetVertexBufferID());
     ID3D11Buffer* pIndexBuffer = reinterpret_cast<ID3D11Buffer*>(mesh.GetIndexBufferID());
@@ -194,7 +195,6 @@ void DX11Context::DrawMesh(CompiledMesh const& mesh)
     immediateContext_->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
     immediateContext_->DrawIndexed(mesh.GetIndexCount(), 0, 0);
-    // Draw
 }
 
 void DX11Context::Clear(core::color_rgba const& color)
