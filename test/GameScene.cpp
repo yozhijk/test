@@ -26,8 +26,8 @@ void GameScene::Render(IGraphicsContext& graphicsContext)
     {
         // set transforms etc
 #ifdef _TEST
-        graphicsContext.SetWorldMatrix(translation_matrix(vector3(0,0,0)));
-        graphicsContext.SetViewMatrix(lookat_matrix_lh_dx(vector3(0,0,-50), vector3(0,0,0), vector3(0,1,0)));
+        graphicsContext.SetWorldMatrix(translation_matrix(vector3(-0.5,-0.5,0)));
+        graphicsContext.SetViewMatrix(lookat_matrix_lh_dx(vector3(-2,2,-5), vector3(0,0,0), vector3(0,1,0)));
 #endif
         graphicsContext.DrawMesh(**cIter);
     }

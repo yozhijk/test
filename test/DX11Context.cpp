@@ -97,7 +97,7 @@ void DX11Context::Init()
         0x0, //DepthBias
         0.f, //DepthBiasClamp
         0.f, //SlopeScaledDepthBias
-        0x0, //DepthClipEnable this should be turned on after transforms are fixed
+        0x1, //DepthClipEnable this should be turned on after transforms are fixed
         0x0, //ScissorEnable
         0x0, //MultisampleEnable
         0x0  //AntialiasedLineEnable
@@ -215,7 +215,19 @@ void DX11Context::DrawMesh(CompiledMesh const& mesh)
     // Set constant buffers
     TransformData transformData;
     transformData.mWorld = worldMatrix_.transpose();
-    transformData.mWorldViewProj = (worldMatrix_ * viewMatrix_ * projMatrix_).transpose();
+    transformData.mWorldViewProj = projMatrix_ * viewMatrix_ *  worldMatrix_ ;
+
+#ifdef _TEST
+    D3DXMATRIX mL, mP;
+    D3DXVECTOR3 pos(0,0,-5);
+    D3DXVECTOR3 at(0,0,0);
+    D3DXVECTOR3 up(0,1,0);
+    D3DXMatrixLookAtLH(&mL, &pos,&at, &up);
+
+    D3DXMatrixPerspectiveFovLH(&mP, D3DX_PI/4, 640.f/480.f, 0.1, 100.0);
+
+    D3DXMATRIX res = mL * mP;
+#endif
 
     immediateContext_->UpdateSubresource(transformCB_, D3D11CalcSubresource(0, 0, 1), nullptr, &transformData, 0, 0);
     immediateContext_->VSSetConstantBuffers(0, 1, &transformCB_.p);

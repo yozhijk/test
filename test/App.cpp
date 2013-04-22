@@ -49,7 +49,7 @@ void App::OnResizeWindow(core::ui_size const& size)
     {
         /// this should be removed
 #ifdef _TEST
-        core::matrix4x4 m = core::perspective_proj_fovy_matrix_lh_dx(M_PI/4, (core::real)size.w/size.h, 0.1f, 1000.f);
+        core::matrix4x4 m = core::perspective_proj_fovy_matrix_lh_dx(M_PI/4, (core::real)size.w/size.h, 0.1f, 100.f);
         graphicsContext_->SetProjectionMatrix(m);
 #endif
         graphicsContext_->ResizeBuffer(size);
