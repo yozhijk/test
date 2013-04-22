@@ -1,6 +1,9 @@
 #include "ShaderCommon.h"
 
+static const float3 g_vLightDir = float3(-1, 5,-3);
+
 float4 main(PSInput input) : SV_Target
 {
-    return float4(1,1,1,1);
+    float diffuse = max(0, dot(normalize(input.normal), normalize(g_vLightDir)));
+    return diffuse*float4(1,1,1,1);
 }

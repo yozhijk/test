@@ -93,7 +93,7 @@ void DX11Context::Init()
     {
         D3D11_FILL_SOLID, //FillMode
         D3D11_CULL_NONE, //CullMode
-        0x1, //FrontCounterClockwise
+        0x0, //FrontCounterClockwise
         0x0, //DepthBias
         0.f, //DepthBiasClamp
         0.f, //SlopeScaledDepthBias
