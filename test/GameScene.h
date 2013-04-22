@@ -24,6 +24,9 @@ private:
     // etc
     std::vector<std::unique_ptr<CompiledMesh> > staticObjects_;
     //Camera camera_;
+#ifdef _TEST
+    core::real angle_;
+#endif
 };
 
 

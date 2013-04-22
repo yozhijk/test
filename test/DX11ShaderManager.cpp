@@ -1,5 +1,6 @@
 #include "DX11ShaderManager.h"
 #include "utils.h"
+#include <cassert>
 
 #define VS_EXTENSION "VS.fxo"
 #define PS_EXTENSION "PS.fxo"

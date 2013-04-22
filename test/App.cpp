@@ -53,5 +53,6 @@ void App::OnResizeWindow(core::ui_size const& size)
         graphicsContext_->SetProjectionMatrix(m);
 #endif
         graphicsContext_->ResizeBuffer(size);
+        graphicsContext_->SetViewport(core::ui_rect(0, 0, size.w, size.h));
     }
 }

@@ -8,6 +8,9 @@
 using namespace core;
 
 GameScene::GameScene()
+#ifdef _TEST
+    : angle_(0)
+#endif
 {
 }
 
@@ -26,7 +29,7 @@ void GameScene::Render(IGraphicsContext& graphicsContext)
     {
         // set transforms etc
 #ifdef _TEST
-        graphicsContext.SetWorldMatrix(translation_matrix(vector3(-0.5,-0.5,0)));
+        graphicsContext.SetWorldMatrix(rotation_matrix_y(angle_) * translation_matrix(vector3(-0.5, -0.5, -0.5)));
         graphicsContext.SetViewMatrix(lookat_matrix_lh_dx(vector3(-2,2,-5), vector3(0,0,0), vector3(0,1,0)));
 #endif
         graphicsContext.DrawMesh(**cIter);
@@ -35,5 +38,7 @@ void GameScene::Render(IGraphicsContext& graphicsContext)
 
 void GameScene::Update(core::real timeDelta)
 {
-
+#ifdef _TEST
+    angle_ += timeDelta * 0.2;
+#endif
 }

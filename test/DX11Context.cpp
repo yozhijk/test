@@ -72,7 +72,7 @@ void DX11Context::Init()
     DWORD flags = 0;
 
 #ifdef _DEBUG
-    flags |= D3D11_CREATE_DEVICE_DEBUG;
+    //flags |= D3D11_CREATE_DEVICE_DEBUG;
 #endif
 
     // Attempt to create device and swap chain
@@ -214,7 +214,7 @@ void DX11Context::DrawMesh(CompiledMesh const& mesh)
 {
     // Set constant buffers
     TransformData transformData;
-    transformData.mWorld = worldMatrix_.transpose();
+    transformData.mWorld = worldMatrix_;
     transformData.mWorldViewProj = projMatrix_ * viewMatrix_ *  worldMatrix_ ;
 
 #ifdef _TEST
