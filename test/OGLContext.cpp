@@ -4,6 +4,8 @@
 #include "utils.h"
 #include <GLUT/glut.h>
 
+using namespace core;
+
 
 OGLContext::OGLContext()
 {
@@ -20,45 +22,47 @@ void OGLContext::Init()
     GLint width = (GLint)glutGet(GLUT_WINDOW_WIDTH);
     GLint height = (GLint)glutGet(GLUT_WINDOW_HEIGHT);
 
-    SetViewport(core::ui_rect(0, 0, static_cast<core::uint>(width), static_cast<core::uint>(height)));
+    SetViewport(ui_rect(0, 0, static_cast<uint>(width), static_cast<uint>(height)));
 }
 
-void OGLContext::ResizeBuffer(core::ui_size const& size)
+void OGLContext::ResizeBuffer(ui_size const& size)
 {
     
 }
 
-void OGLContext::SetViewport(core::ui_rect const& vp)
+void OGLContext::SetViewport(ui_rect const& vp)
 {
     glViewport(static_cast<GLint>(vp.x), static_cast<GLint>(vp.y), static_cast<GLsizei>(vp.w), static_cast<GLsizei>(vp.h));
 }
 
-void OGLContext::SetWorldMatrix(core::matrix4x4 const& worldMatrix)
+void OGLContext::SetWorldMatrix(matrix4x4 const& worldMatrix)
 {
     worldMatrix_ = worldMatrix;
 }
 
-void OGLContext::SetViewMatrix(core::matrix4x4 const& viewMatrix)
+void OGLContext::SetViewMatrix(matrix4x4 const& viewMatrix)
 {
     viewMatrix_ = viewMatrix;
 }
 
-void OGLContext::SetProjectionMatrix(core::matrix4x4 const& projMatrix)
+void OGLContext::SetFrustum(frustum const& frustum)
 {
-    projMatrix_ = projMatrix;
+    projMatrix_ = perspective_proj_fovy_matrix_rh_gl(frustum.fovy, frustum.aspect, frustum.nr, frustum.fr);
 }
 
 void OGLContext::DrawMesh(CompiledMesh const& mesh)
 {
-    core::matrix4x4 worldMatrix = worldMatrix_;
-    core::matrix4x4 worldViewProj = projMatrix_ * viewMatrix_ * worldMatrix_;
+    matrix4x4 worldMatrix = worldMatrix_;
+    matrix4x4 worldViewProj =  worldMatrix_ * /*viewMatrix_*/ projMatrix_;
     
     GLuint program = shaderManager_.GetShaderProgram("simple_ogl");
     
-    glUniformMatrix4fv(glGetUniformLocation(program, "g_mWorld"), 1, true, &(worldMatrix(0,0)));
-    glUniformMatrix4fv(glGetUniformLocation(program, "g_mWorldViewProj"), 1, true, &(worldViewProj(0,0)));
+    glDisable(GL_DEPTH_TEST);
     
     glUseProgram(program);
+    
+    glUniformMatrix4fv(glGetUniformLocation(program, "g_mWorld"), 1, false, &(worldMatrix(0,0)));
+    glUniformMatrix4fv(glGetUniformLocation(program, "g_mWorldViewProj"), 1, false, &(worldViewProj(0,0)));
     
     glBindBuffer(GL_ARRAY_BUFFER, mesh.GetVertexBufferID());
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh.GetIndexBufferID());
@@ -79,9 +83,10 @@ void OGLContext::DrawMesh(CompiledMesh const& mesh)
     glDrawElements(GL_TRIANGLES, mesh.GetIndexCount(), GL_UNSIGNED_SHORT, nullptr);
 }
 
-void OGLContext::Clear(core::color_rgba const& color)
+void OGLContext::Clear(color_rgba const& color)
 {
     glClearColor(color.x(), color.y(), color.z(), color.w());
+    glClearDepth(1.0);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 

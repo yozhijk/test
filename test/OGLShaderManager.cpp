@@ -100,7 +100,7 @@ GLuint OGLShaderManager::CompileProgram(std::string const& programName)
         throw std::runtime_error(std::string(log.begin(), log.end()));
 	}
     
-    return 0;
+    return program;
 }
 
 GLuint OGLShaderManager::GetShaderProgram(std::string const& programName)
@@ -115,7 +115,6 @@ GLuint OGLShaderManager::GetShaderProgram(std::string const& programName)
     {
         GLuint program = CompileProgram(programName);
         shaderCache_[programName] = program;
+        return program;
     }
-    
-    return 0;
 }

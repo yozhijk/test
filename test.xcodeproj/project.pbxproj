@@ -12,6 +12,8 @@
 		2E4BEA7B17198343004A5CBD /* simple_ogl.psh in CopyFiles */ = {isa = PBXBuildFile; fileRef = 2E4BEA7917198091004A5CBD /* simple_ogl.psh */; };
 		2E81C9121718702C00428B87 /* GameScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E81C9111718702C00428B87 /* GameScene.cpp */; };
 		2E81C9161718770600428B87 /* OGLShaderManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E81C9151718770600428B87 /* OGLShaderManager.cpp */; };
+		2EA38B9217284A4A00853F7C /* Camera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2EA38B9017284A4A00853F7C /* Camera.cpp */; };
+		2EA38B9517284BD200853F7C /* monkey.objm in CopyFiles */ = {isa = PBXBuildFile; fileRef = 2EA38B9417284BBB00853F7C /* monkey.objm */; };
 		2EDB2FA4171806A700F27F46 /* CompiledMesh.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2EDB2FA0171806A700F27F46 /* CompiledMesh.cpp */; };
 		2EDB2FA5171806A700F27F46 /* Mesh.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2EDB2FA2171806A700F27F46 /* Mesh.cpp */; };
 		3E1AC9FD168E1ABE00F8B28D /* main_MacOS.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3E1AC9FC168E1ABE00F8B28D /* main_MacOS.cpp */; };
@@ -32,6 +34,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 16;
 			files = (
+				2EA38B9517284BD200853F7C /* monkey.objm in CopyFiles */,
 				2E4BEA7A17198343004A5CBD /* simple_ogl.vsh in CopyFiles */,
 				2E4BEA7B17198343004A5CBD /* simple_ogl.psh in CopyFiles */,
 			);
@@ -45,6 +48,9 @@
 		2E81C9111718702C00428B87 /* GameScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameScene.cpp; sourceTree = "<group>"; };
 		2E81C9141718753C00428B87 /* OGLShaderManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OGLShaderManager.h; sourceTree = "<group>"; };
 		2E81C9151718770600428B87 /* OGLShaderManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OGLShaderManager.cpp; sourceTree = "<group>"; };
+		2EA38B9017284A4A00853F7C /* Camera.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Camera.cpp; sourceTree = "<group>"; };
+		2EA38B9117284A4A00853F7C /* Camera.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Camera.h; sourceTree = "<group>"; };
+		2EA38B9417284BBB00853F7C /* monkey.objm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = monkey.objm; sourceTree = "<group>"; };
 		2EDB2FA0171806A700F27F46 /* CompiledMesh.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CompiledMesh.cpp; sourceTree = "<group>"; };
 		2EDB2FA1171806A700F27F46 /* CompiledMesh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CompiledMesh.h; sourceTree = "<group>"; };
 		2EDB2FA2171806A700F27F46 /* Mesh.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Mesh.cpp; sourceTree = "<group>"; };
@@ -107,6 +113,14 @@
 			name = Shaders;
 			sourceTree = "<group>";
 		};
+		2EA38B9317284BAD00853F7C /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				2EA38B9417284BBB00853F7C /* monkey.objm */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
 		3E1AC9ED168E1ABD00F8B28D = {
 			isa = PBXGroup;
 			children = (
@@ -131,6 +145,7 @@
 		3E1AC9FB168E1ABE00F8B28D /* test */ = {
 			isa = PBXGroup;
 			children = (
+				2EA38B9317284BAD00853F7C /* Resources */,
 				2E4BEA761719804C004A5CBD /* Shaders */,
 				3E1ACA37168E264B00F8B28D /* MacOS */,
 				3E1ACA36168E263900F8B28D /* Core */,
@@ -156,6 +171,8 @@
 		3E1ACA34168E253B00F8B28D /* GameEngine */ = {
 			isa = PBXGroup;
 			children = (
+				2EA38B9017284A4A00853F7C /* Camera.cpp */,
+				2EA38B9117284A4A00853F7C /* Camera.h */,
 				2E81C9111718702C00428B87 /* GameScene.cpp */,
 				2EDB2FA0171806A700F27F46 /* CompiledMesh.cpp */,
 				2EDB2FA1171806A700F27F46 /* CompiledMesh.h */,
@@ -277,6 +294,7 @@
 				2E81C9121718702C00428B87 /* GameScene.cpp in Sources */,
 				2E81C9161718770600428B87 /* OGLShaderManager.cpp in Sources */,
 				2E4BEA7817198079004A5CBD /* simple_ogl.vsh in Sources */,
+				2EA38B9217284A4A00853F7C /* Camera.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -337,6 +355,11 @@
 		3E1ACA03168E1ABE00F8B28D /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				"GCC_PREPROCESSOR_DEFINITIONS[arch=*]" = (
+					"DEBUG=1",
+					"_TEST=1",
+					"$(inherited)",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;

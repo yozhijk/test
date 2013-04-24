@@ -10,8 +10,8 @@ varying vec2 Texcoord;
 
 void main()
 {
-    gl_Position = g_mWorldViewProj * vec4(inPosition, 1.0);
-    Normal = (g_mWorld * vec4(inNormal, 0)).xyz;
+    gl_Position = vec4(inPosition, 1.0) * g_mWorldViewProj;
+    Normal = (vec4(inNormal, 0) * g_mWorld).xyz;
     Texcoord = inTexcoord;
 }
 

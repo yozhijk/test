@@ -101,12 +101,12 @@ namespace core
         vector3 u = cross(v,r);
         vector3 ip = vector3(-dot(r,pos), -dot(u,pos), -dot(v,pos));
         
-    return matrix4x4(r.x(), u.x(), v.x(), 0,
+        return matrix4x4(r.x(), u.x(), v.x(), 0,
                          r.y(), u.y(), v.y(), 0,
                          r.z(), u.z(), v.z(), 0,
                          ip.x(), ip.y(), ip.z(), 1);
     }
-
+    
     quat rotation_quat(vector4 const& axis, real const& angle )
     {
         // create (sin(a/2)*axis, cos(a/2)) quaternion

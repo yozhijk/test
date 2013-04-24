@@ -35,7 +35,7 @@ public:
 	/// Set coordinate space transforms
 	void SetWorldMatrix(core::matrix4x4 const& worldMatrix);
 	void SetViewMatrix(core::matrix4x4 const& viewMatrix);
-	void SetProjectionMatrix(core::matrix4x4 const& projMatrix);
+	void SetFrustum(core::frustum const& frustum);
     
 	/// Draw 3D model with default lighting / effects
 	void DrawMesh(CompiledMesh const& mesh);
