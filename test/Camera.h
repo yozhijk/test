@@ -2,21 +2,22 @@
 #define CAMERA_H
 
 #include "common_types.h"
+#include "utils.h"
 
 class Camera
 {
 public:
     Camera();
 
-    void GetViewMatrix( core::matrix4x4& matrix ) const;
-    void GetProjectionMatrix ( core::matrix4x4& matrix ) const;
+    core::matrix4x4 GetViewMatrix() const;
+    core::frustum   GetFrustum() const;
 
-    void LookAt();
-    void SetProjectionParams();
+    void LookAt(core::vector3 const& eye, core::vector3 const& at, core::vector3 const& up);
+    void SetFrustum(core::frustum const& frustum);
 
 private:
-
-
+    core::matrix4x4 view_;
+    core::frustum frustum_;
 };
 
 

@@ -24,6 +24,10 @@ void GameScene::Init(IResourceManager& resourceManager)
 #ifdef _TEST
     std::unique_ptr<Mesh> mesh = Mesh::CreateFromObj("monkey.objm");
     staticObjects_.push_back(resourceManager.CompileMesh(*mesh));
+
+    cameras_["first"] = std::unique_ptr<Camera>(new Camera());
+    cameras_["first"]->SetFrustum(core::frustum(M_PI/3, 640.f/480.f, 0.1f, 100.f));
+    cameras_["first"]->LookAt(vector3(0,2,-5), vector3(0,0,0), vector3(0,1,0));
 #endif
 }
 
@@ -34,7 +38,8 @@ void GameScene::Render(IGraphicsContext& graphicsContext)
         // set transforms etc
 #ifdef _TEST
         graphicsContext.SetWorldMatrix(rotation_matrix_y(angle_) * translation_matrix(vector3(-0.5, -0.5, -0.5)));
-        graphicsContext.SetViewMatrix(lookat_matrix_lh_dx(vector3(0,2,-5), vector3(0,0,0), vector3(0,1,0)));
+        graphicsContext.SetViewMatrix(GetActiveCamera().GetViewMatrix());
+        graphicsContext.SetFrustum(GetActiveCamera().GetFrustum());
 #endif
         graphicsContext.DrawMesh(**cIter);
     }
@@ -45,4 +50,10 @@ void GameScene::Update(core::real timeDelta)
 #ifdef _TEST
     angle_ += timeDelta * 0.2; // 0.2 radians per second
 #endif
+}
+
+Camera const& GameScene::GetActiveCamera() const
+{
+    return *(cameras_.begin())->second;
+
 }

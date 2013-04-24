@@ -33,7 +33,7 @@ public:
     /// Set coordinate space transforms
     virtual void SetWorldMatrix(core::matrix4x4 const& worldMatrix) = 0;
     virtual void SetViewMatrix(core::matrix4x4 const& viewMatrix) = 0;
-    virtual void SetProjectionMatrix(core::matrix4x4 const& projMatrix) = 0;
+    virtual void SetFrustum(core::frustum const& frustum) = 0;
 
     /// Draw 3D model with default lighting / effects
     virtual void DrawMesh(CompiledMesh const& mesh) = 0;

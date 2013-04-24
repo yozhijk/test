@@ -3,6 +3,7 @@
 #include "ISystem.h"
 #include "IGraphicsContext.h"
 #include "GameEngine.h"
+#include "GameScene.h"
 #include "utils.h"
 
 
@@ -24,6 +25,9 @@ void App::OnStartup(Window const& window)
 
     gameEngine_.reset(new GameEngine());
     gameEngine_->Init(graphicsContext_->GetResourceManager());
+
+    //gameEngine_->AddScene(GameScene::LoadFromFile("Scene1"));
+    //gameEngine_->SetActiveScene("Scene1");
 
     OnResizeWindow(core::ui_size(window.rect.w, window.rect.h));
 }
@@ -48,10 +52,6 @@ void App::OnResizeWindow(core::ui_size const& size)
     if (graphicsContext_)
     {
         /// this should be removed
-#ifdef _TEST
-        core::matrix4x4 m = core::perspective_proj_fovy_matrix_lh_dx(M_PI/4, (core::real)size.w/size.h, 0.1f, 100.f);
-        graphicsContext_->SetProjectionMatrix(m);
-#endif
         graphicsContext_->ResizeBuffer(size);
         graphicsContext_->SetViewport(core::ui_rect(0, 0, size.w, size.h));
     }

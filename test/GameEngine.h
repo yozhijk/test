@@ -12,10 +12,12 @@ class GameEngine
 public:
     GameEngine();
     ~GameEngine();
-    void Init (IResourceManager& resourceManager/*GameConfig const&*/);
+
+    void Init (IResourceManager& resourceManager);
     void Shutdown();
     void Update(core::real timeDelta);
     void RenderScene(IGraphicsContext& graphicsContext);
+    void AddScene(std::unique_ptr<GameScene> scene);
 
     //protected:
     //typedef std::function<void(void*)> SCENE_CALLBACK;
@@ -33,6 +35,7 @@ private:
     STATE     engineState_;
 
     //std::unique_ptr<Physics> physics_;
+    //script engine, etc
 };
 
 #endif

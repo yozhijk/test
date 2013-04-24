@@ -205,9 +205,9 @@ void DX11Context::SetViewMatrix(core::matrix4x4 const& viewMatrix)
     viewMatrix_ = viewMatrix;
 }
 
-void DX11Context::SetProjectionMatrix(core::matrix4x4 const& projMatrix)
+void DX11Context::SetFrustum(core::frustum const& frustum)
 {
-    projMatrix_ = projMatrix;
+    projMatrix_ = core::perspective_proj_fovy_matrix_lh_dx(frustum.fovy, frustum.aspect, frustum.nr, frustum.fr);
 }
 
 void DX11Context::DrawMesh(CompiledMesh const& mesh)

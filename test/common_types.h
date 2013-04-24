@@ -55,6 +55,22 @@ namespace core
 
     typedef size<real> r_size;
     typedef size<uint> ui_size;
+
+    struct frustum
+    {
+        real fovy;
+        real aspect;
+        real nr;
+        real fr;
+
+        frustum(real fv = real(), real a = real(), real n = real(), real f = real())
+            : fovy(fv)
+            ,aspect(a)
+            ,nr(n)
+            ,fr(f)
+        {
+        }
+    };
 }
 
 #endif
