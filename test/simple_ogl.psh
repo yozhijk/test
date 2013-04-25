@@ -3,5 +3,8 @@ varying vec2 Texcoord;
 
 void main() 
 {
-       gl_FragColor = vec4(normalize(Normal),1);
+    vec3 norm = normalize(Normal);
+    vec3 lvec = normalize(vec3(-5,5,-10));
+    float diffuse = max(0.0, dot(norm,lvec));
+    gl_FragColor = diffuse * vec4(1,1,1,1);
 }

@@ -71,6 +71,21 @@ namespace core
             -(r + l)/(r - l), -(t + b)/(t - b), f/(f - n), 1,
             0, 0, -f*n/(f - n), 0);  
     }
+    
+    matrix4x4 perspective_proj_matrix_lh_gl(real const& l, real const& r, real const& b, real const& t, real const& n, real const& f)
+    {
+        return matrix4x4(2*n/(r-l), 0, 0, 0,
+                         0, 2*n/(t-b), 0, 0,
+                         -(r + l)/(r - l), -(t + b)/(t - b), (n + f)/(f - n), 1,
+                         0, 0, -2*f*n/(f - n), 0);
+    }
+    
+    matrix4x4 perspective_proj_fovy_matrix_lh_gl(real const& fovy, real const& aspect, real const& n, real const& f)
+    {
+        real hH =  tan(fovy/2) * n;
+        real hW  = hH * aspect;
+        return perspective_proj_matrix_lh_gl( -hW, hW, -hH, hH, n, f);
+    }
 
     matrix4x4 perspective_proj_matrix_rh_gl(real const& l, real const& r, real const& b, real const& t, real const& n, real const& f)
     {

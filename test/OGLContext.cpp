@@ -47,17 +47,19 @@ void OGLContext::SetViewMatrix(matrix4x4 const& viewMatrix)
 
 void OGLContext::SetFrustum(frustum const& frustum)
 {
-    projMatrix_ = perspective_proj_fovy_matrix_rh_gl(frustum.fovy, frustum.aspect, frustum.nr, frustum.fr);
+    projMatrix_ = perspective_proj_fovy_matrix_lh_gl(frustum.fovy, frustum.aspect, frustum.nr, frustum.fr);
 }
 
 void OGLContext::DrawMesh(CompiledMesh const& mesh)
 {
+    glCullFace(GL_NONE);
+    glEnable(GL_DEPTH_TEST);
+    
+    
     matrix4x4 worldMatrix = worldMatrix_;
-    matrix4x4 worldViewProj =  worldMatrix_ * /*viewMatrix_*/ projMatrix_;
-    
+    matrix4x4 worldViewProj = projMatrix_ * viewMatrix_ * worldMatrix_;
+
     GLuint program = shaderManager_.GetShaderProgram("simple_ogl");
-    
-    glDisable(GL_DEPTH_TEST);
     
     glUseProgram(program);
     
@@ -86,7 +88,6 @@ void OGLContext::DrawMesh(CompiledMesh const& mesh)
 void OGLContext::Clear(color_rgba const& color)
 {
     glClearColor(color.x(), color.y(), color.z(), color.w());
-    glClearDepth(1.0);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 

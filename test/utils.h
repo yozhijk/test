@@ -77,12 +77,14 @@ namespace core
 
     /// This perspective projection matrix effectively maps view frustum to [-1,1]x[-1,1]x[0,1] clip space, i.e. DirectX depth
     matrix4x4 perspective_proj_matrix_lh_dx(real const& l, real const& r, real const& b, real const& t, real const& n, real const& f);
+    matrix4x4 perspective_proj_matrix_lh_gl(real const& l, real const& r, real const& b, real const& t, real const& n, real const& f);
 
     /// This perspective projection matrix effectively maps view frustum to [-1,1]x[-1,1]x[-1,1] clip space, i.e. OpenGL depth
     matrix4x4 perspective_proj_matrix_rh_gl(real const& l, real const& r, real const& b, real const& t, real const& n, real const& f);
 
     matrix4x4 perspective_proj_fovy_matrix(real const& fovy, real const& aspect, real const& n, real const& f);
     matrix4x4 perspective_proj_fovy_matrix_lh_dx(real const& fovy, real const& aspect, real const& n, real const& f);
+    matrix4x4 perspective_proj_fovy_matrix_lh_gl(real const& fovy, real const& aspect, real const& n, real const& f);
     matrix4x4 perspective_proj_fovy_matrix_rh_gl(real const& fovy, real const& aspect, real const& n, real const& f);
 
     matrix4x4 lookat_matrix_lh_dx( vector3 const& pos, vector3 const& at, vector3 const& up);
