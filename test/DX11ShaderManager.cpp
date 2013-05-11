@@ -1,6 +1,7 @@
 #include "DX11ShaderManager.h"
 #include "utils.h"
 #include <cassert>
+#include <atlbase.h>
 
 #define VS_EXTENSION "VS.fxo"
 #define PS_EXTENSION "PS.fxo"
@@ -10,6 +11,22 @@
 
 using namespace core;
 using namespace std;
+
+DX11ShaderProgram::DX11ShaderProgram(DX11ShaderProgram&& rhs)
+{
+    std::swap(vertexShader_, rhs.vertexShader_);
+    std::swap(pixelShader_, rhs.pixelShader_);
+    std::swap(inputLayout_, rhs.inputLayout_);
+}
+
+DX11ShaderProgram& DX11ShaderProgram::operator = (DX11ShaderProgram&& rhs)
+{
+    std::swap(vertexShader_, rhs.vertexShader_);
+    std::swap(pixelShader_, rhs.pixelShader_);
+    std::swap(inputLayout_, rhs.inputLayout_);
+
+    return *this;
+}
 
 DX11ShaderManager::DX11ShaderManager()
 {
@@ -43,12 +60,12 @@ DX11ShaderProgram const& DX11ShaderManager::GetShaderProgram(std::string const& 
 
         load_file_contents(pixelShaderName, bytecode, true);
 
-        ID3D11PixelShader* pPixelShader = nullptr;
+        CComPtr<ID3D11PixelShader> pPixelShader = nullptr;
         THROW_IF_FAILED(device->CreatePixelShader(&bytecode[0], bytecode.size(), nullptr, &pPixelShader), "Problem while loading pixel shader binaries");
 
         load_file_contents(vertexShaderName, bytecode, true);
 
-        ID3D11VertexShader* pVertexShader = nullptr;
+        CComPtr<ID3D11VertexShader> pVertexShader = nullptr;
         THROW_IF_FAILED(device->CreateVertexShader(&bytecode[0], bytecode.size(), nullptr, &pVertexShader), "Problem while loading vertex shader binaries");
 
         ///Create default input layout, replace with IL customization in the future
@@ -61,10 +78,10 @@ DX11ShaderProgram const& DX11ShaderManager::GetShaderProgram(std::string const& 
 
         UINT inputDescElemCount = sizeof(inputDesc)/sizeof(D3D11_INPUT_ELEMENT_DESC);
 
-        ID3D11InputLayout* pInputLayout = nullptr;
+        CComPtr<ID3D11InputLayout> pInputLayout = nullptr;
         THROW_IF_FAILED(device->CreateInputLayout(inputDesc, inputDescElemCount, &bytecode[0], bytecode.size(), &pInputLayout), "Failed to create input layout");
 
-        shaderCache_[name] = DX11ShaderProgram(pVertexShader, pPixelShader, pInputLayout);
+        shaderCache_[name] = DX11ShaderProgram(pVertexShader.Detach(), pPixelShader.Detach(), pInputLayout.Detach());
 
         return shaderCache_[name];
     }
