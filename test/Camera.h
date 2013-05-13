@@ -14,9 +14,11 @@ public:
 
     void LookAt(core::vector3 const& eye, core::vector3 const& at, core::vector3 const& up);
     void SetFrustum(core::frustum const& frustum);
+    void RotateCamera(core::vector3 const& v, core::real angle);
 
 private:
-    core::matrix4x4 view_;
+    core::quat q_;
+    core::vector3 p_;
     core::frustum frustum_;
 };
 

@@ -122,12 +122,12 @@ namespace core
                          ip.x(), ip.y(), ip.z(), 1);
     }
     
-    quat rotation_quat(vector4 const& axis, real const& angle )
+    quat rotation_quat(vector3 const& axe, real const& angle )
     {
         // create (sin(a/2)*axis, cos(a/2)) quaternion
         // which rotates the point a radians around "axis"
         quat res;
-        vector4 u = axis; u.normalize();
+        vector4 u = vector4(axe.x(), axe.y(), axe.z(), 0); u.normalize();
         real sina2 = sin(angle/2);
         real cosa2 = cos(angle/2);
 
@@ -139,11 +139,16 @@ namespace core
         return res;
     }
 
-    vector4 rotate_vector( vector4 const& v, quat const& q )
+    vector4 rotate_vector( vector3 const& v, quat const& q )
     {
-        quat p = quat(v);
+        quat p = quat(v.x(), v.y(), v.z(), 0);
         quat tp = q * p * q.inverse();
         return vector4(tp.qx(), tp.qy(), tp.qz(), tp.qw());
+    }
+
+    quat    rotate_quat( quat const& v, quat const& q )
+    {
+        return q * v * q.inverse();
     }
 
     void load_file_contents(std::string const& name, std::vector<char>& contents, bool binary)

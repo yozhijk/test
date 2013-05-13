@@ -8,7 +8,6 @@
 
 #define THROW_IF_FAILED(x,m) if((x)!=S_OK) throw std::runtime_error(m)
 
-
 using namespace core;
 using namespace std;
 
@@ -68,7 +67,7 @@ DX11ShaderProgram const& DX11ShaderManager::GetShaderProgram(std::string const& 
         CComPtr<ID3D11VertexShader> pVertexShader = nullptr;
         THROW_IF_FAILED(device->CreateVertexShader(&bytecode[0], bytecode.size(), nullptr, &pVertexShader), "Problem while loading vertex shader binaries");
 
-        ///Create default input layout, replace with IL customization in the future
+        /// Create default input layout, replace with IL customization in the future
         D3D11_INPUT_ELEMENT_DESC inputDesc[] = 
         {
             {"POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0},
