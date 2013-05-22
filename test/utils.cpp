@@ -139,11 +139,11 @@ namespace core
         return res;
     }
 
-    vector4 rotate_vector( vector3 const& v, quat const& q )
+    vector3 rotate_vector( vector3 const& v, quat const& q )
     {
         quat p = quat(v.x(), v.y(), v.z(), 0);
         quat tp = q * p * q.inverse();
-        return vector4(tp.qx(), tp.qy(), tp.qz(), tp.qw());
+        return vector3(tp.qx(), tp.qy(), tp.qz());
     }
 
     quat    rotate_quat( quat const& v, quat const& q )

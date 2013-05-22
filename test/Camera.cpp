@@ -8,10 +8,9 @@ Camera::Camera()
 
 matrix4x4 Camera::GetViewMatrix() const
 {
-
     matrix4x4 cameraMatrix = q_.to_matrix();
-    vector3 u = vector3(cameraMatrix(0,1), cameraMatrix(1,1), cameraMatrix(2,1));
-    vector3 v = vector3(cameraMatrix(0,2), cameraMatrix(1,2), cameraMatrix(2,2));
+    vector3 u = vector3(cameraMatrix(1,0), cameraMatrix(1,1), cameraMatrix(1,2));
+    vector3 v = vector3(cameraMatrix(2,0), cameraMatrix(2,1), cameraMatrix(2,2));
 
     return lookat_matrix_lh_dx(p_, p_ + v, u);
 }
@@ -24,19 +23,23 @@ frustum Camera::GetFrustum () const
 void Camera::LookAt(vector3 const& eye, vector3 const& at, vector3 const& up)
 {
     vector3 v = normalize(at - eye);
-    vector3 r = cross(normalize(up), v);
-    vector3 u = cross(v, r);
+    vector3 r = normalize(cross(normalize(up), v));
+    vector3 u = normalize(cross(v, r));
 
-    q_ = quat(matrix4x4(r.x(), r.y(), r.z(), 0,
-                        u.x(), u.y(), u.z(), 0,
-                        v.x(), v.y(), v.z(), 0,
-                        0, 0, 0, 1));
+    matrix4x4 cameraMatrix = matrix4x4(r.x(), u.x() , v.x() , 0,
+                        r.y(), u.y(), v.y(), 0,
+                        r.z(), u.z(), v.z(), 0,
+                        0, 0, 0, 1);
+
+    q_ = quat(cameraMatrix);
+    q_ /= q_.norm();
+
     p_ = eye;
 }
 
 void Camera::RotateCamera(vector3 const& v, real angle)
 {
-    q_ = rotate_quat(q_, rotation_quat(v, angle));
+    q_ *= rotation_quat(v,angle);
 }
 
 void Camera::SetFrustum(frustum const& frustum)

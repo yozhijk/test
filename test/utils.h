@@ -91,7 +91,7 @@ namespace core
 
     /// Quaternion transforms
     quat    rotation_quat(vector3 const& axis, real const& angle);
-    vector4 rotate_vector( vector3 const& v, quat const& q );
+    vector3 rotate_vector( vector3 const& v, quat const& q );
     quat    rotate_quat( quat const& v, quat const& q );
 
 
