@@ -48,6 +48,8 @@ void App::OnShutdown()
 
 void App::OnUpdate(core::real timeDelta)
 {
+    /// Get input
+    input_->UpdateState();
     /// Advance objects
     gameEngine_->Update(timeDelta, *input_);
     /// Draw objects

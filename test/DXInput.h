@@ -8,16 +8,21 @@
 class DXInput : public IInput
 {
 public:
-    DXInput();
+    static const int KEYBUFFER_SIZE = 256;
 
-    bool IsKeyPressed( MY_KEY key );
+    DXInput(HWND hWnd);
 
+    bool IsKeyPressed(MY_KEY key);
+    void UpdateState();
 
 private:
     DXInput(DXInput const&);
     DXInput& operator=(DXInput const&);
 
     CComPtr<IDirectInput8> input_;
+    CComPtr<IDirectInputDevice8> keyboard_;
+
+    char keys_[KEYBUFFER_SIZE];
 };
 
 

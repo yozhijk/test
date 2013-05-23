@@ -13,7 +13,10 @@
 
 enum MY_KEY
 {
-
+    MK_RIGHT,
+    MK_LEFT,
+    MK_UP,
+    MK_DOWN
 };
 
 /////////////////////////////////////////////////////
@@ -25,6 +28,7 @@ public:
     virtual ~IInput() = 0;
 
     virtual bool IsKeyPressed( MY_KEY key ) = 0;
+    virtual void UpdateState() = 0;
 };
 
 inline IInput::~IInput() {}

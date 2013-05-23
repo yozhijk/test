@@ -35,7 +35,7 @@ unique_ptr<IGraphicsContext> WinOS::CreateGraphicsContext(Window const& window)
 
 std::unique_ptr<IInput> WinOS::CreateInput()
 {
-    return unique_ptr<IInput>(new DXInput());
+    return unique_ptr<IInput>(new DXInput(static_cast<HWND>(window_.handle)));
 }
 
 void WinOS::SetWindowParams(HWND hWnd, ui_rect const& rect)

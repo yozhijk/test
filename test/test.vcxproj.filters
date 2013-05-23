@@ -114,6 +114,9 @@
     <ClInclude Include="DXInput.h">
       <Filter>Windows</Filter>
     </ClInclude>
+    <ClInclude Include="ILogger.h">
+      <Filter>Interfaces</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="sampler.cpp">

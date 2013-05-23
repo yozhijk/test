@@ -96,6 +96,7 @@
     <ClInclude Include="GameScene.h" />
     <ClInclude Include="IGraphicsContext.h" />
     <ClInclude Include="IInput.h" />
+    <ClInclude Include="ILogger.h" />
     <ClInclude Include="ISystem.h" />
     <ClInclude Include="matrix.h" />
     <ClInclude Include="Mesh.h" />
