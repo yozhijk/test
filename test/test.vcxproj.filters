@@ -111,6 +111,9 @@
     <ClInclude Include="IInput.h">
       <Filter>Interfaces</Filter>
     </ClInclude>
+    <ClInclude Include="DXInput.h">
+      <Filter>Windows</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="sampler.cpp">
@@ -147,6 +150,9 @@
       <Filter>GameEngine</Filter>
     </ClCompile>
     <ClCompile Include="DX11ShaderManager.cpp">
+      <Filter>Windows</Filter>
+    </ClCompile>
+    <ClCompile Include="DXInput.cpp">
       <Filter>Windows</Filter>
     </ClCompile>
   </ItemGroup>

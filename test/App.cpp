@@ -29,7 +29,7 @@ void App::OnStartup(Window const& window)
     graphicsContext_ = os_.CreateGraphicsContext(window);
     graphicsContext_->Init();
 
-    //input_ = os_.CreateInput();
+    input_ = os_.CreateInput();
     // Configure input
 
     gameEngine_.reset(new GameEngine());

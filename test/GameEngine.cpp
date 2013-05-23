@@ -51,7 +51,6 @@ void GameEngine::RenderScene(IGraphicsContext& graphicsContext)
     if (STATE_RUNNING == engineState_)
     {
         graphicsContext.Clear(core::color_rgba(0.0, 0.0, 0.0, 1.0));
-
         currentScene_->Render(graphicsContext);
     }
     else if (STATE_TRANSITIONING == engineState_)
