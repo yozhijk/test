@@ -34,10 +34,9 @@ void GameEngine::Shutdown()
     /// Engine shutdown code here
 }
 
-void GameEngine::Update(core::real timeDelta)
+void GameEngine::Update(core::real timeDelta, IInput& input)
 {
     assert(currentScene_);
-
     /// State handling and scene graph update code here
     if (STATE_RUNNING == engineState_)
     {

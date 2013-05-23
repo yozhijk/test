@@ -12,6 +12,7 @@
 
 class ISystem;
 class IGraphicsContext;
+class IInput;
 class GameEngine;
 
 /////////////////////////////////////////////////////
@@ -39,6 +40,7 @@ private:
     ISystem& os_;
     std::unique_ptr<GameEngine>       gameEngine_; 
     std::unique_ptr<IGraphicsContext> graphicsContext_;
+    std::unique_ptr<IInput>           input_;
 };
 
 

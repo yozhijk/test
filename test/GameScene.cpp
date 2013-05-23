@@ -57,5 +57,4 @@ void GameScene::Update(core::real timeDelta)
 Camera const& GameScene::GetActiveCamera() const
 {
     return *(cameras_.begin())->second;
-
 }

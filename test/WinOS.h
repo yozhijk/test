@@ -30,6 +30,7 @@ public:
     /// ISystem overrides
     void AddListener(ISystemListener* systemListener);
     std::unique_ptr<IGraphicsContext> CreateGraphicsContext(Window const& window);
+    std::unique_ptr<IInput> CreateInput();
 
     /// Own methods
     void SetWindowParams(HWND hWnd, core::ui_rect const& rect);

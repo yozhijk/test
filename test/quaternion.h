@@ -168,6 +168,12 @@ namespace core
         return res;
     }
 
+    template <typename T> quaternion<T> operator / ( const quaternion<T>& q,  T a )
+    {
+        quaternion<T> res = q;
+        return res /= a;
+    }
+
     template <typename T> quaternion<T> operator + ( const quaternion<T>& q1,  const quaternion<T>& q2 )
     {
         quaternion<T> res = q1;
@@ -190,6 +196,12 @@ namespace core
     {
         quaternion<T> res = q;
         return res *= a;
+    }
+
+    template <typename T> quaternion<T> normalize( const quaternion<T>& q )
+    {
+        T norm = q.norm();
+        return q/norm;
     }
 }
 

@@ -12,6 +12,7 @@
 struct Window;
 class  ISystemListener;
 class  IGraphicsContext;
+class  IInput;
 
 /////////////////////////////////////////////////////
 ///  OS API needed for the engine to operate
@@ -27,6 +28,8 @@ public:
     virtual std::unique_ptr<IGraphicsContext> CreateGraphicsContext(Window const& window) = 0;
     /// Create system independent timer
     /// virtual std::unique_ptr<Timer> createTimer( std::function<void()> timerFunc ) = 0;
+    /// Create input object
+    virtual std::unique_ptr<IInput> CreateInput() = 0;
 };
 
 inline ISystem::~ISystem(){}

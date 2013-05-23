@@ -26,13 +26,16 @@ void Camera::LookAt(vector3 const& eye, vector3 const& at, vector3 const& up)
     vector3 r = normalize(cross(normalize(up), v));
     vector3 u = normalize(cross(v, r));
 
+    /// matrix should have basis vectors in rows
+    /// to be used for quaternion construction
+    /// would be good to add several options
+    /// to quaternion class
     matrix4x4 cameraMatrix = matrix4x4(r.x(), u.x() , v.x() , 0,
                         r.y(), u.y(), v.y(), 0,
                         r.z(), u.z(), v.z(), 0,
                         0, 0, 0, 1);
 
-    q_ = quat(cameraMatrix);
-    q_ /= q_.norm();
+    q_ = normalize(quat(cameraMatrix));
 
     p_ = eye;
 }

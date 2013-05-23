@@ -29,7 +29,6 @@ public:
     virtual void OnUpdate(core::real timeDelta) = 0;
     /// Gets called on window resize event
     virtual void OnResizeWindow(core::ui_size const& size) = 0;
-
 };
 
 inline ISystemListener::~ISystemListener(){}

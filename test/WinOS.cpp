@@ -2,6 +2,7 @@
 
 #include "ISystemListener.h"
 #include "IGraphicsContext.h"
+#include "IInput.h"
 #include "DX11Context.h"
 
 #include <memory>
@@ -29,6 +30,13 @@ void WinOS::AddListener( ISystemListener* systemListener )
 unique_ptr<IGraphicsContext> WinOS::CreateGraphicsContext(Window const& window)
 {
     return unique_ptr<IGraphicsContext>(new DX11Context(static_cast<HWND>(window_.handle)));
+}
+
+std::unique_ptr<IInput> WinOS::CreateInput()
+{
+    // TODO: implement this
+    assert(false);
+    return nullptr;
 }
 
 void WinOS::SetWindowParams(HWND hWnd, ui_rect const& rect)

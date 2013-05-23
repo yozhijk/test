@@ -5,6 +5,7 @@
 
 class IGraphicsContext;
 class IResourceManager;
+class IInput;
 class GameScene;
 
 class GameEngine
@@ -15,7 +16,7 @@ public:
 
     void Init (IResourceManager& resourceManager);
     void Shutdown();
-    void Update(core::real timeDelta);
+    void Update(core::real timeDelta, IInput& input);
     void RenderScene(IGraphicsContext& graphicsContext);
     void AddScene(std::unique_ptr<GameScene> scene);
 
