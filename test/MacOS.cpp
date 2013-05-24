@@ -2,6 +2,7 @@
 
 #include "ISystemListener.h"
 #include "IGraphicsContext.h"
+#include "IInput.h"
 #include "OGLContext.h"
 #include "Mesh.h"
 
@@ -28,6 +29,12 @@ void MacOS::AddListener( ISystemListener* systemListener )
 std::unique_ptr<IGraphicsContext> MacOS::CreateGraphicsContext(Window const& window)
 {
 	return std::unique_ptr<IGraphicsContext>(new OGLContext());
+}
+
+std::unique_ptr<IInput> MacOS::CreateInput()
+{
+    assert(false);
+    return nullptr;
 }
 
 void MacOS::SetWindowParams(core::ui_rect const& rect)

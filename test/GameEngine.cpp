@@ -41,11 +41,6 @@ void GameEngine::Update(core::real timeDelta, IInput& input)
     /// State handling and scene graph update code here
     if (STATE_RUNNING == engineState_)
     {
-        if (input.IsKeyPressed(MK_UP))
-        {
-            __asm nop
-        }
-
         currentScene_->Update(timeDelta);
     }
 }

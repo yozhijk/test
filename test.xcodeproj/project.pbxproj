@@ -45,6 +45,8 @@
 /* Begin PBXFileReference section */
 		2E4BEA7717198079004A5CBD /* simple_ogl.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = simple_ogl.vsh; sourceTree = "<group>"; };
 		2E4BEA7917198091004A5CBD /* simple_ogl.psh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = simple_ogl.psh; sourceTree = "<group>"; };
+		2E4D3561174F2D0B006B168F /* IInput.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IInput.h; sourceTree = "<group>"; };
+		2E4D3562174F2D0B006B168F /* ILogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ILogger.h; sourceTree = "<group>"; };
 		2E81C9111718702C00428B87 /* GameScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameScene.cpp; sourceTree = "<group>"; };
 		2E81C9141718753C00428B87 /* OGLShaderManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OGLShaderManager.h; sourceTree = "<group>"; };
 		2E81C9151718770600428B87 /* OGLShaderManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OGLShaderManager.cpp; sourceTree = "<group>"; };
@@ -160,6 +162,8 @@
 		3E1ACA33168E252700F8B28D /* Interfaces */ = {
 			isa = PBXGroup;
 			children = (
+				2E4D3561174F2D0B006B168F /* IInput.h */,
+				2E4D3562174F2D0B006B168F /* ILogger.h */,
 				3E1ACA12168E1AFE00F8B28D /* IGraphicsContext.h */,
 				3E1ACA13168E1AFE00F8B28D /* IResourceManager.h */,
 				3E1ACA14168E1AFE00F8B28D /* ISystem.h */,
