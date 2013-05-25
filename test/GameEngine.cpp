@@ -41,7 +41,7 @@ void GameEngine::Update(core::real timeDelta, IInput& input)
     /// State handling and scene graph update code here
     if (STATE_RUNNING == engineState_)
     {
-        currentScene_->Update(timeDelta);
+        currentScene_->Update(timeDelta, input);
     }
 }
 

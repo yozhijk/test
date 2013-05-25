@@ -6,6 +6,24 @@ Camera::Camera()
 {
 }
 
+core::vector3 Camera::GetViewDirection() const
+{
+    matrix4x4 cameraMatrix = q_.to_matrix();
+    return normalize(vector3(cameraMatrix(2,0), cameraMatrix(2,1), cameraMatrix(2,2)));
+}
+
+core::vector3 Camera::GetUpDirection() const
+{
+    matrix4x4 cameraMatrix = q_.to_matrix();
+    return normalize(vector3(cameraMatrix(1,0), cameraMatrix(1,1), cameraMatrix(1,2)));
+}
+
+core::vector3 Camera::GetRightDirection() const
+{
+    matrix4x4 cameraMatrix = q_.to_matrix();
+    return normalize(vector3(cameraMatrix(0,0), cameraMatrix(0,1), cameraMatrix(0,2)));
+}
+
 matrix4x4 Camera::GetViewMatrix() const
 {
     matrix4x4 cameraMatrix = q_.to_matrix();
@@ -48,4 +66,14 @@ void Camera::RotateCamera(vector3 const& v, real angle)
 void Camera::SetFrustum(frustum const& frustum)
 {
     frustum_ = frustum;
+}
+
+void Camera::Rotate(core::real angle)
+{
+    RotateCamera(vector3(0,1,0), angle);
+}
+
+void Camera::Tilt(core::real angle)
+{
+    RotateCamera(GetRightDirection(), angle);
 }

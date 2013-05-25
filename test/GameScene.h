@@ -12,6 +12,7 @@
 class CompiledMesh;
 class IGraphicsContext;
 class IResourceManager;
+class IInput;
 
 class GameScene
 {
@@ -24,7 +25,7 @@ public:
 
     void Init(IResourceManager& resourceManager);
     void Render(IGraphicsContext& graphicsContext);
-    void Update(core::real timeDelta);
+    void Update(core::real timeDelta, IInput& input);
 
     void AddCamera(std::string const& name, std::unique_ptr<Camera> camera);
     void RemoveCamera(std::string const& name);

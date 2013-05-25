@@ -3,6 +3,7 @@
 #include "CompiledMesh.h"
 #include "IGraphicsContext.h"
 #include "IResourceManager.h"
+#include "IInput.h"
 #include "utils.h"
 
 using namespace core;
@@ -27,7 +28,7 @@ void GameScene::Init(IResourceManager& resourceManager)
 
     cameras_["first"] = std::unique_ptr<Camera>(new Camera());
     cameras_["first"]->SetFrustum(core::frustum(M_PI/3, 640.f/480.f, 0.1f, 100.f));
-    cameras_["first"]->LookAt(vector3(0,0,-5), vector3(0,0,0), vector3(0,1,0));
+    cameras_["first"]->LookAt(vector3(0,0,-45), vector3(0,0,0), vector3(0,1,0));
 #endif
 }
 
@@ -37,8 +38,8 @@ void GameScene::Render(IGraphicsContext& graphicsContext)
     {
         // set transforms etc
 #ifdef _TEST
-        cameras_["first"]->RotateCamera(vector3(0,1,0), 0.00125);
-        cameras_["first"]->RotateCamera(vector3(1,0,0), 0.00125);
+        //cameras_["first"]->RotateCamera(vector3(0,1,0), 0.00125);
+        //cameras_["first"]->RotateCamera(vector3(1,0,0), 0.00125);
         graphicsContext.SetWorldMatrix( rotation_matrix_y(angle_) * translation_matrix(vector3(-0.5, -0.5, -0.5)));
         graphicsContext.SetViewMatrix(GetActiveCamera().GetViewMatrix());
         graphicsContext.SetFrustum(GetActiveCamera().GetFrustum());
@@ -47,10 +48,38 @@ void GameScene::Render(IGraphicsContext& graphicsContext)
     }
 }
 
-void GameScene::Update(core::real timeDelta)
+void GameScene::Update(core::real timeDelta, IInput& input)
 {
 #ifdef _TEST
     angle_ += timeDelta * 0.2f; // 0.2 radians per second
+
+    real camRotY = 0.f;
+    real camRotX = 0.f;
+    if (input.IsKeyPressed(MK_RIGHT))
+    {
+        camRotY = -0.00125;
+    }
+    else if (input.IsKeyPressed(MK_LEFT))
+    {
+        camRotY = 0.00125;
+    }
+
+    if (input.IsKeyPressed(MK_UP))
+    {
+        camRotX = 0.00125;
+    }
+    else if (input.IsKeyPressed(MK_DOWN))
+    {
+        camRotX = -0.00125;
+    }
+
+    if (camRotY != 0.f)
+        cameras_["first"]->Rotate(camRotY);
+
+    if (camRotX != 0.f)
+        cameras_["first"]->Tilt(camRotX);
+
+
 #endif
 }
 
