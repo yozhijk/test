@@ -39,41 +39,47 @@ int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdL
     if( FAILED( InitWindow( hInstance, nCmdShow ) ) )
         return 0;
 
-    g_OS->SetWindowParams(g_hWnd, core::ui_rect(0,0,WINDOW_WIDTH,WINDOW_HEIGHT));
+    g_OS->SetWindowParams(g_hWnd, core::ui_rect(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT));
 
     LARGE_INTEGER prevTime;
     LARGE_INTEGER freq;
     QueryPerformanceCounter(&prevTime);
     QueryPerformanceFrequency(&freq);
 
-
     // Main message loop
     MSG msg = {0};
-    while( WM_QUIT != msg.message )
+
+    try
     {
-        if( PeekMessage( &msg, NULL, 0, 0, PM_REMOVE ) )
+        while( WM_QUIT != msg.message )
         {
-            TranslateMessage( &msg );
-            DispatchMessage( &msg );
-        }
-        else
-        {
+            if( PeekMessage( &msg, NULL, 0, 0, PM_REMOVE ) )
+            {
+                TranslateMessage( &msg );
+                DispatchMessage( &msg );
+            }
+            else
+            {
+                LARGE_INTEGER currentTime;
+                QueryPerformanceCounter(&currentTime);
 
-            LARGE_INTEGER currentTime;
-            QueryPerformanceCounter(&currentTime);
+                core::real timeDelta = static_cast<core::real>(currentTime.QuadPart - prevTime.QuadPart)/(freq.QuadPart);
 
-            core::real timeDelta = static_cast<core::real>(currentTime.QuadPart - prevTime.QuadPart)/(freq.QuadPart);
+                g_OS->Loop(timeDelta);
 
-            g_OS->Loop(timeDelta);
-
-            prevTime = currentTime;
+                prevTime = currentTime;
 
 #ifdef _DEBUG
-            char message[255];
-            sprintf_s(message, "Timestamp: %f\n", timeDelta);
-            OutputDebugStringA(message);
+                char message[255];
+                sprintf_s(message, "Timestamp: %f\n", timeDelta);
+                OutputDebugStringA(message);
 #endif
+            }
         }
+    }
+    catch (std::runtime_error& e)
+    {
+        MessageBoxA(NULL, e.what(), "Error", MB_OK);
     }
 
     return ( int )msg.wParam;
