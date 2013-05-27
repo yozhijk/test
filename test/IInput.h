@@ -19,6 +19,13 @@ enum MY_KEY
     MK_DOWN
 };
 
+enum MY_MOUSE_BUTTON
+{
+    MMB_LEFT,
+    MMB_MIDLE,
+    MMB_RIGHT
+};
+
 /////////////////////////////////////////////////////
 ///  The abstraction for platform input capabilities
 ///
@@ -27,7 +34,9 @@ class IInput
 public:
     virtual ~IInput() = 0;
 
-    virtual bool IsKeyPressed( MY_KEY key ) = 0;
+    virtual bool IsKeyPressed( MY_KEY key ) const = 0;
+    virtual bool IsMouseButtonPressed( MY_MOUSE_BUTTON button ) const = 0;
+    virtual core::vector2 GetMousePosition() const = 0;
     virtual void UpdateState() = 0;
 };
 
