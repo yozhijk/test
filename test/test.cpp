@@ -68,12 +68,6 @@ int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdL
                 g_OS->Loop(timeDelta);
 
                 prevTime = currentTime;
-
-#ifdef _DEBUG
-                char message[255];
-                sprintf_s(message, "Timestamp: %f\n", timeDelta);
-                OutputDebugStringA(message);
-#endif
             }
         }
     }

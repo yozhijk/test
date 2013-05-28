@@ -3,6 +3,8 @@
 
 #include <atlbase.h>
 #include <dinput.h>
+
+#include "common_types.h"
 #include "IInput.h"
 
 class DXInput : public IInput
@@ -14,7 +16,8 @@ public:
 
     bool IsKeyPressed(MY_KEY key) const;
     bool IsMouseButtonPressed( MY_MOUSE_BUTTON button ) const;
-    core::vector2 GetMousePosition() const;
+    core::vector2 GetRelativePosition() const;
+    core::vector2 GetAbsolutePosition() const;
     void UpdateState();
 
 private:
@@ -27,6 +30,8 @@ private:
 
     DIMOUSESTATE2 mouseState_;
     char keys_[KEYBUFFER_SIZE];
+
+    core::vector2 mousePos_;
 };
 
 

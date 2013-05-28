@@ -38,6 +38,11 @@ std::unique_ptr<IInput> WinOS::CreateInput()
     return unique_ptr<IInput>(new DXInput(static_cast<HWND>(window_.handle)));
 }
 
+void WinOS::Log(std::string const& message)
+{
+    OutputDebugStringA(message.c_str());
+}
+
 void WinOS::SetWindowParams(HWND hWnd, ui_rect const& rect)
 {
     /// Set window parameters

@@ -36,8 +36,12 @@ public:
 
     virtual bool IsKeyPressed( MY_KEY key ) const = 0;
     virtual bool IsMouseButtonPressed( MY_MOUSE_BUTTON button ) const = 0;
-    virtual core::vector2 GetMousePosition() const = 0;
-    virtual void UpdateState() = 0;
+    virtual core::vector2 GetRelativePosition() const = 0;
+    virtual core::vector2 GetAbsolutePosition() const = 0;
+    virtual void UpdateState() = 0;\
+
+protected:
+    void operator = (IInput const&);
 };
 
 inline IInput::~IInput() {}

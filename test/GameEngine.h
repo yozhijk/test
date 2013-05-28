@@ -32,9 +32,11 @@ private:
         STATE_PAUSED
     };
 
+    GameEngine(GameEngine const&);
+    void operator = (GameEngine const&);
+
     GameScene*    currentScene_;
     STATE     engineState_;
-
     //std::unique_ptr<Physics> physics_;
     //script engine, etc
 };

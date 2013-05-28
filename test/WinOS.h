@@ -31,6 +31,7 @@ public:
     void AddListener(ISystemListener* systemListener);
     std::unique_ptr<IGraphicsContext> CreateGraphicsContext(Window const& window);
     std::unique_ptr<IInput> CreateInput();
+    void Log(std::string const& message);
 
     /// Own methods
     void SetWindowParams(HWND hWnd, core::ui_rect const& rect);

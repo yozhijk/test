@@ -8,6 +8,7 @@
 #define ISYSTEM_H
 
 #include <memory>
+#include <string>
 
 struct Window;
 class  ISystemListener;
@@ -28,8 +29,14 @@ public:
     virtual std::unique_ptr<IGraphicsContext> CreateGraphicsContext(Window const& window) = 0;
     /// Create system independent timer
     /// virtual std::unique_ptr<Timer> createTimer( std::function<void()> timerFunc ) = 0;
+
     /// Create input object
     virtual std::unique_ptr<IInput> CreateInput() = 0;
+    /// Log message for debug purposed
+    virtual void Log(std::string const& message) = 0;
+
+protected:
+    void operator = (ISystem const& rhs);
 };
 
 inline ISystem::~ISystem(){}
