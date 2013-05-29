@@ -31,6 +31,9 @@ public:
 	void Loop(core::real timeDelta);
 	void ResizeWindow(core::ui_size const& size);
     
+    /// Log message for debug purposed
+    void Log(std::string const& message);
+    
 private:
 	std::vector<ISystemListener*> listeners_;
 	Window window_;

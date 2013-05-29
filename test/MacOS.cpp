@@ -9,11 +9,12 @@
 #include <memory>
 #include <functional>
 #include <algorithm>
+#include <iostream>
+
+using namespace std;
 
 MacOS::MacOS()
 {
-	//std::for_each(listeners_.begin(), listeners);
-    //std::unique_ptr<Mesh> modelPtr = Mesh::CreateFromObj("cube.obj");
 }
 
 MacOS::~MacOS()
@@ -26,12 +27,12 @@ void MacOS::AddListener( ISystemListener* systemListener )
 	listeners_.push_back(systemListener);
 }
 
-std::unique_ptr<IGraphicsContext> MacOS::CreateGraphicsContext(Window const& window)
+unique_ptr<IGraphicsContext> MacOS::CreateGraphicsContext(Window const& window)
 {
-	return std::unique_ptr<IGraphicsContext>(new OGLContext());
+	return unique_ptr<IGraphicsContext>(new OGLContext());
 }
 
-std::unique_ptr<IInput> MacOS::CreateInput()
+unique_ptr<IInput> MacOS::CreateInput()
 {
     assert(false);
     return nullptr;
@@ -44,17 +45,22 @@ void MacOS::SetWindowParams(core::ui_rect const& rect)
 	window_.rect = rect;
     
 	/// Fire an event
-	std::for_each(listeners_.begin(), listeners_.end(), std::bind(&ISystemListener::OnStartup, std::placeholders::_1, std::cref(window_)));
+	for_each(listeners_.begin(), listeners_.end(), bind(&ISystemListener::OnStartup, placeholders::_1, cref(window_)));
 }
 
 void MacOS::Loop(core::real timeDelta)
 {
 	/// Fire an event
-	std::for_each(listeners_.begin(), listeners_.end(), std::bind(&ISystemListener::OnUpdate, std::placeholders::_1, timeDelta));
+	for_each(listeners_.begin(), listeners_.end(), bind(&ISystemListener::OnUpdate, placeholders::_1, timeDelta));
 }
 
 void MacOS::ResizeWindow(core::ui_size const& size)
 {
 	/// Fire an event
-	std::for_each(listeners_.begin(), listeners_.end(), std::bind(&ISystemListener::OnResizeWindow, std::placeholders::_1, size));
+	for_each(listeners_.begin(), listeners_.end(), bind(&ISystemListener::OnResizeWindow, placeholders::_1, size));
+}
+
+void MacOS::Log(std::string const& message)
+{
+    cout << message << "\n";
 }
