@@ -28,7 +28,7 @@ void GameScene::Init(IResourceManager& resourceManager)
 
     cameras_["first"] = std::unique_ptr<Camera>(new Camera());
     cameras_["first"]->SetFrustum(core::frustum(M_PI/3, 640.f/480.f, 0.1f, 100.f));
-    cameras_["first"]->LookAt(vector3(0,0,-5), vector3(0,1,0), vector3(0,1,0));
+    cameras_["first"]->LookAt(vector3(0,0,0), vector3(0,0,1), vector3(0,1,0));
 #endif
 }
 
@@ -58,7 +58,7 @@ void GameScene::Render(IGraphicsContext& graphicsContext)
 void GameScene::Update(core::real timeDelta, IInput& input)
 {
 #ifdef _TEST
-    angle_ += timeDelta * 0.2f; // 0.2 radians per second
+    angle_ += 0.2 * timeDelta;
 
     real camRotY = 0.f;
     real camRotX = 0.f;
@@ -72,10 +72,15 @@ void GameScene::Update(core::real timeDelta, IInput& input)
     }
 
     if (camRotY != 0.f)
-        cameras_["first"]->Rotate(camRotY);
+        GetActiveCamera().Rotate(camRotY);
 
     if (camRotX != 0.f)
-        cameras_["first"]->Tilt(camRotX);
+        GetActiveCamera().Tilt(camRotX);
+
+    if (input.IsKeyPressed(MK_UP))
+    {
+        GetActiveCamera().MoveForward(timeDelta * 1.5);
+    }
 
 
 #endif
@@ -84,4 +89,10 @@ void GameScene::Update(core::real timeDelta, IInput& input)
 Camera& GameScene::GetActiveCamera() const
 {
     return *(cameras_.begin())->second;
+}
+
+std::unique_ptr<GameScene> LoadFromFile(std::string const& name)
+{
+    assert(false);
+    return nullptr;
 }

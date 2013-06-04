@@ -21,6 +21,7 @@ public:
 
     void Rotate(core::real angle);
     void Tilt(core::real angle);
+    void MoveForward(core::real distance);
 
 protected:
     void RotateCamera(core::vector3 const& v, core::real angle);
