@@ -6,6 +6,8 @@
 
 #include <cassert>
 
+using namespace core;
+
 GameEngine::GameEngine()
     : currentScene_(nullptr)
     , engineState_(STATE_RUNNING)
@@ -57,5 +59,13 @@ void GameEngine::RenderScene(IGraphicsContext& graphicsContext)
     else if (STATE_TRANSITIONING == engineState_)
     {
         /// Show transitioning screen etc
+    }
+}
+
+void GameEngine::OnResize(core::ui_size size)
+{
+    if (currentScene_)
+    {
+        currentScene_->GetActiveCamera().SetFrustum(frustum(M_PI/3, (real)size.w/size.h, 0.1f, 100.f));
     }
 }

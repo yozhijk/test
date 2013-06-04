@@ -62,11 +62,13 @@ void WinOS::Loop(real timeDelta)
 void WinOS::ResizeWindow(ui_size const& size)
 {
     /// Fire an event
-    for_each(listeners_.begin(), listeners_.end(), bind(&(ISystemListener::OnResizeWindow), placeholders::_1, size));
+    for_each(listeners_.begin(), listeners_.end(), bind(&(ISystemListener::OnResizeWindow), placeholders::_1, cref(size)));
 }
 
 void WinOS::Shutdown()
 {
     /// Fire an event
-    for_each(listeners_.begin(), listeners_.end(), bind(&(ISystemListener::OnShutdown), placeholders::_1));
+    for_each(listeners_.begin(), listeners_.end(), std::bind(&(ISystemListener::OnShutdown), placeholders::_1));
+
+    listeners_.clear();
 }

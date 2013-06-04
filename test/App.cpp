@@ -14,6 +14,12 @@ App::App(ISystem& os)
     os_.AddListener(this);
 }
 
+class Shit
+{
+public:
+    Shit(){}
+};
+
 App::~App()
 {
     /// Subtle bug here, game engine could be deleted after the graphics context
@@ -66,4 +72,6 @@ void App::OnResizeWindow(core::ui_size const& size)
         graphicsContext_->ResizeBuffer(size);
         graphicsContext_->SetViewport(core::ui_rect(0, 0, size.w, size.h));
     }
+
+    gameEngine_->OnResize(size);
 }

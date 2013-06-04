@@ -28,23 +28,30 @@ void GameScene::Init(IResourceManager& resourceManager)
 
     cameras_["first"] = std::unique_ptr<Camera>(new Camera());
     cameras_["first"]->SetFrustum(core::frustum(M_PI/3, 640.f/480.f, 0.1f, 100.f));
-    cameras_["first"]->LookAt(vector3(0,0,-45), vector3(0,0,0), vector3(0,1,0));
+    cameras_["first"]->LookAt(vector3(0,0,-5), vector3(0,1,0), vector3(0,1,0));
 #endif
 }
 
 void GameScene::Render(IGraphicsContext& graphicsContext)
 {
+
+    graphicsContext.SetViewMatrix(GetActiveCamera().GetViewMatrix());
+    graphicsContext.SetFrustum(GetActiveCamera().GetFrustum());
+
     for (auto cIter = staticObjects_.cbegin(); cIter != staticObjects_.cend(); ++cIter)
     {
         // set transforms etc
 #ifdef _TEST
         //cameras_["first"]->RotateCamera(vector3(0,1,0), 0.00125);
         //cameras_["first"]->RotateCamera(vector3(1,0,0), 0.00125);
-        graphicsContext.SetWorldMatrix( rotation_matrix_y(angle_) * translation_matrix(vector3(-0.5, -0.5, -0.5)));
-        graphicsContext.SetViewMatrix(GetActiveCamera().GetViewMatrix());
-        graphicsContext.SetFrustum(GetActiveCamera().GetFrustum());
+        for (int i=0;i<10;++i)
+            for (int j=0;j<10;++j)
+                for (int k=0;k<10;++k)
+            {
+                graphicsContext.SetWorldMatrix( translation_matrix(vector3(-20 + i*3, -20 + j*3, -20 + k*3)) * rotation_matrix_y(angle_) );
+                graphicsContext.DrawMesh(**cIter);
+            }
 #endif
-        graphicsContext.DrawMesh(**cIter);
     }
 }
 
@@ -55,22 +62,13 @@ void GameScene::Update(core::real timeDelta, IInput& input)
 
     real camRotY = 0.f;
     real camRotX = 0.f;
-    if (input.IsKeyPressed(MK_RIGHT))
-    {
-        camRotY = -0.00125;
-    }
-    else if (input.IsKeyPressed(MK_LEFT))
-    {
-        camRotY = 0.00125;
-    }
 
-    if (input.IsKeyPressed(MK_UP))
+    if (input.IsMouseButtonPressed(MMB_LEFT))
     {
-        camRotX = 0.00125;
-    }
-    else if (input.IsKeyPressed(MK_DOWN))
-    {
-        camRotX = -0.00125;
+        const real MOUSE_SENSITIVITY = 0.005;
+        vector2 delta = input.GetRelativePosition() * vector2(MOUSE_SENSITIVITY, MOUSE_SENSITIVITY);
+        camRotX = -delta.y();
+        camRotY = -delta.x();
     }
 
     if (camRotY != 0.f)
@@ -83,7 +81,7 @@ void GameScene::Update(core::real timeDelta, IInput& input)
 #endif
 }
 
-Camera const& GameScene::GetActiveCamera() const
+Camera& GameScene::GetActiveCamera() const
 {
     return *(cameras_.begin())->second;
 }

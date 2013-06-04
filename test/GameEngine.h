@@ -20,6 +20,8 @@ public:
     void RenderScene(IGraphicsContext& graphicsContext);
     void AddScene(std::unique_ptr<GameScene> scene);
 
+    void OnResize(core::ui_size size);
+
     //protected:
     //typedef std::function<void(void*)> SCENE_CALLBACK;
     //void NextScene(SCENE_CALLBACK callback);
