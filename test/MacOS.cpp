@@ -5,6 +5,7 @@
 #include "IInput.h"
 #include "OGLContext.h"
 #include "Mesh.h"
+#include "MacInput.h"
 
 #include <memory>
 #include <functional>
@@ -34,8 +35,7 @@ unique_ptr<IGraphicsContext> MacOS::CreateGraphicsContext(Window const& window)
 
 unique_ptr<IInput> MacOS::CreateInput()
 {
-    assert(false);
-    return nullptr;
+    return unique_ptr<MacInput>(new MacInput());
 }
 
 void MacOS::SetWindowParams(core::ui_rect const& rect)
