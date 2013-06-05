@@ -77,3 +77,8 @@ void Camera::Tilt(core::real angle)
 {
     RotateCamera(GetRightDirection(), angle);
 }
+
+void Camera::MoveForward(core::real distance)
+{
+    p_ += distance*GetViewDirection();
+}

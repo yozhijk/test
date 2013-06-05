@@ -33,13 +33,8 @@ int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdL
     UNREFERENCED_PARAMETER( hPrevInstance );
     UNREFERENCED_PARAMETER( lpCmdLine );
 
-    g_OS.reset(new WinOS());
-    g_App.reset(new App(*g_OS.get()));
-
     if( FAILED( InitWindow( hInstance, nCmdShow ) ) )
         return 0;
-
-    g_OS->SetWindowParams(g_hWnd, core::ui_rect(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT));
 
     LARGE_INTEGER prevTime;
     LARGE_INTEGER freq;
@@ -62,11 +57,8 @@ int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdL
             {
                 LARGE_INTEGER currentTime;
                 QueryPerformanceCounter(&currentTime);
-
                 core::real timeDelta = static_cast<core::real>(currentTime.QuadPart - prevTime.QuadPart)/(freq.QuadPart);
-
                 g_OS->Loop(timeDelta);
-
                 prevTime = currentTime;
             }
         }
@@ -111,6 +103,10 @@ HRESULT InitWindow( HINSTANCE hInstance, int nCmdShow )
         NULL );
     if( !g_hWnd )
         return E_FAIL;
+
+    g_OS.reset(new WinOS());
+    g_App.reset(new App(*g_OS.get()));
+    g_OS->SetWindowParams(g_hWnd, core::ui_rect(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT));
 
     ShowWindow( g_hWnd, nCmdShow );
 

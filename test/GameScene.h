@@ -38,7 +38,7 @@ public:
     //void AddParticleEmitter();
     //void RemoveParticleEmitter();
 
-    Camera const& GetActiveCamera() const;
+    Camera& GetActiveCamera() const;
     Camera const& GetCamera(std::string const&) const;
     void SetActiveCamera(std::string const& name);
 
