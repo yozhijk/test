@@ -24,8 +24,17 @@ public:
     void UpdateState();
     
 private:
+    static void OnSpecialKeyUp(int, int, int);
+    static void OnSpecialKey(int, int, int);
+    static void OnMouseMove(int, int);
+    static void OnMouseButton(int, int, int, int);
+    
     MacInput(MacInput const&);
     void operator = (MacInput const&);
+    
+    static char keys_[256];
+    static bool mouseButtons_[3];
+    static core::vector2 mouseDelta_;
 };
 
 
