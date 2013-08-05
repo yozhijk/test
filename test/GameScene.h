@@ -13,12 +13,13 @@ class CompiledMesh;
 class IGraphicsContext;
 class IResourceManager;
 class IInput;
+class StaticObject;
 
 class GameScene
 {
 public:
 
-    static std::unique_ptr<GameScene> LoadFromFile(std::string const& name);
+    static std::unique_ptr<GameScene> LoadFromFile(std::string const& name, IResourceManager& resourceManager);
 
     GameScene();
     ~GameScene();
@@ -30,7 +31,7 @@ public:
     void AddCamera(std::string const& name, std::unique_ptr<Camera> camera);
     void RemoveCamera(std::string const& name);
 
-    void AddStaticObject(std::string const& name/*, std::unique_ptr<StaticObject> obj*/);
+    void AddStaticObject(std::unique_ptr<StaticObject> obj);
     void AddDynamicObject(std::string const& name/*, std::unique_ptr<DynamicObject> obj*/);
     void RemoveStaticObject(std::string const& name);
     void RemoveDynamicObject(std::string const& name);
@@ -47,7 +48,7 @@ private:
     // static geometry
     // dynamic objects
     // etc
-    std::vector<std::unique_ptr<CompiledMesh> > staticObjects_;
+    std::vector<std::unique_ptr<StaticObject> > staticObjects_;
     // Camera camera_;
     std::map<std::string, std::unique_ptr<Camera>> cameras_;
     std::string activeCamera_;

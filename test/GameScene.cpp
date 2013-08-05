@@ -4,6 +4,7 @@
 #include "IGraphicsContext.h"
 #include "IResourceManager.h"
 #include "IInput.h"
+#include "StaticObject.h"
 #include "utils.h"
 
 using namespace core;
@@ -23,9 +24,6 @@ void GameScene::Init(IResourceManager& resourceManager)
 {
     // TEST CODE
 #ifdef _TEST
-    std::unique_ptr<Mesh> mesh = Mesh::CreateFromObj("monkey.objm");
-    staticObjects_.push_back(resourceManager.CompileMesh(*mesh));
-
     cameras_["first"] = std::unique_ptr<Camera>(new Camera());
     cameras_["first"]->SetFrustum(core::frustum(M_PI/3, 640.f/480.f, 0.1f, 100.f));
     cameras_["first"]->LookAt(vector3(0,0,0), vector3(0,0,1), vector3(0,1,0));
@@ -40,17 +38,12 @@ void GameScene::Render(IGraphicsContext& graphicsContext)
 
     for (auto cIter = staticObjects_.cbegin(); cIter != staticObjects_.cend(); ++cIter)
     {
+        StaticObject& currentObject = *(*cIter);
+        graphicsContext.SetWorldMatrix(currentObject.GetWorldMatrix());
+        graphicsContext.DrawMesh(currentObject.GetCompiledMesh());
         // set transforms etc
 #ifdef _TEST
-        //cameras_["first"]->RotateCamera(vector3(0,1,0), 0.00125);
-        //cameras_["first"]->RotateCamera(vector3(1,0,0), 0.00125);
-        for (int i=0;i<10;++i)
-            for (int j=0;j<10;++j)
-                for (int k=0;k<10;++k)
-            {
-                graphicsContext.SetWorldMatrix( translation_matrix(vector3(-20 + i*3, -20 + j*3, -20 + k*3)) * rotation_matrix_y(angle_) );
-                graphicsContext.DrawMesh(**cIter);
-            }
+
 #endif
     }
 }
@@ -91,8 +84,27 @@ Camera& GameScene::GetActiveCamera() const
     return *(cameras_.begin())->second;
 }
 
-std::unique_ptr<GameScene> LoadFromFile(std::string const& name)
+std::unique_ptr<GameScene> GameScene::LoadFromFile(std::string const& name, IResourceManager& resourceManager)
 {
-    assert(false);
-    return nullptr;
+    std::unique_ptr<GameScene> scene(new GameScene());
+
+    std::unique_ptr<Mesh> mesh = Mesh::CreateFromObj("monkey.objm");
+
+#ifdef _TEST
+    for (int i=0;i<10;++i)
+        for (int j=0;j<10;++j)
+            {
+                core::matrix4x4 m = translation_matrix(vector3(-20 + i*3, -20 + j*3, 10));
+                scene->AddStaticObject(std::unique_ptr<StaticObject>(new StaticObject(resourceManager.CompileMesh(*mesh), m)));
+            }
+#endif
+
+    scene->Init(resourceManager);
+
+    return scene;
+}
+
+void GameScene::AddStaticObject(std::unique_ptr<StaticObject> obj)
+{
+    staticObjects_.push_back(std::move(obj));
 }

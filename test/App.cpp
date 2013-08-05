@@ -14,12 +14,6 @@ App::App(ISystem& os)
     os_.AddListener(this);
 }
 
-class Shit
-{
-public:
-    Shit(){}
-};
-
 App::~App()
 {
     /// Subtle bug here, game engine could be deleted after the graphics context
@@ -41,8 +35,8 @@ void App::OnStartup(Window const& window)
     gameEngine_.reset(new GameEngine());
     gameEngine_->Init(graphicsContext_->GetResourceManager());
 
-    //gameEngine_->AddScene(GameScene::LoadFromFile("Scene1"));
-    //gameEngine_->SetActiveScene("Scene1");
+    gameEngine_->AddScene(GameScene::LoadFromFile("Scene1", graphicsContext_->GetResourceManager()));
+    gameEngine_->SetActiveScene(0);
 
     OnResizeWindow(core::ui_size(window.rect.w, window.rect.h));
 }

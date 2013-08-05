@@ -1,7 +1,10 @@
 #ifndef GAMEENGINE_H
 #define GAMEENGINE_H
 
+#include <vector>
+
 #include "common_types.h"
+
 
 class IGraphicsContext;
 class IResourceManager;
@@ -18,6 +21,7 @@ public:
     void Shutdown();
     void Update(core::real timeDelta, IInput& input);
     void RenderScene(IGraphicsContext& graphicsContext);
+    void SetActiveScene(core::uint sceneIndex);
     void AddScene(std::unique_ptr<GameScene> scene);
 
     void OnResize(core::ui_size size);
@@ -34,11 +38,14 @@ private:
         STATE_PAUSED
     };
 
+    static const core::uint SCENE_INDEX_MAX = 0xffffffff;
+
     GameEngine(GameEngine const&);
     void operator = (GameEngine const&);
 
-    GameScene*    currentScene_;
+    core::uint    currentSceneIndex_;
     STATE     engineState_;
+    std::vector< std::unique_ptr<GameScene> > scenes_;
     //std::unique_ptr<Physics> physics_;
     //script engine, etc
 };

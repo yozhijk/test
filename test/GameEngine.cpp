@@ -9,7 +9,7 @@
 using namespace core;
 
 GameEngine::GameEngine()
-    : currentScene_(nullptr)
+    : currentSceneIndex_(SCENE_INDEX_MAX)
     , engineState_(STATE_RUNNING)
 {
 
@@ -17,19 +17,12 @@ GameEngine::GameEngine()
 
 GameEngine::~GameEngine()
 {
-#ifdef _TEST
-    delete currentScene_;
-#endif
 }
 
 void GameEngine::Init(IResourceManager& resourceManager/*GameConfig const&*/)
 {
     /// Initialization code here
     /// TEST CODE
-#ifdef _TEST
-    currentScene_ = new GameScene();
-    currentScene_->Init(resourceManager);
-#endif
 }
 
 void GameEngine::Shutdown()
@@ -39,22 +32,22 @@ void GameEngine::Shutdown()
 
 void GameEngine::Update(core::real timeDelta, IInput& input)
 {
-    assert(currentScene_);
+    assert(currentSceneIndex_ < SCENE_INDEX_MAX);
     /// State handling and scene graph update code here
     if (STATE_RUNNING == engineState_)
     {
-        currentScene_->Update(timeDelta, input);
+        scenes_[currentSceneIndex_]->Update(timeDelta, input);
     }
 }
 
 void GameEngine::RenderScene(IGraphicsContext& graphicsContext)
 {
-    assert(currentScene_);
+    assert(currentSceneIndex_ < SCENE_INDEX_MAX);
     /// State handling and rendering code here
     if (STATE_RUNNING == engineState_)
     {
         graphicsContext.Clear(core::color_rgba(0.0, 0.0, 0.0, 1.0));
-        currentScene_->Render(graphicsContext);
+        scenes_[currentSceneIndex_]->Render(graphicsContext);
     }
     else if (STATE_TRANSITIONING == engineState_)
     {
@@ -64,8 +57,19 @@ void GameEngine::RenderScene(IGraphicsContext& graphicsContext)
 
 void GameEngine::OnResize(core::ui_size size)
 {
-    if (currentScene_)
+    if (currentSceneIndex_ < SCENE_INDEX_MAX)
     {
-        currentScene_->GetActiveCamera().SetFrustum(frustum(M_PI/3, (real)size.w/size.h, 0.1f, 100.f));
+        scenes_[currentSceneIndex_]->GetActiveCamera().SetFrustum(frustum(M_PI/3, (real)size.w/size.h, 0.1f, 100.f));
     }
+}
+
+void GameEngine::AddScene(std::unique_ptr<GameScene> scene)
+{
+    scenes_.push_back(std::move(scene));
+}
+
+void GameEngine::SetActiveScene(core::uint sceneIndex)
+{
+    assert(sceneIndex < scenes_.size());
+    currentSceneIndex_ = sceneIndex;
 }

@@ -8,6 +8,7 @@
 #endif
 
 #include <stdexcept>
+#include "utils.h"
 
 #define THROW_IF_FAILED(x,m) if((x)!=S_OK) throw std::runtime_error(m)
 

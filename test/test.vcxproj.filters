@@ -117,6 +117,9 @@
     <ClInclude Include="ILogger.h">
       <Filter>Interfaces</Filter>
     </ClInclude>
+    <ClInclude Include="StaticObject.h">
+      <Filter>GameEngine</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="sampler.cpp">
@@ -157,6 +160,9 @@
     </ClCompile>
     <ClCompile Include="DXInput.cpp">
       <Filter>Windows</Filter>
+    </ClCompile>
+    <ClCompile Include="StaticObjects.cpp">
+      <Filter>GameEngine</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
