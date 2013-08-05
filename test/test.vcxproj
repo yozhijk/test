@@ -125,7 +125,7 @@
     <ClCompile Include="GameScene.cpp" />
     <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="sampler.cpp" />
-    <ClCompile Include="StaticObjects.cpp" />
+    <ClCompile Include="StaticObject.cpp" />
     <ClCompile Include="test.cpp" />
     <ClCompile Include="utils.cpp" />
     <ClCompile Include="WinOS.cpp" />

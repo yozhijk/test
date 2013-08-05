@@ -161,7 +161,7 @@
     <ClCompile Include="DXInput.cpp">
       <Filter>Windows</Filter>
     </ClCompile>
-    <ClCompile Include="StaticObjects.cpp">
+    <ClCompile Include="StaticObject.cpp">
       <Filter>GameEngine</Filter>
     </ClCompile>
   </ItemGroup>
