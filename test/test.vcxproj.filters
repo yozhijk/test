@@ -181,5 +181,8 @@
     <CustomBuild Include="monkey.objm">
       <Filter>Resources</Filter>
     </CustomBuild>
+    <CustomBuild Include="many_monkeys_scene.scn">
+      <Filter>Resources</Filter>
+    </CustomBuild>
   </ItemGroup>
 </Project>

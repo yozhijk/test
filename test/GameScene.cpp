@@ -107,7 +107,8 @@ std::unique_ptr<GameScene> GameScene::LoadFromFile(std::string const& name, IRes
         {
             std::string meshFileName = meshFile;
             meshFileName.append(".objm");
-            meshCache[meshFile] = Mesh::CreateFromObj(meshFileName);;
+            meshCache[meshFile] = Mesh::CreateFromObj(meshFileName);
+
             assert(meshCache[meshFile].use_count() == 1);
         }
 

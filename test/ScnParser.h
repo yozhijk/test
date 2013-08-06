@@ -21,7 +21,7 @@ private:
     ScnParser(ScnParser const&);
     ScnParser& operator = (ScnParser const&);
 
-
+    std::string fileName_;
 };
 
 #endif // SCNPARSER_H

@@ -35,7 +35,7 @@ void App::OnStartup(Window const& window)
     gameEngine_.reset(new GameEngine());
     gameEngine_->Init(graphicsContext_->GetResourceManager());
 
-    gameEngine_->AddScene(GameScene::LoadFromFile("Scene1", graphicsContext_->GetResourceManager()));
+    gameEngine_->AddScene(GameScene::LoadFromFile("many_monkeys_scene.scn", graphicsContext_->GetResourceManager()));
     gameEngine_->SetActiveScene(0);
 
     OnResizeWindow(core::ui_size(window.rect.w, window.rect.h));

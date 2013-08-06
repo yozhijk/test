@@ -1,11 +1,14 @@
 #include "ScnParser.h"
 
 #include "utils.h"
+#include <fstream>
+#include <sstream>
 
 using namespace core;
 
 ScnParser::ScnParser(std::string const& fileName)
     : OnStaticObject(nullptr)
+    , fileName_(fileName)
 {
 
 }
@@ -17,15 +20,26 @@ ScnParser::~ScnParser()
 
 void ScnParser::Parse()
 {
-#ifdef _TEST
-    for (int i=0;i<10;++i)
-        for (int j=0;j<10;++j)
+    using namespace std;
+    ifstream objStream(fileName_);
+
+    string line;
+    while(getline(objStream,line))
+    {
+        if (line.find("static_object") != string::npos)
+        {
+            istringstream stream(line);
+
+            string tmp, meshTag, meshFile;
+            core::real x,y,z;
+            stream >> tmp >> meshTag >> meshFile >> x >> y >> z;
+
+            matrix4x4 m = translation_matrix(vector3(x, y, z));
+
+            if (OnStaticObject)
             {
-                matrix4x4 m = translation_matrix(vector3(-20 + i*3, -20 + j*3, 10));
-                if (OnStaticObject)
-                {
-                    OnStaticObject("Monkey mesh", "monkey", m);
-                }
+               OnStaticObject(meshTag, meshFile, m);
             }
-#endif
+        }
+    }
 }
