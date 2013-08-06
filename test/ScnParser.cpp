@@ -5,6 +5,7 @@
 #include <sstream>
 
 using namespace core;
+using namespace std;
 
 ScnParser::ScnParser(std::string const& fileName)
     : OnStaticObject(nullptr)
@@ -20,7 +21,6 @@ ScnParser::~ScnParser()
 
 void ScnParser::Parse()
 {
-    using namespace std;
     ifstream objStream(fileName_);
 
     string line;
@@ -31,7 +31,7 @@ void ScnParser::Parse()
             istringstream stream(line);
 
             string tmp, meshTag, meshFile;
-            core::real x,y,z;
+            real x,y,z;
             stream >> tmp >> meshTag >> meshFile >> x >> y >> z;
 
             matrix4x4 m = translation_matrix(vector3(x, y, z));

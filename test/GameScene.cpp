@@ -14,6 +14,7 @@
 #include <memory>
 
 using namespace core;
+using namespace std;
 
 GameScene::GameScene()
 #ifdef _TEST
@@ -30,8 +31,8 @@ void GameScene::Init(IResourceManager& resourceManager)
 {
     // TEST CODE
 #ifdef _TEST
-    cameras_["first"] = std::unique_ptr<Camera>(new Camera());
-    cameras_["first"]->SetFrustum(core::frustum(M_PI/3, 640.f/480.f, 0.1f, 100.f));
+    cameras_["first"] = unique_ptr<Camera>(new Camera());
+    cameras_["first"]->SetFrustum(frustum(static_cast<real>(M_PI/3), 640.f/480.f, 0.1f, 100.f));
     cameras_["first"]->LookAt(vector3(0,0,0), vector3(0,0,1), vector3(0,1,0));
 #endif
 }
@@ -54,17 +55,17 @@ void GameScene::Render(IGraphicsContext& graphicsContext)
     }
 }
 
-void GameScene::Update(core::real timeDelta, IInput& input)
+void GameScene::Update(real timeDelta, IInput& input)
 {
 #ifdef _TEST
-    angle_ += 0.2 * timeDelta;
+    angle_ += 0.2f * timeDelta;
 
     real camRotY = 0.f;
     real camRotX = 0.f;
 
     if (input.IsMouseButtonPressed(MMB_LEFT))
     {
-        const real MOUSE_SENSITIVITY = 0.005;
+        const real MOUSE_SENSITIVITY = 0.005f;
         vector2 delta = input.GetRelativePosition() * vector2(MOUSE_SENSITIVITY, MOUSE_SENSITIVITY);
         camRotX = -delta.y();
         camRotY = -delta.x();
@@ -78,7 +79,7 @@ void GameScene::Update(core::real timeDelta, IInput& input)
 
     if (input.IsKeyPressed(MK_UP))
     {
-        GetActiveCamera().MoveForward(timeDelta * 1.5);
+        GetActiveCamera().MoveForward(timeDelta * 1.5f);
     }
 
 
@@ -90,22 +91,21 @@ Camera& GameScene::GetActiveCamera() const
     return *(cameras_.begin())->second;
 }
 
-std::unique_ptr<GameScene> GameScene::LoadFromFile(std::string const& name, IResourceManager& resourceManager)
+unique_ptr<GameScene> GameScene::LoadFromFile(string const& name, IResourceManager& resourceManager)
 {
-    using namespace std;
     unique_ptr<GameScene> scene(new GameScene());
 
-    std::map<string, shared_ptr<Mesh> > meshCache;
+    map<string, shared_ptr<Mesh> > meshCache;
 
     ScnParser scnParser(name);
 
-    scnParser.OnStaticObject = [&](string const& meshTag, string const& meshFile, core::matrix4x4 const& worldMatrix)
+    scnParser.OnStaticObject = [&](string const& meshTag, string const& meshFile, matrix4x4 const& worldMatrix)
     {
         auto iter = meshCache.find(meshFile);
 
         if (iter == meshCache.end())
         {
-            std::string meshFileName = meshFile;
+            string meshFileName = meshFile;
             meshFileName.append(".objm");
             meshCache[meshFile] = Mesh::CreateFromObj(meshFileName);
 
@@ -113,7 +113,7 @@ std::unique_ptr<GameScene> GameScene::LoadFromFile(std::string const& name, IRes
         }
 
         /// FIXME: Use weak ptr instead of Mesh& in IResourceManager
-        scene->AddStaticObject(std::unique_ptr<StaticObject>(new StaticObject(resourceManager.CompileMesh(*meshCache[meshFile]), worldMatrix)));
+        scene->AddStaticObject(unique_ptr<StaticObject>(new StaticObject(resourceManager.CompileMesh(*meshCache[meshFile]), worldMatrix)));
     };
 
     scnParser.Parse();
@@ -125,7 +125,7 @@ std::unique_ptr<GameScene> GameScene::LoadFromFile(std::string const& name, IRes
     return scene;
 }
 
-void GameScene::AddStaticObject(std::unique_ptr<StaticObject> obj)
+void GameScene::AddStaticObject(unique_ptr<StaticObject> obj)
 {
-    staticObjects_.push_back(std::move(obj));
+    staticObjects_.push_back(move(obj));
 }

@@ -111,7 +111,7 @@ void Mesh::LoadFromObjStream(ifstream& objStream)
                 // case 4:
                 // scanf seems to be the fastest option here
                 for_each(tokens.begin(), tokens.end(),
-                    [&](std::string& s)
+                    [&](string& s)
                 {
                     sscanf(s.c_str(), "%d//%d", &tempIdx.vIdx, &tempIdx.nIdx);
                     // account for 1-based arrays in obj file
@@ -127,7 +127,7 @@ void Mesh::LoadFromObjStream(ifstream& objStream)
                 // case 4:
                 // scanf seems to be the fastest option here
                 for_each(tokens.begin(), tokens.end(),
-                    [&](std::string& s)
+                    [&](string& s)
                 {
                     sscanf(s.c_str(), "%d/%d", &tempIdx.vIdx, &tempIdx.tIdx);
                     --tempIdx.vIdx;
@@ -141,7 +141,7 @@ void Mesh::LoadFromObjStream(ifstream& objStream)
                 // case 3:
                 // scanf seems to be the fastest option here
                 for_each(tokens.begin(), tokens.end(),
-                    [&](std::string& s)
+                    [&](string& s)
                 {
                     sscanf(s.c_str(), "%d/%d/%d", &tempIdx.vIdx, &tempIdx.tIdx, &tempIdx.nIdx);
                     --tempIdx.vIdx;
@@ -156,7 +156,7 @@ void Mesh::LoadFromObjStream(ifstream& objStream)
                 // case 1:
                 // scanf seems to be the fastest option here
                 for_each(tokens.begin(), tokens.end(),
-                    [&](std::string& s)
+                    [&](string& s)
                 {
                     sscanf(s.c_str(), "%d", &tempIdx.vIdx);
                     --tempIdx.vIdx;
@@ -215,7 +215,7 @@ shared_ptr<Mesh>  Mesh::CreateFromObj(string const& fileName)
     }
     else
     {
-        throw std::runtime_error("Shit happens: check the path to your models");
+        throw runtime_error("Shit happens: check the path to your models");
         return nullptr;
     }
 }
@@ -232,19 +232,19 @@ unsigned short const* Mesh::GetIndexArrayPointer() const
     return &interleavedIndices_[0];
 }
 
-core::uint Mesh::GetVertexCount() const
+uint Mesh::GetVertexCount() const
 {
     assert(interleavedData_.size() > 0);
     return static_cast<uint>(interleavedData_.size());
 }
 
-core::uint Mesh::GetIndexCount() const
+uint Mesh::GetIndexCount() const
 {
     assert(interleavedIndices_.size() > 0);
     return static_cast<uint>(interleavedIndices_.size());
 }
 
-core::uint Mesh::GetVertexSizeInBytes() const
+uint Mesh::GetVertexSizeInBytes() const
 {
     return sizeof(Vertex);
 }

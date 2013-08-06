@@ -7,6 +7,8 @@
 #include "GameScene.h"
 #include "utils.h"
 
+using namespace core;
+
 
 App::App(ISystem& os) 
     : os_(os)
@@ -38,7 +40,7 @@ void App::OnStartup(Window const& window)
     gameEngine_->AddScene(GameScene::LoadFromFile("many_monkeys_scene.scn", graphicsContext_->GetResourceManager()));
     gameEngine_->SetActiveScene(0);
 
-    OnResizeWindow(core::ui_size(window.rect.w, window.rect.h));
+    OnResizeWindow(ui_size(window.rect.w, window.rect.h));
 }
 
 void App::OnShutdown()
@@ -46,7 +48,7 @@ void App::OnShutdown()
     gameEngine_->Shutdown();
 }
 
-void App::OnUpdate(core::real timeDelta)
+void App::OnUpdate(real timeDelta)
 {
     /// Get input
     input_->UpdateState();
@@ -58,13 +60,13 @@ void App::OnUpdate(core::real timeDelta)
     graphicsContext_->Present();
 }
 
-void App::OnResizeWindow(core::ui_size const& size)
+void App::OnResizeWindow(ui_size const& size)
 {
     if (graphicsContext_)
     {
         /// this should be removed
         graphicsContext_->ResizeBuffer(size);
-        graphicsContext_->SetViewport(core::ui_rect(0, 0, size.w, size.h));
+        graphicsContext_->SetViewport(ui_rect(0, 0, size.w, size.h));
     }
 
     gameEngine_->OnResize(size);

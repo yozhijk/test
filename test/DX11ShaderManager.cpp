@@ -6,23 +6,24 @@
 #define VS_EXTENSION "VS.fxo"
 #define PS_EXTENSION "PS.fxo"
 
-#define THROW_IF_FAILED(x,m) if((x)!=S_OK) throw std::runtime_error(m)
+#define THROW_IF_FAILED(x,m) if((x)!=S_OK) throw runtime_error(m)
 
 using namespace core;
 using namespace std;
 
+
 DX11ShaderProgram::DX11ShaderProgram(DX11ShaderProgram&& rhs)
 {
-    std::swap(vertexShader_, rhs.vertexShader_);
-    std::swap(pixelShader_, rhs.pixelShader_);
-    std::swap(inputLayout_, rhs.inputLayout_);
+    swap(vertexShader_, rhs.vertexShader_);
+    swap(pixelShader_, rhs.pixelShader_);
+    swap(inputLayout_, rhs.inputLayout_);
 }
 
 DX11ShaderProgram& DX11ShaderProgram::operator = (DX11ShaderProgram&& rhs)
 {
-    std::swap(vertexShader_, rhs.vertexShader_);
-    std::swap(pixelShader_, rhs.pixelShader_);
-    std::swap(inputLayout_, rhs.inputLayout_);
+    swap(vertexShader_, rhs.vertexShader_);
+    swap(pixelShader_, rhs.pixelShader_);
+    swap(inputLayout_, rhs.inputLayout_);
 
     return *this;
 }
@@ -41,7 +42,7 @@ DX11ShaderManager::~DX11ShaderManager()
     }
 }
 
-DX11ShaderProgram const& DX11ShaderManager::GetShaderProgram(std::string const& name, ID3D11Device* device)
+DX11ShaderProgram const& DX11ShaderManager::GetShaderProgram(string const& name, ID3D11Device* device)
 {
     auto cIter = shaderCache_.find(name);
 

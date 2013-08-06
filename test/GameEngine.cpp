@@ -7,6 +7,7 @@
 #include <cassert>
 
 using namespace core;
+using namespace std;
 
 GameEngine::GameEngine()
     : currentSceneIndex_(SCENE_INDEX_MAX)
@@ -30,7 +31,7 @@ void GameEngine::Shutdown()
     /// Engine shutdown code here
 }
 
-void GameEngine::Update(core::real timeDelta, IInput& input)
+void GameEngine::Update(real timeDelta, IInput& input)
 {
     assert(currentSceneIndex_ < SCENE_INDEX_MAX);
     /// State handling and scene graph update code here
@@ -46,7 +47,7 @@ void GameEngine::RenderScene(IGraphicsContext& graphicsContext)
     /// State handling and rendering code here
     if (STATE_RUNNING == engineState_)
     {
-        graphicsContext.Clear(core::color_rgba(0.0, 0.0, 0.0, 1.0));
+        graphicsContext.Clear(color_rgba(0.0, 0.0, 0.0, 1.0));
         scenes_[currentSceneIndex_]->Render(graphicsContext);
     }
     else if (STATE_TRANSITIONING == engineState_)
@@ -55,20 +56,20 @@ void GameEngine::RenderScene(IGraphicsContext& graphicsContext)
     }
 }
 
-void GameEngine::OnResize(core::ui_size size)
+void GameEngine::OnResize(ui_size size)
 {
     if (currentSceneIndex_ < SCENE_INDEX_MAX)
     {
-        scenes_[currentSceneIndex_]->GetActiveCamera().SetFrustum(frustum(M_PI/3, (real)size.w/size.h, 0.1f, 100.f));
+        scenes_[currentSceneIndex_]->GetActiveCamera().SetFrustum(frustum(static_cast<real>(M_PI/3), (real)size.w/size.h, 0.1f, 100.f));
     }
 }
 
-void GameEngine::AddScene(std::unique_ptr<GameScene> scene)
+void GameEngine::AddScene(unique_ptr<GameScene> scene)
 {
-    scenes_.push_back(std::move(scene));
+    scenes_.push_back(move(scene));
 }
 
-void GameEngine::SetActiveScene(core::uint sceneIndex)
+void GameEngine::SetActiveScene(uint sceneIndex)
 {
     assert(sceneIndex < scenes_.size());
     currentSceneIndex_ = sceneIndex;

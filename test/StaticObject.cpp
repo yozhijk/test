@@ -1,7 +1,10 @@
 #include "StaticObject.h"
 #include "CompiledMesh.h"
 
-StaticObject::StaticObject(std::shared_ptr<CompiledMesh> compiledMesh, core::matrix4x4 const& worldMatrix)
+using namespace core;
+using namespace std;
+
+StaticObject::StaticObject(std::shared_ptr<CompiledMesh> compiledMesh, matrix4x4 const& worldMatrix)
     : compiledMesh_(compiledMesh)
     , worldMatrix_(worldMatrix)
 {
