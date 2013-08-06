@@ -56,7 +56,7 @@ public:
 
     /// IResourceManager overrides
     /// Transform model into API-friendly form (would look into AssImp)
-    std::unique_ptr<CompiledMesh> CompileMesh(Mesh const& mesh);
+    std::shared_ptr<CompiledMesh> CompileMesh(Mesh const& mesh);
 
 protected:
     /// CompiledModel release callback

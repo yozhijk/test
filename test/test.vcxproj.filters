@@ -120,6 +120,9 @@
     <ClInclude Include="StaticObject.h">
       <Filter>GameEngine</Filter>
     </ClInclude>
+    <ClInclude Include="ScnParser.h">
+      <Filter>GameEngine</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="sampler.cpp">
@@ -162,6 +165,9 @@
       <Filter>Windows</Filter>
     </ClCompile>
     <ClCompile Include="StaticObject.cpp">
+      <Filter>GameEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="ScnParser.cpp">
       <Filter>GameEngine</Filter>
     </ClCompile>
   </ItemGroup>

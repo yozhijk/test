@@ -25,7 +25,7 @@ public:
 
     // REQUIRES: fileName exists on disk and is correct obj file
     // PROMISE: Will return valid model or the exception will be thrown
-    static std::unique_ptr<Mesh>  CreateFromObj(std::string const& fileName);
+    static std::shared_ptr<Mesh>  CreateFromObj(std::string const& fileName);
 
     Vertex const* GetVertexArrayPointer() const;
     unsigned short const* GetIndexArrayPointer() const;
@@ -71,6 +71,8 @@ private:
 
     std::vector<Vertex> interleavedData_;
     std::vector<unsigned short> interleavedIndices_;
+
+    std::string tag_;
 };
 
 #endif 

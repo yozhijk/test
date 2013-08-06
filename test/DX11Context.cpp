@@ -15,24 +15,6 @@
 DX11Context::DX11Context(HWND hWnd) : 
 hWnd_(hWnd)
 {
-#ifdef _TEST
-    /// Debug transforms testing code, will remove with the next CL
-    D3DXMATRIX matrix;
-
-    D3DXVECTOR3 at(0,0,0);
-    D3DXVECTOR3 c(0,0,-5);
-    D3DXVECTOR3 up(0,1,0);
-    D3DXMatrixLookAtLH(&matrix, &c, &at, &up);
-
-    core::matrix4x4 m;
-    m = core::lookat_matrix_lh_dx(core::vector3(0,0,-5), core::vector3(0,0,0), core::vector3(0,1,0));
-    m = m.transpose();
-
-    D3DXMatrixPerspectiveFovLH(&matrix, D3DX_PI/4, 640.f/480.f, 0.1, 100);
-
-    m = core::perspective_proj_fovy_matrix_lh_dx(D3DX_PI/4, 640.f/480.f, 0.1, 100);
-    m = m.transpose();
-#endif
 }
 
 void DX11Context::Init()
@@ -73,7 +55,7 @@ void DX11Context::Init()
     DWORD flags = 0;
 
 #ifdef _DEBUG
-    //flags |= D3D11_CREATE_DEVICE_DEBUG;
+    flags |= D3D11_CREATE_DEVICE_DEBUG;
 #endif
 
     // Attempt to create device and swap chain
@@ -218,18 +200,6 @@ void DX11Context::DrawMesh(CompiledMesh const& mesh)
     transformData.mWorld = worldMatrix_;
     transformData.mWorldViewProj = projMatrix_ * viewMatrix_ *  worldMatrix_ ;
 
-#ifdef _TEST
-    D3DXMATRIX mL, mP;
-    D3DXVECTOR3 pos(0,0,-5);
-    D3DXVECTOR3 at(0,0,0);
-    D3DXVECTOR3 up(0,1,0);
-    D3DXMatrixLookAtLH(&mL, &pos,&at, &up);
-
-    D3DXMatrixPerspectiveFovLH(&mP, D3DX_PI/4, 640.f/480.f, 0.1, 100.0);
-
-    D3DXMATRIX res = mL * mP;
-#endif
-
     immediateContext_->UpdateSubresource(transformCB_, D3D11CalcSubresource(0, 0, 1), nullptr, &transformData, 0, 0);
     immediateContext_->VSSetConstantBuffers(0, 1, &transformCB_.p);
 
@@ -272,7 +242,7 @@ IResourceManager& DX11Context::GetResourceManager()
     return *this;
 }
 
-std::unique_ptr<CompiledMesh> DX11Context::CompileMesh(Mesh const& mesh)
+std::shared_ptr<CompiledMesh> DX11Context::CompileMesh(Mesh const& mesh)
 {
     D3D11_BUFFER_DESC bufDesc;
     ZeroMemory(&bufDesc, sizeof(bufDesc));
@@ -299,7 +269,7 @@ std::unique_ptr<CompiledMesh> DX11Context::CompileMesh(Mesh const& mesh)
     THROW_IF_FAILED(device_->CreateBuffer(&bufDesc, &srData, &pIndexBuffer), "Cannot create mesh index buffer");
 
     /// Potential 64-bit compatibily issue, fix later
-    return std::unique_ptr<CompiledMesh>(new CompiledMesh(reinterpret_cast<core::uint>(pVertexBuffer), reinterpret_cast<core::uint>(pIndexBuffer), mesh.GetIndexCount(), mesh.GetVertexSizeInBytes(), std::bind(&DX11Context::OnReleaseMesh, this, std::placeholders::_1)));
+    return std::make_shared<CompiledMesh>(reinterpret_cast<core::uint>(pVertexBuffer), reinterpret_cast<core::uint>(pIndexBuffer), mesh.GetIndexCount(), mesh.GetVertexSizeInBytes(), std::bind(&DX11Context::OnReleaseMesh, this, std::placeholders::_1));
 }
 
 void DX11Context::OnReleaseMesh(CompiledMesh const& mesh)

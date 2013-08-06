@@ -16,7 +16,7 @@ class CompiledMesh;
 class StaticObject : public GameEntity
 {
 public:
-    StaticObject(std::unique_ptr<CompiledMesh> compiledMesh, core::matrix4x4 const& worldMatrix);
+    StaticObject(std::shared_ptr<CompiledMesh> compiledMesh, core::matrix4x4 const& worldMatrix);
     StaticObject(StaticObject&& other);
 
     core::matrix4x4 GetWorldMatrix() const;
@@ -26,7 +26,7 @@ private:
     StaticObject(StaticObject const&);
     StaticObject& operator = (StaticObject const&);
 
-    std::unique_ptr<CompiledMesh> compiledMesh_;
+    std::shared_ptr<CompiledMesh> compiledMesh_;
     core::matrix4x4 worldMatrix_;
 };
 

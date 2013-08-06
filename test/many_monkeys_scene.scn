@@ -1,0 +1,2 @@
+static_object monkey1 monkey -10 -10 -10
+static_object monkey2 monkey  20  20  20

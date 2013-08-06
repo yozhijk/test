@@ -5,7 +5,13 @@
 #include "IResourceManager.h"
 #include "IInput.h"
 #include "StaticObject.h"
+#include "ScnParser.h"
 #include "utils.h"
+
+#include <map>
+#include <string>
+#include <functional>
+#include <memory>
 
 using namespace core;
 
@@ -86,18 +92,32 @@ Camera& GameScene::GetActiveCamera() const
 
 std::unique_ptr<GameScene> GameScene::LoadFromFile(std::string const& name, IResourceManager& resourceManager)
 {
-    std::unique_ptr<GameScene> scene(new GameScene());
+    using namespace std;
+    unique_ptr<GameScene> scene(new GameScene());
 
-    std::unique_ptr<Mesh> mesh = Mesh::CreateFromObj("monkey.objm");
+    std::map<string, shared_ptr<Mesh> > meshCache;
 
-#ifdef _TEST
-    for (int i=0;i<10;++i)
-        for (int j=0;j<10;++j)
-            {
-                core::matrix4x4 m = translation_matrix(vector3(-20 + i*3, -20 + j*3, 10));
-                scene->AddStaticObject(std::unique_ptr<StaticObject>(new StaticObject(resourceManager.CompileMesh(*mesh), m)));
-            }
-#endif
+    ScnParser scnParser(name);
+
+    scnParser.OnStaticObject = [&](string const& meshTag, string const& meshFile, core::matrix4x4 const& worldMatrix)
+    {
+        auto iter = meshCache.find(meshFile);
+
+        if (iter == meshCache.end())
+        {
+            std::string meshFileName = meshFile;
+            meshFileName.append(".objm");
+            meshCache[meshFile] = Mesh::CreateFromObj(meshFileName);;
+            assert(meshCache[meshFile].use_count() == 1);
+        }
+
+        /// FIXME: Use weak ptr instead of Mesh& in IResourceManager
+        scene->AddStaticObject(std::unique_ptr<StaticObject>(new StaticObject(resourceManager.CompileMesh(*meshCache[meshFile]), worldMatrix)));
+    };
+
+    scnParser.Parse();
+
+
 
     scene->Init(resourceManager);
 

@@ -202,13 +202,14 @@ inline uint Mesh::StoreFace(std::vector<Index> const& indices)
     return static_cast<uint>(indices_.size() - 1);
 }
 
-unique_ptr<Mesh>  Mesh::CreateFromObj(string const& fileName)
+shared_ptr<Mesh>  Mesh::CreateFromObj(string const& fileName)
 {
     ifstream in(fileName);
 
     if (in)
     {
-        unique_ptr<Mesh> modelPtr(new Mesh());
+        // FIXME: think over how to use make_shared
+        shared_ptr<Mesh> modelPtr(new Mesh());
         modelPtr->LoadFromObjStream(in);
         return modelPtr;
     }
