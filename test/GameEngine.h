@@ -5,7 +5,6 @@
 
 #include "common_types.h"
 
-
 class IGraphicsContext;
 class IResourceManager;
 class IInput;

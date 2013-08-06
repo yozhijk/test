@@ -33,12 +33,12 @@ unique_ptr<IGraphicsContext> WinOS::CreateGraphicsContext(Window const& window)
     return unique_ptr<IGraphicsContext>(new DX11Context(static_cast<HWND>(window_.handle)));
 }
 
-std::unique_ptr<IInput> WinOS::CreateInput()
+unique_ptr<IInput> WinOS::CreateInput()
 {
     return unique_ptr<IInput>(new DXInput(static_cast<HWND>(window_.handle)));
 }
 
-void WinOS::Log(std::string const& message)
+void WinOS::Log(string const& message)
 {
     OutputDebugStringA(message.c_str());
 }
@@ -68,7 +68,7 @@ void WinOS::ResizeWindow(ui_size const& size)
 void WinOS::Shutdown()
 {
     /// Fire an event
-    for_each(listeners_.begin(), listeners_.end(), std::bind(&(ISystemListener::OnShutdown), placeholders::_1));
+    for_each(listeners_.begin(), listeners_.end(), bind(&(ISystemListener::OnShutdown), placeholders::_1));
 
     listeners_.clear();
 }

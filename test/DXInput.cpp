@@ -95,7 +95,7 @@ vector2 DXInput::GetRelativePosition() const
     return vector2(static_cast<real>(mouseState_.lX), static_cast<real>(mouseState_.lY)); 
 }
 
-core::vector2 DXInput::GetAbsolutePosition() const
+vector2 DXInput::GetAbsolutePosition() const
 {
     return mousePos_;
 }

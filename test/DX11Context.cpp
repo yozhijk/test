@@ -10,7 +10,10 @@
 #include <stdexcept>
 #include "utils.h"
 
-#define THROW_IF_FAILED(x,m) if((x)!=S_OK) throw std::runtime_error(m)
+#define THROW_IF_FAILED(x,m) if((x)!=S_OK) throw runtime_error(m)
+
+using namespace std;
+using namespace core;
 
 DX11Context::DX11Context(HWND hWnd) : 
 hWnd_(hWnd)
@@ -113,13 +116,13 @@ void DX11Context::Init()
     THROW_IF_FAILED(device_->CreateDepthStencilState(&dsDesc, &dsState_), "Failed to create depth state");;
 
     // Create default render target and depth stencil
-    ResizeBuffer(core::ui_size(bbWidth, bbHeight));
+    ResizeBuffer(ui_size(bbWidth, bbHeight));
 
     // Set viewport to cover the whole backbuffer
-    SetViewport(core::ui_rect(0, 0, bbWidth, bbHeight));
+    SetViewport(ui_rect(0, 0, bbWidth, bbHeight));
 }
 
-void DX11Context::ResizeBuffer(core::ui_size const& size)
+void DX11Context::ResizeBuffer(ui_size const& size)
 {
     // Release old stuff if any
     defaultRenderTarget_.Release();
@@ -165,7 +168,7 @@ void DX11Context::ResizeBuffer(core::ui_size const& size)
 }
 
 /// Set viewport within  [0,0, bbheight, bbwidth] range
-void DX11Context::SetViewport(core::ui_rect const& vp)
+void DX11Context::SetViewport(ui_rect const& vp)
 {
     D3D11_VIEWPORT viewport;
     viewport.TopLeftX = static_cast<FLOAT>(vp.x);
@@ -178,19 +181,19 @@ void DX11Context::SetViewport(core::ui_rect const& vp)
     immediateContext_->RSSetViewports(1, &viewport);
 }
 
-void DX11Context::SetWorldMatrix(core::matrix4x4 const& worldMatrix)
+void DX11Context::SetWorldMatrix(matrix4x4 const& worldMatrix)
 {
     worldMatrix_ = worldMatrix;
 }
 
-void DX11Context::SetViewMatrix(core::matrix4x4 const& viewMatrix)
+void DX11Context::SetViewMatrix(matrix4x4 const& viewMatrix)
 {
     viewMatrix_ = viewMatrix;
 }
 
-void DX11Context::SetFrustum(core::frustum const& frustum)
+void DX11Context::SetFrustum(frustum const& frustum)
 {
-    projMatrix_ = core::perspective_proj_fovy_matrix_lh_dx(frustum.fovy, frustum.aspect, frustum.nr, frustum.fr);
+    projMatrix_ = perspective_proj_fovy_matrix_lh_dx(frustum.fovy, frustum.aspect, frustum.nr, frustum.fr);
 }
 
 void DX11Context::DrawMesh(CompiledMesh const& mesh)
@@ -223,7 +226,7 @@ void DX11Context::DrawMesh(CompiledMesh const& mesh)
     immediateContext_->DrawIndexed(mesh.GetIndexCount(), 0, 0);
 }
 
-void DX11Context::Clear(core::color_rgba const& color)
+void DX11Context::Clear(color_rgba const& color)
 {
     FLOAT clearColor[4] = {static_cast<FLOAT>(color.x()), static_cast<FLOAT>(color.y()), static_cast<FLOAT>(color.z()), static_cast<FLOAT>(color.w())};
     immediateContext_->ClearRenderTargetView(defaultRenderTarget_, clearColor);
@@ -242,7 +245,7 @@ IResourceManager& DX11Context::GetResourceManager()
     return *this;
 }
 
-std::shared_ptr<CompiledMesh> DX11Context::CompileMesh(Mesh const& mesh)
+shared_ptr<CompiledMesh> DX11Context::CompileMesh(Mesh const& mesh)
 {
     D3D11_BUFFER_DESC bufDesc;
     ZeroMemory(&bufDesc, sizeof(bufDesc));
@@ -269,7 +272,7 @@ std::shared_ptr<CompiledMesh> DX11Context::CompileMesh(Mesh const& mesh)
     THROW_IF_FAILED(device_->CreateBuffer(&bufDesc, &srData, &pIndexBuffer), "Cannot create mesh index buffer");
 
     /// Potential 64-bit compatibily issue, fix later
-    return std::make_shared<CompiledMesh>(reinterpret_cast<core::uint>(pVertexBuffer), reinterpret_cast<core::uint>(pIndexBuffer), mesh.GetIndexCount(), mesh.GetVertexSizeInBytes(), std::bind(&DX11Context::OnReleaseMesh, this, std::placeholders::_1));
+    return make_shared<CompiledMesh>(reinterpret_cast<uint>(pVertexBuffer), reinterpret_cast<uint>(pIndexBuffer), mesh.GetIndexCount(), mesh.GetVertexSizeInBytes(), bind(&DX11Context::OnReleaseMesh, this, placeholders::_1));
 }
 
 void DX11Context::OnReleaseMesh(CompiledMesh const& mesh)
