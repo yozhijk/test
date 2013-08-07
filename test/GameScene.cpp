@@ -82,6 +82,12 @@ void GameScene::Update(real timeDelta, IInput& input)
         GetActiveCamera().MoveForward(timeDelta * 1.5f);
     }
 
+    if (input.IsKeyPressed(MK_DOWN))
+    {
+        GetActiveCamera().MoveForward(-timeDelta * 1.5f);
+    }
+
+
 
 #endif
 }

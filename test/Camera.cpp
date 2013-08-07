@@ -70,7 +70,7 @@ void Camera::SetFrustum(frustum const& frustum)
 
 void Camera::Rotate(real angle)
 {
-    RotateCamera(vector3(0,1,0), angle);
+    RotateCamera(GetUpDirection(), angle);
 }
 
 void Camera::Tilt(real angle)
