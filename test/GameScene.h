@@ -27,6 +27,7 @@ public:
     void Init(IResourceManager& resourceManager);
     void Render(IGraphicsContext& graphicsContext);
     void Update(core::real timeDelta, IInput& input);
+    void OnResize(core::ui_size size);
 
     void AddCamera(std::string const& name, std::unique_ptr<Camera> camera);
     void RemoveCamera(std::string const& name);
@@ -39,7 +40,7 @@ public:
     //void AddParticleEmitter();
     //void RemoveParticleEmitter();
 
-    Camera& GetActiveCamera() const;
+    Camera& GetActiveCamera();
     Camera const& GetCamera(std::string const&) const;
     void SetActiveCamera(std::string const& name);
 
@@ -51,7 +52,7 @@ private:
     std::vector<std::unique_ptr<StaticObject> > staticObjects_;
     // Camera camera_;
     std::map<std::string, std::unique_ptr<Camera>> cameras_;
-    std::string activeCamera_;
+    std::string activeCameraTag_;
 #ifdef _TEST
     core::real angle_;
 #endif

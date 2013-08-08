@@ -60,7 +60,7 @@ void GameEngine::OnResize(ui_size size)
 {
     if (currentSceneIndex_ < SCENE_INDEX_MAX)
     {
-        scenes_[currentSceneIndex_]->GetActiveCamera().SetFrustum(frustum(static_cast<real>(M_PI/3), (real)size.w/size.h, 0.1f, 100.f));
+        scenes_[currentSceneIndex_]->OnResize(size);
     }
 }
 

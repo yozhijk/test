@@ -23,6 +23,8 @@ public:
     void Tilt(core::real angle);
     void MoveForward(core::real distance);
 
+    void SetAspectRatio(core::real aspect);
+
 protected:
     void RotateCamera(core::vector3 const& v, core::real angle);
 

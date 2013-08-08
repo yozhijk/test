@@ -32,6 +32,7 @@ void ScnParser::Parse()
 
             string tmp, meshTag, meshFile;
             real x,y,z;
+
             stream >> tmp >> meshTag >> meshFile >> x >> y >> z;
 
             matrix4x4 m = translation_matrix(vector3(x, y, z));
@@ -39,6 +40,26 @@ void ScnParser::Parse()
             if (OnStaticObject)
             {
                OnStaticObject(meshTag, meshFile, m);
+            }
+        }
+
+        if (line.find("camera") != string::npos)
+        {
+            istringstream stream(line);
+
+            string tmp, cameraTag;
+            vector3 pos, at, up;
+            real fv, near, far, aspect;
+            bool bActive;
+
+            stream >> tmp >> cameraTag >> pos.x() >> pos.y() >> pos.z()
+                >> at.x() >> at.y() >> at.z() 
+                >> up.x() >> up.y() >> up.z()
+                >> fv >> aspect >> near >> far >> bActive;
+
+            if (OnCamera)
+            {
+                OnCamera(cameraTag, pos, at, up, frustum(fv, aspect, near, far), bActive);
             }
         }
     }

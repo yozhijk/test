@@ -29,12 +29,6 @@ GameScene::~GameScene()
 
 void GameScene::Init(IResourceManager& resourceManager)
 {
-    // TEST CODE
-#ifdef _TEST
-    cameras_["first"] = unique_ptr<Camera>(new Camera());
-    cameras_["first"]->SetFrustum(frustum(static_cast<real>(M_PI/3), 640.f/480.f, 0.1f, 100.f));
-    cameras_["first"]->LookAt(vector3(0,0,0), vector3(0,0,1), vector3(0,1,0));
-#endif
 }
 
 void GameScene::Render(IGraphicsContext& graphicsContext)
@@ -48,10 +42,6 @@ void GameScene::Render(IGraphicsContext& graphicsContext)
         StaticObject& currentObject = *(*cIter);
         graphicsContext.SetWorldMatrix(currentObject.GetWorldMatrix());
         graphicsContext.DrawMesh(currentObject.GetCompiledMesh());
-        // set transforms etc
-#ifdef _TEST
-
-#endif
     }
 }
 
@@ -92,9 +82,10 @@ void GameScene::Update(real timeDelta, IInput& input)
 #endif
 }
 
-Camera& GameScene::GetActiveCamera() const
+Camera& GameScene::GetActiveCamera()
 {
-    return *(cameras_.begin())->second;
+    assert(cameras_.find(activeCameraTag_) != cameras_.end());
+    return *(cameras_[activeCameraTag_]);
 }
 
 unique_ptr<GameScene> GameScene::LoadFromFile(string const& name, IResourceManager& resourceManager)
@@ -122,6 +113,21 @@ unique_ptr<GameScene> GameScene::LoadFromFile(string const& name, IResourceManag
         scene->AddStaticObject(unique_ptr<StaticObject>(new StaticObject(resourceManager.CompileMesh(*meshCache[meshFile]), worldMatrix)));
     };
 
+    scnParser.OnCamera = [&](string const& tag, vector3 const& pos, vector3 const& at, vector3 const& up, frustum const& frustum, bool bActive)
+    {
+        unique_ptr<Camera> camera(new Camera());
+
+        camera->SetFrustum(frustum);
+        camera->LookAt(pos, at, up);
+
+        scene->AddCamera(tag, move(camera));
+
+        if (bActive)
+        {
+            scene->SetActiveCamera(tag);
+        }
+    };
+
     scnParser.Parse();
 
 
@@ -134,4 +140,34 @@ unique_ptr<GameScene> GameScene::LoadFromFile(string const& name, IResourceManag
 void GameScene::AddStaticObject(unique_ptr<StaticObject> obj)
 {
     staticObjects_.push_back(move(obj));
+}
+
+void GameScene::OnResize(core::ui_size size)
+{
+    GetActiveCamera().SetAspectRatio(static_cast<real>(size.w)/size.h);
+}
+
+void GameScene::AddCamera(std::string const& name, std::unique_ptr<Camera> camera)
+{
+    if (cameras_.find(name) != cameras_.end())
+    {
+        throw std::runtime_error("Duplicate camera");
+    }
+
+    cameras_[name] = std::move(camera);
+}
+
+void GameScene::RemoveCamera(std::string const& name)
+{
+    cameras_.erase(name);
+}
+
+void GameScene::SetActiveCamera(std::string const& name)
+{
+    if (cameras_.find(name) == cameras_.end())
+    {
+        throw std::runtime_error("Camera " + name + "not found in a scene");
+    }
+
+    activeCameraTag_ = name;
 }

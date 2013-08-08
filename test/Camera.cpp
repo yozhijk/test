@@ -80,5 +80,10 @@ void Camera::Tilt(real angle)
 
 void Camera::MoveForward(real distance)
 {
-    p_ += distance*GetViewDirection();
+    p_ += distance * GetViewDirection();
+}
+
+void Camera::SetAspectRatio(core::real aspect)
+{
+    frustum_.aspect = aspect;
 }
