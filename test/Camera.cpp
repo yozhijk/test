@@ -60,7 +60,7 @@ void Camera::LookAt(vector3 const& eye, vector3 const& at, vector3 const& up)
 
 void Camera::RotateCamera(vector3 const& v, real angle)
 {
-    q_ *= rotation_quat(v,angle);
+    q_ *= rotation_quat(v, angle);
 }
 
 void Camera::SetFrustum(frustum const& frustum)

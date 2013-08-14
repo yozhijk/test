@@ -7,11 +7,20 @@
 #ifndef IGRAPHICS_CONTEXT
 #define IGRAPHICS_CONTEXT
 
+#include <vector>
+
 #include "common_types.h"
 
-class Mesh;
 class CompiledMesh;
 class IResourceManager;
+
+enum eLight
+{
+    LIGHT_0,
+    LIGHT_1,
+    LIGHT_2,
+    LIGHT_3
+};
 
 /////////////////////////////////////////////////////////
 /// Graphics API to be used by the engine inside OnRender
@@ -27,7 +36,7 @@ public:
     virtual void Init() = 0;
     /// Resize backing buffer
     virtual void ResizeBuffer(core::ui_size const& size) = 0; 
-    /// Set viewport within  [0,0,bbheight, bbwidth] range
+    /// Set viewport within  [0, 0, bbheight, bbwidth] range
     virtual void SetViewport(core::ui_rect const& vp) = 0; 
 
     /// Set coordinate space transforms

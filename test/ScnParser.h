@@ -18,8 +18,13 @@ public:
     /// Static object creation delegate
     std::function<void (std::string const&, std::string const&, core::matrix4x4 const&)> OnStaticObject;
     std::function<void (std::string const&, core::vector3 const&, core::vector3 const&, core::vector3 const&, core::frustum const&, bool)> OnCamera;
+    std::function<void (std::string const&, core::vector3 const&, core::color_rgba const&, bool)> OnPointLight;
 
 private:
+    void ParseStaticObject(std::istringstream& stream) const;
+    void ParseCamera(std::istringstream& stream) const;
+    void ParsePointLight(std::istringstream& stream) const;
+
     ScnParser(ScnParser const&);
     ScnParser& operator = (ScnParser const&);
 

@@ -14,6 +14,7 @@ class IGraphicsContext;
 class IResourceManager;
 class IInput;
 class StaticObject;
+class PointLight;
 
 class GameScene
 {
@@ -34,6 +35,8 @@ public:
 
     void AddStaticObject(std::unique_ptr<StaticObject> obj);
     void AddDynamicObject(std::string const& name/*, std::unique_ptr<DynamicObject> obj*/);
+    void AddPointLight(std::unique_ptr<PointLight> pointLight);
+
     void RemoveStaticObject(std::string const& name);
     void RemoveDynamicObject(std::string const& name);
 
@@ -50,6 +53,7 @@ private:
     // dynamic objects
     // etc
     std::vector<std::unique_ptr<StaticObject> > staticObjects_;
+    std::vector<std::unique_ptr<PointLight> > pointLights_;
     // Camera camera_;
     std::map<std::string, std::unique_ptr<Camera>> cameras_;
     std::string activeCameraTag_;

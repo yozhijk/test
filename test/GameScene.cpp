@@ -5,6 +5,7 @@
 #include "IResourceManager.h"
 #include "IInput.h"
 #include "StaticObject.h"
+#include "PointLight.h"
 #include "ScnParser.h"
 #include "utils.h"
 
@@ -33,7 +34,6 @@ void GameScene::Init(IResourceManager& resourceManager)
 
 void GameScene::Render(IGraphicsContext& graphicsContext)
 {
-
     graphicsContext.SetViewMatrix(GetActiveCamera().GetViewMatrix());
     graphicsContext.SetFrustum(GetActiveCamera().GetFrustum());
 
@@ -128,6 +128,18 @@ unique_ptr<GameScene> GameScene::LoadFromFile(string const& name, IResourceManag
         }
     };
 
+    scnParser.OnPointLight = [&](string const& tag, vector3 const& pos, color_rgba const& color, bool bCastShadow)
+    {
+        unique_ptr<PointLight> light(new PointLight());
+
+        light->SetPosition(pos);
+        light->SetColor(color);
+        light->SetCastShadow(bCastShadow);
+
+        scene->AddPointLight(std::move(light));
+    };
+
+
     scnParser.Parse();
 
 
@@ -140,6 +152,11 @@ unique_ptr<GameScene> GameScene::LoadFromFile(string const& name, IResourceManag
 void GameScene::AddStaticObject(unique_ptr<StaticObject> obj)
 {
     staticObjects_.push_back(move(obj));
+}
+
+void GameScene::AddPointLight(std::unique_ptr<PointLight> pointLight)
+{
+    pointLights_.push_back(move(pointLight));
 }
 
 void GameScene::OnResize(core::ui_size size)
