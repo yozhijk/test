@@ -12,15 +12,8 @@
 #include "common_types.h"
 
 class CompiledMesh;
+class PointLight;
 class IResourceManager;
-
-enum eLight
-{
-    LIGHT_0,
-    LIGHT_1,
-    LIGHT_2,
-    LIGHT_3
-};
 
 /////////////////////////////////////////////////////////
 /// Graphics API to be used by the engine inside OnRender
@@ -29,6 +22,18 @@ enum eLight
 class IGraphicsContext
 {
 public:
+	/// Types
+	enum PointLightIndex
+	{
+		LIGHT_0,
+		LIGHT_1,
+		LIGHT_2,
+		LIGHT_3,
+		LIGHT_MAX,
+	};
+
+public:
+	/// Methods
     virtual ~IGraphicsContext() = 0;
 
     /// Initialize graphics API and create necessarry recources
@@ -46,6 +51,13 @@ public:
 
     /// Draw 3D model with default lighting / effects
     virtual void DrawMesh(CompiledMesh const& mesh) = 0;
+
+	/// Set point light properteies
+	virtual void SetPointLight(PointLightIndex index, PointLight const& light) = 0;
+	/// Set point light enabled flag
+	virtual void SetPointLightEnabled(PointLightIndex index, bool bEnabled) = 0;
+	/// Enabled query
+	virtual bool IsPointLightEnabled(PointLightIndex index) = 0;
 
     /// Clear canvas
     virtual void Clear(core::color_rgba const& color) = 0;

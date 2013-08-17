@@ -108,7 +108,7 @@ static_object monkey1 monkey 5 1 0
 static_object monkey1 monkey 7 1 0
 static_object monkey1 monkey 9 1 0
 
-camera camera1 0 0 -5 0 0 1 0 1 0 1.0471975511965977461542144610932 1 0.1 100 true
+camera camera1 0 0 -5 0 0 1 0 1 0 1.0471975511965977461542144610932 1 0.1 100 1
 
 point_light 0 0 0 1 1 1 false
 point_light 0 15 0 1 0 0 false

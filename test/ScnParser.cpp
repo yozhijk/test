@@ -92,7 +92,5 @@ void ScnParser::Parse()
             istringstream stream(line);
             ParsePointLight(stream);
         }
-
-
     }
 }

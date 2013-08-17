@@ -3,7 +3,6 @@
 #include "Mesh.h"
 
 #ifdef _DEBUG
-#include <D3DX9.h>
 #include "utils.h"
 #endif
 
@@ -283,4 +282,22 @@ void DX11Context::OnReleaseMesh(CompiledMesh const& mesh)
     /// Release index/vertex buffers etc
     pVertexBuffer->Release();
     pIndexBuffer->Release();
+}
+
+void DX11Context::SetPointLight(PointLightIndex index, PointLight const& light)
+{
+
+}
+
+/// Set point light enabled flag
+void DX11Context::SetPointLightEnabled(PointLightIndex index, bool bEnabled)
+{
+
+}
+
+/// Enabled query
+bool DX11Context::IsPointLightEnabled(PointLightIndex index)
+{
+
+	return false;
 }

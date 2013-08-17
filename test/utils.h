@@ -98,7 +98,21 @@ namespace core
     /// Load a contents of a text file
     void load_file_contents(std::string const& name, std::vector<char>& contents, bool binary = false);
 
+	template <typename Internals> struct BufferWrapper
+	{
+		BufferWrapper(Internals const& internals) : internals_(internals) {}
+		
+		Internals* GetBufferPointer() { return &internals_; }
+		Internals const* GetBufferPointer() const { return &internals_; }
 
+		size_t GetBufferSize() const { return sizeof(internals_); }
+		
+		Internals* operator->() { return &internals_; }
+		Internals const* operator->() const { return &internals_; }
+
+		private:
+			Internals internals_;
+	};
 }
 
 #endif

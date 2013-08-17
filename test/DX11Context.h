@@ -45,6 +45,13 @@ public:
     void SetViewMatrix(core::matrix4x4 const& viewMatrix);
     void SetFrustum(core::frustum const& frustum);
 
+	/// Set point light properteies
+	void SetPointLight(PointLightIndex index, PointLight const& light);
+	/// Set point light enabled flag
+	void SetPointLightEnabled(PointLightIndex index, bool bEnabled);
+	/// Enabled query
+	bool IsPointLightEnabled(PointLightIndex index);
+
     /// Draw 3D model with default lighting / effects
     void DrawMesh(CompiledMesh const& mesh);
     /// Clear canvas
@@ -71,6 +78,12 @@ private:
         core::matrix4x4 mWorld;
         core::matrix4x4 mWorldViewProj;
     };
+
+	struct PointLightData
+	{
+		core::vector4 vPos;
+		core::vector4 vColor;
+	};
 
     /// Feature level
     D3D_FEATURE_LEVEL featureLevel_;

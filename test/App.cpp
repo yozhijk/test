@@ -12,6 +12,9 @@ using namespace core;
 
 App::App(ISystem& os) 
     : os_(os)
+	, graphicsContext_(nullptr)
+	, gameEngine_(nullptr)
+	, input_(nullptr)
 {
     os_.AddListener(this);
 }

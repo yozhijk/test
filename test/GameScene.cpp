@@ -20,6 +20,7 @@ using namespace std;
 GameScene::GameScene()
 #ifdef _TEST
     : angle_(0)
+	, activeCameraTag_("")
 #endif
 {
 }
@@ -36,6 +37,15 @@ void GameScene::Render(IGraphicsContext& graphicsContext)
 {
     graphicsContext.SetViewMatrix(GetActiveCamera().GetViewMatrix());
     graphicsContext.SetFrustum(GetActiveCamera().GetFrustum());
+
+	/// Enable no more that max point lights 
+	/// Shadow casting is unsupported yet
+	for (core::uint i = 0; i < min(static_cast<size_t>(IGraphicsContext::LIGHT_MAX), pointLights_.size()); ++i)
+	{
+		IGraphicsContext::PointLightIndex index = static_cast<IGraphicsContext::PointLightIndex>(i);
+		graphicsContext.SetPointLight(index, *pointLights_[i]);
+		graphicsContext.SetPointLightEnabled(index, true);
+	}
 
     for (auto cIter = staticObjects_.cbegin(); cIter != staticObjects_.cend(); ++cIter)
     {
@@ -84,8 +94,17 @@ void GameScene::Update(real timeDelta, IInput& input)
 
 Camera& GameScene::GetActiveCamera()
 {
-    assert(cameras_.find(activeCameraTag_) != cameras_.end());
-    return *(cameras_[activeCameraTag_]);
+	assert(activeCameraTag_ != "");
+
+    auto iter = cameras_.find(activeCameraTag_);
+	if (iter != cameras_.end())
+	{
+		return *((*iter).second);
+	}
+	else
+	{
+		throw std::runtime_error("No camera named " + activeCameraTag_);
+	}
 }
 
 unique_ptr<GameScene> GameScene::LoadFromFile(string const& name, IResourceManager& resourceManager)
@@ -161,7 +180,8 @@ void GameScene::AddPointLight(std::unique_ptr<PointLight> pointLight)
 
 void GameScene::OnResize(core::ui_size size)
 {
-    GetActiveCamera().SetAspectRatio(static_cast<real>(size.w)/size.h);
+	if (activeCameraTag_ != "")
+		GetActiveCamera().SetAspectRatio(static_cast<real>(size.w)/size.h);
 }
 
 void GameScene::AddCamera(std::string const& name, std::unique_ptr<Camera> camera)
@@ -170,7 +190,7 @@ void GameScene::AddCamera(std::string const& name, std::unique_ptr<Camera> camer
     {
         throw std::runtime_error("Duplicate camera");
     }
-
+		
     cameras_[name] = std::move(camera);
 }
 

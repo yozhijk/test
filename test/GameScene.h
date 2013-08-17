@@ -55,7 +55,7 @@ private:
     std::vector<std::unique_ptr<StaticObject> > staticObjects_;
     std::vector<std::unique_ptr<PointLight> > pointLights_;
     // Camera camera_;
-    std::map<std::string, std::unique_ptr<Camera>> cameras_;
+    std::map<std::string, std::unique_ptr<Camera> > cameras_;
     std::string activeCameraTag_;
 #ifdef _TEST
     core::real angle_;

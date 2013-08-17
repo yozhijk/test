@@ -2,6 +2,7 @@
 #define GAMEENGINE_H
 
 #include <vector>
+#include <memory>
 
 #include "common_types.h"
 
@@ -45,8 +46,6 @@ private:
     core::uint    currentSceneIndex_;
     STATE     engineState_;
     std::vector< std::unique_ptr<GameScene> > scenes_;
-    //std::unique_ptr<Physics> physics_;
-    //script engine, etc
 };
 
 #endif
