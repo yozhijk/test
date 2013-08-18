@@ -5,16 +5,17 @@
 
 struct VSInput
 {
-    float3 pos : POSITION;
-    float2 tex : TEXCOORD;
-    float3 normal : NORMAL;
+	float3 vPos : POSITION;
+	float2 vTex : TEXCOORD;
+	float3 vNorm : NORMAL;
 };
 
 struct PSInput
 {
-    float4 pos : SV_Position;
-    float2 tex : TEXCOORD;
-    float3 normal : NORMAL;
+	float4 vPos : SV_Position;
+	float2 vTex : TEXCOORD;
+	float3 vNorm : NORMAL;
+	float3 vWorldPos : WORLDPOS;
 };
 
 struct PointLight
@@ -23,13 +24,13 @@ struct PointLight
 	float4 vColor;
 };
 
-cbuffer PerFrameCB : register(c0)
+cbuffer PerFrameCB : register(b0)
 {
-    float4x4 g_mWorld;
-    float4x4 g_mWorldViewProj;
+	float4x4 g_mWorld;
+	float4x4 g_mWorldViewProj;
 };
 
-cbuffer LightCB : register(c1)
+cbuffer LightCB : register(b1)
 {
 	PointLight g_PointLights[POINT_LIGHTS_MAX];
 };

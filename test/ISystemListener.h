@@ -1,6 +1,6 @@
 /////////////////////////////////////////////////////
 /// @file ISystemListener.h
-///     Callbacks from the operating system
+///	 Callbacks from the operating system
 ///
 /// @author Dmitry Kolzov
 ///
@@ -18,17 +18,17 @@ struct Window;
 class ISystemListener
 {
 public:
-    virtual ~ISystemListener() = 0;
+	virtual ~ISystemListener() = 0;
 
-    /// Gets called on application startup 
-    /// ??? Decide whether this should be called on any new subscriber ???
-    virtual void OnStartup(Window const& window) = 0;
-    /// Gets called on application shutdown
-    virtual void OnShutdown() = 0;
-    /// Gets called every run-loop iteration
-    virtual void OnUpdate(core::real timeDelta) = 0;
-    /// Gets called on window resize event
-    virtual void OnResizeWindow(core::ui_size const& size) = 0;
+	/// Gets called on application startup 
+	/// ??? Decide whether this should be called on any new subscriber ???
+	virtual void OnStartup(Window const& window) = 0;
+	/// Gets called on application shutdown
+	virtual void OnShutdown() = 0;
+	/// Gets called every run-loop iteration
+	virtual void OnUpdate(core::real timeDelta) = 0;
+	/// Gets called on window resize event
+	virtual void OnResizeWindow(core::ui_size const& size) = 0;
 };
 
 inline ISystemListener::~ISystemListener(){}

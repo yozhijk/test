@@ -1,6 +1,6 @@
 /////////////////////////////////////////////////////
 /// @file App.h
-///     Platform independent application
+///	 Platform independent application
 ///
 /// @author Dmitry Kolzov
 ///
@@ -24,23 +24,23 @@ class GameEngine;
 class App : private ISystemListener
 {
 public:
-    App(ISystem& os);
-    ~App();
+	App(ISystem& os);
+	~App();
 
-    /// ISystemListener overrides
-    void OnStartup(Window const& window);
-    void OnShutdown();
-    void OnUpdate(core::real timeDelta);
-    void OnResizeWindow(core::ui_size const& size);
+	/// ISystemListener overrides
+	void OnStartup(Window const& window);
+	void OnShutdown();
+	void OnUpdate(core::real timeDelta);
+	void OnResizeWindow(core::ui_size const& size);
 
 private:
-    App(App const&);// = delete;
-    App& operator = (App const&);// = delete;
+	App(App const&);// = delete;
+	App& operator = (App const&);// = delete;
 
-    ISystem& os_;
-    std::unique_ptr<GameEngine>       gameEngine_; 
-    std::unique_ptr<IGraphicsContext> graphicsContext_;
-    std::unique_ptr<IInput>           input_;
+	ISystem& os_;
+	std::unique_ptr<GameEngine>	   gameEngine_; 
+	std::unique_ptr<IGraphicsContext> graphicsContext_;
+	std::unique_ptr<IInput>		   input_;
 };
 
 

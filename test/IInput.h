@@ -1,6 +1,6 @@
 /////////////////////////////////////////////////////
 /// @file IInput.h
-///     An interface to input devices
+///	 An interface to input devices
 ///
 /// @author Dmitry Kolzov
 ///
@@ -13,17 +13,17 @@
 
 enum MY_KEY
 {
-    MK_RIGHT,
-    MK_LEFT,
-    MK_UP,
-    MK_DOWN
+	MK_RIGHT,
+	MK_LEFT,
+	MK_UP,
+	MK_DOWN
 };
 
 enum MY_MOUSE_BUTTON
 {
-    MMB_LEFT,
-    MMB_MIDLE,
-    MMB_RIGHT
+	MMB_LEFT,
+	MMB_MIDLE,
+	MMB_RIGHT
 };
 
 /////////////////////////////////////////////////////
@@ -32,16 +32,16 @@ enum MY_MOUSE_BUTTON
 class IInput
 { 
 public:
-    virtual ~IInput() = 0;
+	virtual ~IInput() = 0;
 
-    virtual bool IsKeyPressed( MY_KEY key ) const = 0;
-    virtual bool IsMouseButtonPressed( MY_MOUSE_BUTTON button ) const = 0;
-    virtual core::vector2 GetRelativePosition() const = 0;
-    virtual core::vector2 GetAbsolutePosition() const = 0;
-    virtual void UpdateState() = 0;
+	virtual bool IsKeyPressed( MY_KEY key ) const = 0;
+	virtual bool IsMouseButtonPressed( MY_MOUSE_BUTTON button ) const = 0;
+	virtual core::vector2 GetRelativePosition() const = 0;
+	virtual core::vector2 GetAbsolutePosition() const = 0;
+	virtual void UpdateState() = 0;
 
 protected:
-    void operator = (IInput const&);
+	void operator = (IInput const&);
 };
 
 inline IInput::~IInput() {}

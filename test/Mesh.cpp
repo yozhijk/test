@@ -33,266 +33,266 @@ Mesh::~Mesh()
 
 void Mesh::LoadFromObjStream(ifstream& objStream)
 {
-    string line;
-    while(getline(objStream,line))
-    {
-        // normal
-        if (line.find("vn ") != string::npos)
-        {
-            istringstream inStream(line);
-            string tmp;
-            real x,y,z;
+	string line;
+	while(getline(objStream,line))
+	{
+		// normal
+		if (line.find("vn ") != string::npos)
+		{
+			istringstream inStream(line);
+			string tmp;
+			real x,y,z;
 
-            inStream >> tmp >> x >> y >> z;
+			inStream >> tmp >> x >> y >> z;
 
-            StoreNormal(vector3(x,y,z));
-        }
-        // texcoord
-        else if (line.find("vt ") != string::npos)
-        {
-            istringstream inStream(line);
-            string tmp;
-            real x,y;
+			StoreNormal(vector3(x,y,z));
+		}
+		// texcoord
+		else if (line.find("vt ") != string::npos)
+		{
+			istringstream inStream(line);
+			string tmp;
+			real x,y;
 
-            inStream >> tmp >> x >> y;
+			inStream >> tmp >> x >> y;
 
-            StoreTexcoord(vector2(x,y));
-        }
-        // vertex
-        else if (line.find("v ") != string::npos)
-        {
-            istringstream inStream(line);
-            string tmp;
-            real x,y,z;
+			StoreTexcoord(vector2(x,y));
+		}
+		// vertex
+		else if (line.find("v ") != string::npos)
+		{
+			istringstream inStream(line);
+			string tmp;
+			real x,y,z;
 
-            inStream >> tmp >> x >> y >> z;
+			inStream >> tmp >> x >> y >> z;
 
-            StoreVertex(vector3(x,y,z));
-        }
-        // no support for groups, materials etc yet
-    }
+			StoreVertex(vector3(x,y,z));
+		}
+		// no support for groups, materials etc yet
+	}
 
-    // second pass to extract faces
-    objStream.clear();
-    objStream.seekg(0, ios::beg);
+	// second pass to extract faces
+	objStream.clear();
+	objStream.seekg(0, ios::beg);
 
-    std::vector<string> tokens;
-    while(getline(objStream,line))
-    {
-        if (line.find("f") != string::npos)
-        {
-            istringstream inStream(line);
-            copy(istream_iterator<string>(inStream), istream_iterator<string>(), back_inserter(tokens));
+	std::vector<string> tokens;
+	while(getline(objStream,line))
+	{
+		if (line.find("f") != string::npos)
+		{
+			istringstream inStream(line);
+			copy(istream_iterator<string>(inStream), istream_iterator<string>(), back_inserter(tokens));
 
-            // handle tokens only triangles for the moment
-            assert(tokens.size() == 4);
-            tokens.erase(tokens.begin());
+			// handle tokens only triangles for the moment
+			assert(tokens.size() == 4);
+			tokens.erase(tokens.begin());
 
-            // remove extra spaces
-            for_each(tokens.begin(), tokens.end(),
-                [&](string& s)
-            {
-                s.erase(remove(s.begin(), s.end(), ' '), s.end());
-            }
-            );
+			// remove extra spaces
+			for_each(tokens.begin(), tokens.end(),
+				[&](string& s)
+			{
+				s.erase(remove(s.begin(), s.end(), ' '), s.end());
+			}
+			);
 
-            // reserve memory for a triangle
-            std::vector<Index> indices;
-            indices.reserve(3);
-            Index tempIdx;
+			// reserve memory for a triangle
+			std::vector<Index> indices;
+			indices.reserve(3);
+			Index tempIdx;
 
-            // There are 4 possible cases here
-            // case 1: f 1 2 3
-            // case 2: f 1/1 2/2 3/3
-            // case 3: f 1/1/1 2/2/2 3/3/3
-            // case 4: f 1//1 2//2 3//3
-            if (tokens[0].find_first_of("//") != string::npos)
-            {
-                // case 4:
-                // scanf seems to be the fastest option here
-                for_each(tokens.begin(), tokens.end(),
-                    [&](string& s)
-                {
-                    sscanf(s.c_str(), "%d//%d", &tempIdx.vIdx, &tempIdx.nIdx);
-                    // account for 1-based arrays in obj file
-                    --tempIdx.vIdx;
-                    --tempIdx.nIdx;
-                    indices.push_back(tempIdx);
-                }
-                );
-            }
-            else if (count(tokens[0].begin(), tokens[0].end(), '/') == 1)
-            {
-                // case 2:
-                // case 4:
-                // scanf seems to be the fastest option here
-                for_each(tokens.begin(), tokens.end(),
-                    [&](string& s)
-                {
-                    sscanf(s.c_str(), "%d/%d", &tempIdx.vIdx, &tempIdx.tIdx);
-                    --tempIdx.vIdx;
-                    --tempIdx.tIdx;
-                    indices.push_back(tempIdx);
-                }
-                );
-            }
-            else if (count(tokens[0].begin(), tokens[0].end(), '/') == 2)
-            {
-                // case 3:
-                // scanf seems to be the fastest option here
-                for_each(tokens.begin(), tokens.end(),
-                    [&](string& s)
-                {
-                    sscanf(s.c_str(), "%d/%d/%d", &tempIdx.vIdx, &tempIdx.tIdx, &tempIdx.nIdx);
-                    --tempIdx.vIdx;
-                    --tempIdx.nIdx;
-                    --tempIdx.tIdx;
-                    indices.push_back(tempIdx);
-                }
-                );
-            }
-            else
-            {
-                // case 1:
-                // scanf seems to be the fastest option here
-                for_each(tokens.begin(), tokens.end(),
-                    [&](string& s)
-                {
-                    sscanf(s.c_str(), "%d", &tempIdx.vIdx);
-                    --tempIdx.vIdx;
-                    indices.push_back(tempIdx);
-                }
-                );
-            }
+			// There are 4 possible cases here
+			// case 1: f 1 2 3
+			// case 2: f 1/1 2/2 3/3
+			// case 3: f 1/1/1 2/2/2 3/3/3
+			// case 4: f 1//1 2//2 3//3
+			if (tokens[0].find_first_of("//") != string::npos)
+			{
+				// case 4:
+				// scanf seems to be the fastest option here
+				for_each(tokens.begin(), tokens.end(),
+					[&](string& s)
+				{
+					sscanf(s.c_str(), "%d//%d", &tempIdx.vIdx, &tempIdx.nIdx);
+					// account for 1-based arrays in obj file
+					--tempIdx.vIdx;
+					--tempIdx.nIdx;
+					indices.push_back(tempIdx);
+				}
+				);
+			}
+			else if (count(tokens[0].begin(), tokens[0].end(), '/') == 1)
+			{
+				// case 2:
+				// case 4:
+				// scanf seems to be the fastest option here
+				for_each(tokens.begin(), tokens.end(),
+					[&](string& s)
+				{
+					sscanf(s.c_str(), "%d/%d", &tempIdx.vIdx, &tempIdx.tIdx);
+					--tempIdx.vIdx;
+					--tempIdx.tIdx;
+					indices.push_back(tempIdx);
+				}
+				);
+			}
+			else if (count(tokens[0].begin(), tokens[0].end(), '/') == 2)
+			{
+				// case 3:
+				// scanf seems to be the fastest option here
+				for_each(tokens.begin(), tokens.end(),
+					[&](string& s)
+				{
+					sscanf(s.c_str(), "%d/%d/%d", &tempIdx.vIdx, &tempIdx.tIdx, &tempIdx.nIdx);
+					--tempIdx.vIdx;
+					--tempIdx.nIdx;
+					--tempIdx.tIdx;
+					indices.push_back(tempIdx);
+				}
+				);
+			}
+			else
+			{
+				// case 1:
+				// scanf seems to be the fastest option here
+				for_each(tokens.begin(), tokens.end(),
+					[&](string& s)
+				{
+					sscanf(s.c_str(), "%d", &tempIdx.vIdx);
+					--tempIdx.vIdx;
+					indices.push_back(tempIdx);
+				}
+				);
+			}
 
 
-            StoreFace(indices);
+			StoreFace(indices);
 
-            indices.clear();
-            tokens.clear();
-        }
-    }
+			indices.clear();
+			tokens.clear();
+		}
+	}
 
-    PackInterleavedData();
+	PackInterleavedData();
 }
 
 inline uint Mesh::StoreVertex(vector3 const& v)
 {
-    vertices_.push_back(v);
-    return static_cast<uint>(vertices_.size() - 1);
+	vertices_.push_back(v);
+	return static_cast<uint>(vertices_.size() - 1);
 }
 
 inline uint Mesh::StoreNormal(vector3 const& n)
 {
-    normals_.push_back(n);
-    return static_cast<uint>(normals_.size() - 1);
+	normals_.push_back(n);
+	return static_cast<uint>(normals_.size() - 1);
 }
 
 inline uint Mesh::StoreTexcoord(vector2 const& t)
 {
-    texcoords_.push_back(t);
-    return static_cast<uint>(texcoords_.size() - 1);
+	texcoords_.push_back(t);
+	return static_cast<uint>(texcoords_.size() - 1);
 }
 
 inline uint Mesh::StoreFace(std::vector<Index> const& indices)
 {
-    // Add support for n-gons later
-    assert(indices.size() == 3);
-    copy(indices.begin(), indices.end(), back_inserter(indices_));
-    return static_cast<uint>(indices_.size() - 1);
+	// Add support for n-gons later
+	assert(indices.size() == 3);
+	copy(indices.begin(), indices.end(), back_inserter(indices_));
+	return static_cast<uint>(indices_.size() - 1);
 }
 
 shared_ptr<Mesh>  Mesh::CreateFromObj(string const& fileName)
 {
-    ifstream in(fileName);
+	ifstream in(fileName);
 
-    if (in)
-    {
-        // FIXME: think over how to use make_shared
-        shared_ptr<Mesh> modelPtr(new Mesh());
-        modelPtr->LoadFromObjStream(in);
-        return modelPtr;
-    }
-    else
-    {
-        throw runtime_error("Shit happens: check the path to your models");
-        return nullptr;
-    }
+	if (in)
+	{
+		// FIXME: think over how to use make_shared
+		shared_ptr<Mesh> modelPtr(new Mesh());
+		modelPtr->LoadFromObjStream(in);
+		return modelPtr;
+	}
+	else
+	{
+		throw runtime_error("Shit happens: check the path to your models");
+		return nullptr;
+	}
 }
 
 Mesh::Vertex const* Mesh::GetVertexArrayPointer() const
 {
-    assert(interleavedData_.size() > 0);
-    return &interleavedData_[0];
+	assert(interleavedData_.size() > 0);
+	return &interleavedData_[0];
 }
 
 unsigned short const* Mesh::GetIndexArrayPointer() const
 {
-    assert(interleavedIndices_.size() > 0);
-    return &interleavedIndices_[0];
+	assert(interleavedIndices_.size() > 0);
+	return &interleavedIndices_[0];
 }
 
 uint Mesh::GetVertexCount() const
 {
-    assert(interleavedData_.size() > 0);
-    return static_cast<uint>(interleavedData_.size());
+	assert(interleavedData_.size() > 0);
+	return static_cast<uint>(interleavedData_.size());
 }
 
 uint Mesh::GetIndexCount() const
 {
-    assert(interleavedIndices_.size() > 0);
-    return static_cast<uint>(interleavedIndices_.size());
+	assert(interleavedIndices_.size() > 0);
+	return static_cast<uint>(interleavedIndices_.size());
 }
 
 uint Mesh::GetVertexSizeInBytes() const
 {
-    return sizeof(Vertex);
+	return sizeof(Vertex);
 }
 
 void Mesh::PackInterleavedData()
 {
-    map<Index, unsigned short> tempIdx;
-    for_each(indices_.begin(), indices_.end(), [&](Index const& index)
-    {
-        auto idx = tempIdx.find(index);
+	map<Index, unsigned short> tempIdx;
+	for_each(indices_.begin(), indices_.end(), [&](Index const& index)
+	{
+		auto idx = tempIdx.find(index);
 
-        if ( idx != tempIdx.end())
-        {
-            interleavedIndices_.push_back(idx->second);
-        }
-        else
-        {
-            Vertex vertexData;
+		if ( idx != tempIdx.end())
+		{
+			interleavedIndices_.push_back(idx->second);
+		}
+		else
+		{
+			Vertex vertexData;
 
-            vertexData.position = vertices_[index.vIdx];
+			vertexData.position = vertices_[index.vIdx];
 
-            if (HasNormals())
-                vertexData.normal = normals_[index.nIdx];
+			if (HasNormals())
+				vertexData.normal = normals_[index.nIdx];
 
-            if (HasTexcoords())
-                vertexData.texcoord = texcoords_[index.tIdx];
+			if (HasTexcoords())
+				vertexData.texcoord = texcoords_[index.tIdx];
 
-            interleavedData_.push_back(vertexData);
+			interleavedData_.push_back(vertexData);
 
-            unsigned short indexToStore = static_cast<unsigned short>(interleavedData_.size()-1);
+			unsigned short indexToStore = static_cast<unsigned short>(interleavedData_.size()-1);
 
-            interleavedIndices_.push_back(indexToStore);
+			interleavedIndices_.push_back(indexToStore);
 
-            tempIdx[index] = indexToStore;
-        }
-    }
-    );
+			tempIdx[index] = indexToStore;
+		}
+	}
+	);
 
 }
 
 inline bool Mesh::HasNormals() const
 {
-    return !normals_.empty();
+	return !normals_.empty();
 }
 
 inline bool Mesh::HasTexcoords() const
 {
-    return !texcoords_.empty();
+	return !texcoords_.empty();
 }
 
 #pragma warning(pop)

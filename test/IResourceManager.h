@@ -9,11 +9,11 @@ class CompiledMesh;
 class IResourceManager
 {
 public:
-    virtual ~IResourceManager() = 0;
+	virtual ~IResourceManager() = 0;
 
-    /// Transform model into API-friendly form (would look into AssImp)
+	/// Transform model into API-friendly form (would look into AssImp)
 	virtual std::shared_ptr<CompiledMesh>   CompileMesh(Mesh const& mesh) = 0;
-    //virtual std::shared_ptr<ConstantBuffer> CreateConstantBuffer(core::uint size) = 0;
+	//virtual std::shared_ptr<ConstantBuffer> CreateConstantBuffer(core::uint size) = 0;
 };
 
 inline IResourceManager::~IResourceManager(){}

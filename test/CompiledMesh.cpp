@@ -3,38 +3,38 @@
 using namespace core;
 
 CompiledMesh::CompiledMesh(uint vertexBufferID, uint indexBufferID, uint indexCount, uint vertexSizeInBytes, ReleaseCallback releaseCallback)
-    : vertexBufferID_(vertexBufferID)
-    ,indexBufferID_(indexBufferID)
-    ,indexCount_(indexCount)
-    ,vertexSizeInBytes_(vertexSizeInBytes)
-    ,releaseCallback_(releaseCallback)
+	: vertexBufferID_(vertexBufferID)
+	,indexBufferID_(indexBufferID)
+	,indexCount_(indexCount)
+	,vertexSizeInBytes_(vertexSizeInBytes)
+	,releaseCallback_(releaseCallback)
 {
 }
 
 CompiledMesh::~CompiledMesh()
 {
-    if (releaseCallback_)
-    {
-        releaseCallback_(*this);
-    }
+	if (releaseCallback_)
+	{
+		releaseCallback_(*this);
+	}
 }
 
 uint CompiledMesh::GetVertexBufferID() const
 {
-    return vertexBufferID_;
+	return vertexBufferID_;
 }
 
 uint CompiledMesh::GetIndexBufferID() const
 {
-    return indexBufferID_;
+	return indexBufferID_;
 }
 
 uint CompiledMesh::GetIndexCount() const
 {
-    return indexCount_;
+	return indexCount_;
 }
 
 uint CompiledMesh::GetVertexSizeInBytes() const
 {
-    return vertexSizeInBytes_;
+	return vertexSizeInBytes_;
 }
