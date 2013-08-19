@@ -53,6 +53,9 @@ public:
 	/// Enabled query
 	bool IsPointLightEnabled(PointLightIndex index);
 
+	/// Commit per-frame states (such as lighting params) to device
+	void CommitState();
+
 	/// Draw 3D model with default lighting / effects
 	void DrawMesh(CompiledMesh const& mesh);
 	/// Clear canvas

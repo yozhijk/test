@@ -52,12 +52,15 @@ public:
 	/// Draw 3D model with default lighting / effects
 	virtual void DrawMesh(CompiledMesh const& mesh) = 0;
 
-	/// Set point light properteies
+	/// Set point light properties
 	virtual void SetPointLight(PointLightIndex index, PointLight const& light) = 0;
 	/// Set point light enabled flag
 	virtual void SetPointLightEnabled(PointLightIndex index, bool bEnabled) = 0;
 	/// Enabled query
 	virtual bool IsPointLightEnabled(PointLightIndex index) = 0;
+
+	/// Commit per-frame states (such as lighting params) to device
+	virtual void CommitState() = 0;
 
 	/// Clear canvas
 	virtual void Clear(core::color_rgba const& color) = 0;

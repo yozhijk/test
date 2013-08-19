@@ -47,6 +47,10 @@ void GameScene::Render(IGraphicsContext& graphicsContext)
 		graphicsContext.SetPointLightEnabled(index, true);
 	}
 
+	/// Commit per-frame states
+	graphicsContext.CommitState();
+
+	/// Render static geometry
 	for (auto cIter = staticObjects_.cbegin(); cIter != staticObjects_.cend(); ++cIter)
 	{
 		StaticObject& currentObject = *(*cIter);

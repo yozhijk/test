@@ -204,6 +204,22 @@ void DX11Context::SetFrustum(frustum const& frustum)
 	projMatrix_ = perspective_proj_fovy_matrix_lh_dx(frustum.fovy, frustum.aspect, frustum.nr, frustum.fr);
 }
 
+void DX11Context::CommitState()
+{
+	// Update point lights constant buffer
+	immediateContext_->UpdateSubresource(pointLightCB_, D3D11CalcSubresource(0, 0, 1), nullptr, &pointLights_[0], 0, 0);
+
+	// Set shaders & state
+	immediateContext_->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+	immediateContext_->IASetInputLayout(shaderCache_.GetShaderProgram("simple", device_).GetInputLayout());
+	immediateContext_->VSSetShader(shaderCache_.GetShaderProgram("simple", device_).GetVertexShader(), nullptr, 0);
+	immediateContext_->VSSetConstantBuffers(0, 1, &transformCB_.p);
+	immediateContext_->PSSetShader(shaderCache_.GetShaderProgram("simple", device_).GetPixelShader(), nullptr, 0);
+	immediateContext_->PSSetConstantBuffers(1, 1, &pointLightCB_.p);
+	immediateContext_->RSSetState(rasterizerState_);
+	immediateContext_->OMSetDepthStencilState(dsState_, 0);
+}
+
 void DX11Context::DrawMesh(CompiledMesh const& mesh)
 {
 	// Set constant buffers
@@ -212,17 +228,6 @@ void DX11Context::DrawMesh(CompiledMesh const& mesh)
 	transformData.mWorldViewProj = projMatrix_ * viewMatrix_ *  worldMatrix_ ;
 
 	immediateContext_->UpdateSubresource(transformCB_, D3D11CalcSubresource(0, 0, 1), nullptr, &transformData, 0, 0);
-	immediateContext_->VSSetConstantBuffers(0, 1, &transformCB_.p);
-
-	// Update point lights constant buffer
-	// FIXME: move it out later as we don't need to update this buffer for every mesh
-	immediateContext_->UpdateSubresource(pointLightCB_, D3D11CalcSubresource(0, 0, 1), nullptr, &pointLights_[0], 0, 0);
-	immediateContext_->PSSetConstantBuffers(1, 1, &pointLightCB_.p);
-
-	// Set shaders & state
-	immediateContext_->IASetInputLayout(shaderCache_.GetShaderProgram("simple", device_).GetInputLayout());
-	immediateContext_->VSSetShader(shaderCache_.GetShaderProgram("simple", device_).GetVertexShader(), nullptr, 0);
-	immediateContext_->PSSetShader(shaderCache_.GetShaderProgram("simple", device_).GetPixelShader(), nullptr, 0);
 
 	ID3D11Buffer* pVertexBuffer = reinterpret_cast<ID3D11Buffer*>(mesh.GetVertexBufferID());
 	ID3D11Buffer* pIndexBuffer = reinterpret_cast<ID3D11Buffer*>(mesh.GetIndexBufferID());
@@ -231,10 +236,6 @@ void DX11Context::DrawMesh(CompiledMesh const& mesh)
 	UINT offset = 0;
 	immediateContext_->IASetVertexBuffers(0, 1, &pVertexBuffer, &stride, &offset);
 	immediateContext_->IASetIndexBuffer(pIndexBuffer, DXGI_FORMAT_R16_UINT, 0);
-	immediateContext_->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-
-	immediateContext_->RSSetState(rasterizerState_);
-	immediateContext_->OMSetDepthStencilState(dsState_, 0);
 
 	immediateContext_->DrawIndexed(mesh.GetIndexCount(), 0, 0);
 }
