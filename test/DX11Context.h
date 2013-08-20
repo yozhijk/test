@@ -53,6 +53,13 @@ public:
 	/// Enabled query
 	bool IsPointLightEnabled(PointLightIndex index);
 
+	/// Set spot light properties
+	void SetSpotLight(SpotLightIndex index, SpotLight const& light);
+	/// Set point light enabled flag
+	void SetSpotLightEnabled(SpotLightIndex index, bool bEnabled);
+	/// Enabled query
+	bool IsSpotLightEnabled(SpotLightIndex index);
+
 	/// Commit per-frame states (such as lighting params) to device
 	void CommitState();
 
@@ -89,6 +96,14 @@ private:
 		core::vector4 vColor;
 	};
 
+	struct SpotLightData
+	{
+		core::vector4 vPos;
+		core::vector4 vDir;
+		core::vector4 vColor;
+		core::vector4 vAngle;
+	};
+
 	/// Feature level
 	D3D_FEATURE_LEVEL featureLevel_;
 	/// Direct3D device
@@ -104,6 +119,8 @@ private:
 	CComPtr<ID3D11Buffer> transformCB_;
 	// Point lights constant buffer
 	CComPtr<ID3D11Buffer> pointLightCB_;
+	// Spot lights constant buffer
+	CComPtr<ID3D11Buffer> spotLightCB_;
 	/// Raster state
 	CComPtr<ID3D11RasterizerState> rasterizerState_;
 	/// Depth & stencil state
@@ -119,6 +136,7 @@ private:
 
 	/// Point lights
 	std::vector<PointLightData> pointLights_;
+	std::vector<SpotLightData> spotLights_;
 
 	/// Shader cache
 	DX11ShaderManager shaderCache_;

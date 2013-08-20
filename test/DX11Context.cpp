@@ -1,5 +1,6 @@
 #include "DX11Context.h"
 #include "PointLight.h"
+#include "SpotLight.h"
 #include "CompiledMesh.h"
 #include "Mesh.h"
 
@@ -17,7 +18,8 @@ using namespace core;
 
 DX11Context::DX11Context(HWND hWnd) 
 	:hWnd_(hWnd)
-	,pointLights_(LIGHT_MAX)
+	,pointLights_(POINT_LIGHT_MAX)
+	,spotLights_(SPOT_LIGHT_MAX)
 {
 }
 
@@ -82,6 +84,12 @@ void DX11Context::Init()
 	bufferDesc.StructureByteStride = sizeof(PointLightData);
 	bufferDesc.Usage = D3D11_USAGE_DEFAULT;
 	THROW_IF_FAILED(device_->CreateBuffer(&bufferDesc, nullptr, &pointLightCB_), "Failed to create point lights constant buffer");
+
+	bufferDesc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
+	bufferDesc.ByteWidth = sizeof(SpotLightData) * spotLights_.size();
+	bufferDesc.StructureByteStride = sizeof(SpotLightData);
+	bufferDesc.Usage = D3D11_USAGE_DEFAULT;
+	THROW_IF_FAILED(device_->CreateBuffer(&bufferDesc, nullptr, &spotLightCB_), "Failed to create point lights constant buffer");
 
 	D3D11_RASTERIZER_DESC rasterDesc = 
 	{
@@ -208,6 +216,8 @@ void DX11Context::CommitState()
 {
 	// Update point lights constant buffer
 	immediateContext_->UpdateSubresource(pointLightCB_, D3D11CalcSubresource(0, 0, 1), nullptr, &pointLights_[0], 0, 0);
+	// Update spot lights constant buffer
+	immediateContext_->UpdateSubresource(spotLightCB_, D3D11CalcSubresource(0, 0, 1), nullptr, &spotLights_[0], 0, 0);
 
 	// Set shaders & state
 	immediateContext_->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
@@ -216,6 +226,7 @@ void DX11Context::CommitState()
 	immediateContext_->VSSetConstantBuffers(0, 1, &transformCB_.p);
 	immediateContext_->PSSetShader(shaderCache_.GetShaderProgram("simple", device_).GetPixelShader(), nullptr, 0);
 	immediateContext_->PSSetConstantBuffers(1, 1, &pointLightCB_.p);
+	immediateContext_->PSSetConstantBuffers(2, 1, &spotLightCB_.p);
 	immediateContext_->RSSetState(rasterizerState_);
 	immediateContext_->OMSetDepthStencilState(dsState_, 0);
 }
@@ -301,21 +312,41 @@ void DX11Context::OnReleaseMesh(CompiledMesh const& mesh)
 
 void DX11Context::SetPointLight(PointLightIndex index, PointLight const& light)
 {
-	assert (index < LIGHT_MAX);
+	assert (index < POINT_LIGHT_MAX);
 	pointLights_[index].vPos = light.Position();
 	pointLights_[index].vColor = light.Color();
 }
 
-/// Set point light enabled flag
 void DX11Context::SetPointLightEnabled(PointLightIndex index, bool bEnabled)
 {
-	assert (index < LIGHT_MAX);
+	assert (index < POINT_LIGHT_MAX);
 	pointLights_[index].vPos.w() = bEnabled?1.f:0.f;
 }
 
-/// Enabled query
 bool DX11Context::IsPointLightEnabled(PointLightIndex index)
 {
-	assert (index < LIGHT_MAX);
+	assert (index < POINT_LIGHT_MAX);
 	return pointLights_[index].vPos.w() > 0.f;
+}
+
+void DX11Context::SetSpotLight(SpotLightIndex index, SpotLight const& light)
+{
+	assert (index < SPOT_LIGHT_MAX);
+	spotLights_[index].vPos = light.Position();
+	spotLights_[index].vDir = light.Direction();
+	spotLights_[index].vColor = light.Color();
+	spotLights_[index].vAngle.x() = light.InnerAngle();
+	spotLights_[index].vAngle.y() = light.OuterAngle();
+}
+
+void DX11Context::SetSpotLightEnabled(SpotLightIndex index, bool bEnabled)
+{
+	assert (index < SPOT_LIGHT_MAX);
+	spotLights_[index].vPos.w() = bEnabled?1.f:0.f;
+}
+
+bool DX11Context::IsSpotLightEnabled(SpotLightIndex index)
+{
+	assert (index < SPOT_LIGHT_MAX);
+	return spotLights_[index].vPos.w() > 0.f;
 }

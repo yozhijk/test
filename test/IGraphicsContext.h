@@ -13,6 +13,7 @@
 
 class CompiledMesh;
 class PointLight;
+class SpotLight;
 class IResourceManager;
 
 /////////////////////////////////////////////////////////
@@ -25,11 +26,20 @@ public:
 	/// Types
 	enum PointLightIndex
 	{
-		LIGHT_0,
-		LIGHT_1,
-		LIGHT_2,
-		LIGHT_3,
-		LIGHT_MAX,
+		POINT_LIGHT_0,
+		POINT_LIGHT_1,
+		POINT_LIGHT_2,
+		POINT_LIGHT_3,
+		POINT_LIGHT_MAX,
+	};
+
+	enum SpotLightIndex
+	{
+		SPOT_LIGHT_0,
+		SPOT_LIGHT_1,
+		SPOT_LIGHT_2,
+		SPOT_LIGHT_3,
+		SPOT_LIGHT_MAX,
 	};
 
 public:
@@ -59,11 +69,19 @@ public:
 	/// Enabled query
 	virtual bool IsPointLightEnabled(PointLightIndex index) = 0;
 
+	/// Set spot light properties
+	virtual void SetSpotLight(SpotLightIndex index, SpotLight const& light) = 0;
+	/// Set point light enabled flag
+	virtual void SetSpotLightEnabled(SpotLightIndex index, bool bEnabled) = 0;
+	/// Enabled query
+	virtual bool IsSpotLightEnabled(SpotLightIndex index) = 0;
+
 	/// Commit per-frame states (such as lighting params) to device
 	virtual void CommitState() = 0;
 
 	/// Clear canvas
 	virtual void Clear(core::color_rgba const& color) = 0;
+	 
 	/// Present backbuffer
 	/// REQUIREMENT: This method shouldn't be called inside an engine's rendering code
 	/// as it could mess up the order, let app object be responsible for presenting

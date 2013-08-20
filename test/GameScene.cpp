@@ -6,6 +6,7 @@
 #include "IInput.h"
 #include "StaticObject.h"
 #include "PointLight.h"
+#include "SpotLight.h"
 #include "ScnParser.h"
 #include "utils.h"
 
@@ -40,11 +41,18 @@ void GameScene::Render(IGraphicsContext& graphicsContext)
 
 	/// Enable no more that max point lights 
 	/// Shadow casting is unsupported yet
-	for (core::uint i = 0; i < min(static_cast<size_t>(IGraphicsContext::LIGHT_MAX), pointLights_.size()); ++i)
+	for (core::uint i = 0; i < min(static_cast<size_t>(IGraphicsContext::POINT_LIGHT_MAX), pointLights_.size()); ++i)
 	{
 		IGraphicsContext::PointLightIndex index = static_cast<IGraphicsContext::PointLightIndex>(i);
 		graphicsContext.SetPointLight(index, *pointLights_[i]);
 		graphicsContext.SetPointLightEnabled(index, true);
+	}
+
+	for (core::uint i = 0; i < min(static_cast<size_t>(IGraphicsContext::SPOT_LIGHT_MAX), spotLights_.size()); ++i)
+	{
+		IGraphicsContext::SpotLightIndex index = static_cast<IGraphicsContext::SpotLightIndex>(i);
+		graphicsContext.SetSpotLight(index, *spotLights_[i]);
+		graphicsContext.SetSpotLightEnabled(index, true);
 	}
 
 	/// Commit per-frame states
@@ -119,53 +127,63 @@ unique_ptr<GameScene> GameScene::LoadFromFile(string const& name, IResourceManag
 
 	ScnParser scnParser(name);
 
-	scnParser.OnStaticObject = [&](string const& meshTag, string const& meshFile, matrix4x4 const& worldMatrix)
+	scnParser.OnStaticObject = [&](StaticObjectDesc const& staticObjectDesc)
 	{
-		auto iter = meshCache.find(meshFile);
+		auto iter = meshCache.find(staticObjectDesc.fileName);
 
 		if (iter == meshCache.end())
 		{
-			string meshFileName = meshFile;
+			string meshFileName = staticObjectDesc.fileName;
 			meshFileName.append(".objm");
-			meshCache[meshFile] = Mesh::CreateFromObj(meshFileName);
+			meshCache[staticObjectDesc.fileName] = Mesh::CreateFromObj(meshFileName);
 
-			assert(meshCache[meshFile].use_count() == 1);
+			assert(meshCache[staticObjectDesc.fileName].use_count() == 1);
 		}
 
 		/// FIXME: Use weak ptr instead of Mesh& in IResourceManager
-		scene->AddStaticObject(unique_ptr<StaticObject>(new StaticObject(resourceManager.CompileMesh(*meshCache[meshFile]), worldMatrix)));
+		scene->AddStaticObject(unique_ptr<StaticObject>(new StaticObject(resourceManager.CompileMesh(*meshCache[staticObjectDesc.fileName]), staticObjectDesc.worldMatrix)));
 	};
 
-	scnParser.OnCamera = [&](string const& tag, vector3 const& pos, vector3 const& at, vector3 const& up, frustum const& frustum, bool bActive)
+	scnParser.OnCamera = [&](CameraDesc const& cameraDesc)
 	{
 		unique_ptr<Camera> camera(new Camera());
 
-		camera->SetFrustum(frustum);
-		camera->LookAt(pos, at, up);
+		camera->SetFrustum(cameraDesc.frustum);
+		camera->LookAt(cameraDesc.pos, cameraDesc.at, cameraDesc.up);
 
-		scene->AddCamera(tag, move(camera));
+		scene->AddCamera(cameraDesc.tag, move(camera));
 
-		if (bActive)
+		if (cameraDesc.bActive)
 		{
-			scene->SetActiveCamera(tag);
+			scene->SetActiveCamera(cameraDesc.tag);
 		}
 	};
 
-	scnParser.OnPointLight = [&](string const& tag, vector3 const& pos, color_rgba const& color, bool bCastShadow)
+	scnParser.OnPointLight = [&](PointLightDesc const& pointLightDesc)
 	{
 		unique_ptr<PointLight> light(new PointLight());
 
-		light->SetPosition(pos);
-		light->SetColor(color);
-		light->SetCastShadow(bCastShadow);
+		light->SetPosition(pointLightDesc.pos);
+		light->SetColor(pointLightDesc.color);
+		light->SetCastShadow(pointLightDesc.bCastShadow);
 
 		scene->AddPointLight(std::move(light));
 	};
 
+	scnParser.OnSpotLight = [&](SpotLightDesc const& spotLightDesc)
+	{
+		unique_ptr<SpotLight> spotLight(new SpotLight());
+
+		spotLight->SetPosition(spotLightDesc.pos);
+		spotLight->SetDirection(spotLightDesc.dir);
+		spotLight->SetColor(spotLightDesc.color);
+		spotLight->SetAngles(spotLightDesc.innerAngle, spotLightDesc.outerAngle);
+		spotLight->SetCastShadow(spotLightDesc.bCastShadow);
+
+		scene->AddSpotLight(move(spotLight));
+	};
 
 	scnParser.Parse();
-
-
 
 	scene->Init(resourceManager);
 
@@ -180,6 +198,11 @@ void GameScene::AddStaticObject(unique_ptr<StaticObject> obj)
 void GameScene::AddPointLight(std::unique_ptr<PointLight> pointLight)
 {
 	pointLights_.push_back(move(pointLight));
+}
+
+void GameScene::AddSpotLight(std::unique_ptr<SpotLight> spotLight)
+{
+	spotLights_.push_back(move(spotLight));
 }
 
 void GameScene::OnResize(core::ui_size size)

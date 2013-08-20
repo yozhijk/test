@@ -108,8 +108,10 @@
     <ClInclude Include="sampler.h" />
     <ClInclude Include="ISystemListener.h" />
     <ClInclude Include="SceneGraph.h" />
+    <ClInclude Include="ScnFilePayload.h" />
     <ClInclude Include="ScnParser.h" />
     <ClInclude Include="ShaderCommon.h" />
+    <ClInclude Include="SpotLight.h" />
     <ClInclude Include="StaticObject.h" />
     <ClInclude Include="Timer.h" />
     <ClInclude Include="tree.h" />
@@ -131,6 +133,7 @@
     <ClCompile Include="PointLight.cpp" />
     <ClCompile Include="sampler.cpp" />
     <ClCompile Include="ScnParser.cpp" />
+    <ClCompile Include="SpotLight.cpp" />
     <ClCompile Include="StaticObject.cpp" />
     <ClCompile Include="test.cpp" />
     <ClCompile Include="utils.cpp" />

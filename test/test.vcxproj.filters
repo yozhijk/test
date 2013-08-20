@@ -126,6 +126,12 @@
     <ClInclude Include="PointLight.h">
       <Filter>GameEngine</Filter>
     </ClInclude>
+    <ClInclude Include="ScnFilePayload.h">
+      <Filter>GameEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="SpotLight.h">
+      <Filter>GameEngine</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="sampler.cpp">
@@ -174,6 +180,9 @@
       <Filter>GameEngine</Filter>
     </ClCompile>
     <ClCompile Include="PointLight.cpp">
+      <Filter>GameEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="SpotLight.cpp">
       <Filter>GameEngine</Filter>
     </ClCompile>
   </ItemGroup>

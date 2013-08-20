@@ -12,6 +12,15 @@ float4 main(PSInput input) : SV_Target
 		vResult += fDiffuse * g_PointLights[i].vColor * g_PointLights[i].vPos.w;
 	}
 
-	
+	[unroll]
+	for (int i=0;i<SPOT_LIGHTS_MAX;++i)
+	{
+		float3 vDir = normalize(g_SpotLights[i].vPos.xyz - input.vWorldPos.xyz);
+		float3 vSpotAxis = normalize(g_SpotLights[i].vDir.xyz);
+		float fAngularAttenuation = smoothstep(g_SpotLights[i].vAngle.y, g_SpotLights[i].vAngle.x, max(0, dot(vSpotAxis, -vDir)));
+		float fDiffuse = max(0, dot(normalize(input.vNorm), vDir));
+		vResult += fDiffuse * g_SpotLights[i].vColor * fAngularAttenuation * g_SpotLights[i].vPos.w;
+	}
+
 	return clamp(vResult, 0, 1);
 }
