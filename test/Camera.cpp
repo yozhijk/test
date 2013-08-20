@@ -3,6 +3,7 @@
 using namespace core;
 
 Camera::Camera()
+	:	tilt_()
 {
 }
 
@@ -70,12 +71,17 @@ void Camera::SetFrustum(frustum const& frustum)
 
 void Camera::Rotate(real angle)
 {
-	RotateCamera(GetUpDirection(), angle);
+	RotateCamera(vector3(0.0, 1.0, 0.0), angle);
 }
 
 void Camera::Tilt(real angle)
 {
-	RotateCamera(GetRightDirection(), angle);
+	if (abs(tilt_ + angle) < static_cast<real>(M_PI_2))
+	{
+		RotateCamera(GetRightDirection(), angle);
+	}
+
+	tilt_ = std::max(std::min(tilt_ + angle, static_cast<real>(M_PI_2)), -static_cast<real>(M_PI_2));
 }
 
 void Camera::MoveForward(real distance)

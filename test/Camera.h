@@ -32,6 +32,9 @@ private:
 	core::quat q_;
 	core::vector3 p_;
 	core::frustum frustum_;
+
+	// Angle to impose tilt constraint
+	core::real tilt_;
 };
 
 
