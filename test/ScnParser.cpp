@@ -21,50 +21,49 @@ ScnParser::~ScnParser()
 
 void ScnParser::ParseStaticObject(std::istringstream& stream) const
 {
-	string tmp, meshTag, meshFile;
-	real x,y,z;
-
-	stream >> tmp >> meshTag >> meshFile >> x >> y >> z;
-
-	matrix4x4 m = translation_matrix(vector3(x, y, z));
+	StaticObjectDesc staticObjectDesc;
+	
+	stream >> staticObjectDesc;
 
 	if (OnStaticObject)
 	{
-		OnStaticObject(meshTag, meshFile, m);
+		OnStaticObject(staticObjectDesc);
 	}
 }
 
 void ScnParser::ParseCamera(std::istringstream& stream) const
 {
-	string tmp, cameraTag;
-	vector3 pos, at, up;
-	real fv, near, far, aspect;
-	bool bActive;
+	CameraDesc cameraDesc;
 
-	stream >> tmp >> cameraTag >> pos.x() >> pos.y() >> pos.z()
-		>> at.x() >> at.y() >> at.z() 
-		>> up.x() >> up.y() >> up.z()
-		>> fv >> aspect >> near >> far >> bActive;
+	stream >> cameraDesc;
 
 	if (OnCamera)
 	{
-		OnCamera(cameraTag, pos, at, up, frustum(fv, aspect, near, far), bActive);
+		OnCamera(cameraDesc);
 	}
 }
 
 void ScnParser::ParsePointLight(std::istringstream& stream) const
 {
-	string tmp, lightTag;
-	vector3 pos;
-	color_rgba color;
-	bool bCastShadow = false;
+	PointLightDesc pointLightDesc;
 
-	stream >> tmp >> pos.x() >> pos.y() >> pos.z() >> 
-		color.x() >> color.y() >> color.z() >> bCastShadow;
+	stream >> pointLightDesc;
 
 	if (OnPointLight)
 	{
-		OnPointLight(lightTag, pos, color, bCastShadow);
+		OnPointLight(pointLightDesc);
+	}
+}
+
+void ScnParser::ParseSpotLight(std::istringstream& stream) const
+{
+	SpotLightDesc spotLightDesc;
+
+	stream >> spotLightDesc;
+
+	if (OnSpotLight)
+	{
+		OnSpotLight(spotLightDesc);
 	}
 }
 
@@ -91,6 +90,12 @@ void ScnParser::Parse()
 		{
 			istringstream stream(line);
 			ParsePointLight(stream);
+		}
+
+		if (line.find("spot_light") != string::npos)
+		{
+			istringstream stream(line);
+			ParseSpotLight(stream);
 		}
 	}
 }

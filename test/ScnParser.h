@@ -6,6 +6,8 @@
 
 #include "common_types.h"
 
+#include "ScnFilePayload.h"
+
 class ScnParser
 {
 public:
@@ -15,16 +17,16 @@ public:
 	void Parse();
 
 	/// Static object creation delegate
-	std::function<void(std::string const&, std::string const&, core::matrix4x4 const&)> OnStaticObject;
-
-	/// Dirty hack to workaround variadic templates absence here needed under VS12
-	std::function<void(std::string const&, core::vector3 const&, core::vector3 const&, core::vector3 const&, core::frustum const&, bool)> OnCamera;
-	std::function<void(std::string const&, core::vector3 const&, core::color_rgba const&, bool)> OnPointLight;
+	std::function<void(StaticObjectDesc const&)> OnStaticObject;
+	std::function<void(CameraDesc const&)> OnCamera;
+	std::function<void(PointLightDesc const& pointLightDesc)> OnPointLight;
+	std::function<void(SpotLightDesc const& spotLightDesc)> OnSpotLight;
 
 private:
 	void ParseStaticObject(std::istringstream& stream) const;
 	void ParseCamera(std::istringstream& stream) const;
 	void ParsePointLight(std::istringstream& stream) const;
+	void ParseSpotLight(std::istringstream& stream) const;
 
 	ScnParser(ScnParser const&);
 	ScnParser& operator = (ScnParser const&);
