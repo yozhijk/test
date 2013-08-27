@@ -20,7 +20,10 @@ class SpotLight;
 class GameScene
 {
 public:
-
+	/// TODO: This is not a logical part of a GameScene class, it knows to much about the
+	/// file layout etc. Scenes may be constructed from different kind of files and are 
+	/// operating with abstract entities via abstract interface.
+	/// Need to think how to implement it best
 	static std::unique_ptr<GameScene> LoadFromFile(std::string const& name, IResourceManager& resourceManager);
 
 	GameScene();

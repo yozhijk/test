@@ -15,7 +15,6 @@ public:
 	core::matrix4x4 GetViewMatrix() const;
 	core::frustum   GetFrustum() const;
 
-	
 	void Rotate(core::real angle);
 	void Tilt(core::real angle);
 	void MoveForward(core::real distance);

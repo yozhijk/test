@@ -14,7 +14,7 @@
 /////////////////////////////////
 ///
 /// Basic camera interface
-/// 
+///
 class ICamera : public IGameEntity
 {
 public:
