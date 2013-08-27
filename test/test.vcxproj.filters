@@ -99,9 +99,6 @@
     <ClInclude Include="ShaderCommon.h">
       <Filter>Shaders</Filter>
     </ClInclude>
-    <ClInclude Include="Camera.h">
-      <Filter>GameEngine</Filter>
-    </ClInclude>
     <ClInclude Include="DX11ShaderManager.h">
       <Filter>Windows</Filter>
     </ClInclude>
@@ -131,6 +128,12 @@
     </ClInclude>
     <ClInclude Include="IGameEntity.h">
       <Filter>Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="ICamera.h">
+      <Filter>Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="QuaternionCamera.h">
+      <Filter>GameEngine</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -164,9 +167,6 @@
     <ClCompile Include="GameScene.cpp">
       <Filter>GameEngine</Filter>
     </ClCompile>
-    <ClCompile Include="Camera.cpp">
-      <Filter>GameEngine</Filter>
-    </ClCompile>
     <ClCompile Include="DX11ShaderManager.cpp">
       <Filter>Windows</Filter>
     </ClCompile>
@@ -183,6 +183,9 @@
       <Filter>GameEngine</Filter>
     </ClCompile>
     <ClCompile Include="SpotLight.cpp">
+      <Filter>GameEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="QuaternionCamera.cpp">
       <Filter>GameEngine</Filter>
     </ClCompile>
   </ItemGroup>

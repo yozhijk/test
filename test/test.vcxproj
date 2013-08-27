@@ -86,7 +86,7 @@
     <ClInclude Include="App.h" />
     <ClInclude Include="bezier_curve.h" />
     <ClInclude Include="bezier_surface.h" />
-    <ClInclude Include="Camera.h" />
+    <ClInclude Include="QuaternionCamera.h" />
     <ClInclude Include="common_types.h" />
     <ClInclude Include="CompiledMesh.h" />
     <ClInclude Include="complex.h" />
@@ -94,6 +94,7 @@
     <ClInclude Include="DX11ShaderManager.h" />
     <ClInclude Include="DXInput.h" />
     <ClInclude Include="GameEngine.h" />
+    <ClInclude Include="ICamera.h" />
     <ClInclude Include="IGameEntity.h" />
     <ClInclude Include="GameScene.h" />
     <ClInclude Include="IGraphicsContext.h" />
@@ -122,7 +123,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="App.cpp" />
-    <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="QuaternionCamera.cpp" />
     <ClCompile Include="CompiledMesh.cpp" />
     <ClCompile Include="DX11Context.cpp" />
     <ClCompile Include="DX11ShaderManager.cpp" />

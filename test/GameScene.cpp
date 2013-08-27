@@ -1,13 +1,20 @@
 #include "GameScene.h"
-#include "Mesh.h"
-#include "CompiledMesh.h"
+
 #include "IGraphicsContext.h"
 #include "IResourceManager.h"
 #include "IInput.h"
+#include "ICamera.h"
+
+#include "Mesh.h"
+#include "CompiledMesh.h"
 #include "StaticObject.h"
 #include "PointLight.h"
 #include "SpotLight.h"
 #include "ScnParser.h"
+
+/// Scene shouldn't know about the concrete camera class
+/// this should be moved into the factory
+#include "QuaternionCamera.h"
 #include "utils.h"
 
 #include <map>
@@ -104,7 +111,7 @@ void GameScene::Update(real timeDelta, IInput& input)
 #endif
 }
 
-Camera& GameScene::GetActiveCamera()
+ICamera& GameScene::GetActiveCamera()
 {
 	assert(activeCameraTag_ != "");
 
@@ -146,7 +153,7 @@ unique_ptr<GameScene> GameScene::LoadFromFile(string const& name, IResourceManag
 
 	scnParser.OnCamera = [&](CameraDesc const& cameraDesc)
 	{
-		unique_ptr<Camera> camera(new Camera());
+		unique_ptr<QuaternionCamera> camera(new QuaternionCamera());
 
 		camera->SetFrustum(cameraDesc.frustum);
 		camera->LookAt(cameraDesc.pos, cameraDesc.at, cameraDesc.up);
@@ -211,7 +218,7 @@ void GameScene::OnResize(core::ui_size size)
 		GetActiveCamera().SetAspectRatio(static_cast<real>(size.w)/size.h);
 }
 
-void GameScene::AddCamera(std::string const& name, std::unique_ptr<Camera> camera)
+void GameScene::AddCamera(std::string const& name, std::unique_ptr<ICamera> camera)
 {
 	if (cameras_.find(name) != cameras_.end())
 	{

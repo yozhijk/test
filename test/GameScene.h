@@ -7,7 +7,7 @@
 #include <string>
 #include <memory>
 #include <map>
-#include "Camera.h"
+#include "ICamera.h"
 
 class CompiledMesh;
 class IGraphicsContext;
@@ -31,7 +31,7 @@ public:
 	void Update(core::real timeDelta, IInput& input);
 	void OnResize(core::ui_size size);
 
-	void AddCamera(std::string const& name, std::unique_ptr<Camera> camera);
+	void AddCamera(std::string const& name, std::unique_ptr<ICamera> camera);
 	void RemoveCamera(std::string const& name);
 
 	void AddStaticObject(std::unique_ptr<StaticObject> obj);
@@ -45,8 +45,8 @@ public:
 	//void AddParticleEmitter();
 	//void RemoveParticleEmitter();
 
-	Camera& GetActiveCamera();
-	Camera const& GetCamera(std::string const&) const;
+	ICamera& GetActiveCamera();
+	ICamera const& GetCamera(std::string const&) const;
 	void SetActiveCamera(std::string const& name);
 
 private:
@@ -58,7 +58,7 @@ private:
 	std::vector<std::unique_ptr<PointLight> > pointLights_;
 	std::vector<std::unique_ptr<SpotLight> > spotLights_;
 	// Camera camera_;
-	std::map<std::string, std::unique_ptr<Camera> > cameras_;
+	std::map<std::string, std::unique_ptr<ICamera> > cameras_;
 	std::string activeCameraTag_;
 #ifdef _TEST
 	core::real angle_;
