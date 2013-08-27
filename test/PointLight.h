@@ -16,7 +16,7 @@ public:
 
 	core::vector3 GetPosition() const;
 	core::color_rgba GetColor() const;
-	bool	GetCastShadow() const;
+	bool GetCastShadow() const;
 
 private:
 	PointLight(PointLight const&);
@@ -24,7 +24,7 @@ private:
 
 	core::vector3 pos_;
 	core::color_rgba color_;
-	bool		  bCastShadow_;
+	bool bCastShadow_;
 };
 
 

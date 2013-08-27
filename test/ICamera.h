@@ -20,9 +20,11 @@ class ICamera : public IGameEntity
 public:
 	virtual ~ICamera() = 0;
 
+	/// Query methods
 	virtual core::matrix4x4 GetViewMatrix() const = 0;
 	virtual core::frustum   GetFrustum() const = 0;
 
+	/// Control methods
 	/// Rotate camera aroung world up vector
 	virtual void Rotate(core::real angle) = 0;
 	/// Tilt in [-Pi/2,Pi/2] range
