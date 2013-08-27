@@ -1,10 +1,10 @@
 #ifndef POINTLIGHT_H
 #define POINTLIGHT_H
 
-#include "GameEntity.h"
+#include "IGameEntity.h"
 #include "common_types.h"
 
-class PointLight : public GameEntity
+class PointLight : public IGameEntity
 {
 public:
 	PointLight();

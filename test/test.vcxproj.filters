@@ -90,9 +90,6 @@
     <ClInclude Include="IResourceManager.h">
       <Filter>Interfaces</Filter>
     </ClInclude>
-    <ClInclude Include="GameEntity.h">
-      <Filter>GameEngine</Filter>
-    </ClInclude>
     <ClInclude Include="Mesh.h">
       <Filter>GameEngine</Filter>
     </ClInclude>
@@ -131,6 +128,9 @@
     </ClInclude>
     <ClInclude Include="SpotLight.h">
       <Filter>GameEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="IGameEntity.h">
+      <Filter>Interfaces</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

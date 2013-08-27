@@ -127,6 +127,7 @@ unique_ptr<GameScene> GameScene::LoadFromFile(string const& name, IResourceManag
 
 	ScnParser scnParser(name);
 
+	// FIXME: this creation requests should be routed to global factory finally
 	scnParser.OnStaticObject = [&](StaticObjectDesc const& staticObjectDesc)
 	{
 		auto iter = meshCache.find(staticObjectDesc.fileName);
@@ -140,7 +141,6 @@ unique_ptr<GameScene> GameScene::LoadFromFile(string const& name, IResourceManag
 			assert(meshCache[staticObjectDesc.fileName].use_count() == 1);
 		}
 
-		/// FIXME: Use weak ptr instead of Mesh& in IResourceManager
 		scene->AddStaticObject(unique_ptr<StaticObject>(new StaticObject(resourceManager.CompileMesh(*meshCache[staticObjectDesc.fileName]), staticObjectDesc.worldMatrix)));
 	};
 

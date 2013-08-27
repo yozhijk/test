@@ -14,7 +14,6 @@ struct StaticObjectDesc
 {
 	std::string tag;
 	std::string fileName;
-
 	core::matrix4x4 worldMatrix;
 };
 
@@ -30,7 +29,6 @@ struct CameraDesc
 	core::frustum frustum;
 	bool bActive;
 };
-
 
 /*------------------------------
 		Point light

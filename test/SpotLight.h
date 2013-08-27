@@ -1,10 +1,10 @@
 #ifndef SPOTLIGHT_H
 #define SPOTLIGHT_H
 
-#include "GameEntity.h"
+#include "IGameEntity.h"
 #include "common_types.h"
 
-class SpotLight : public GameEntity
+class SpotLight : public IGameEntity
 {
 public:
 	SpotLight();

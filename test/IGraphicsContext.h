@@ -81,7 +81,7 @@ public:
 
 	/// Clear canvas
 	virtual void Clear(core::color_rgba const& color) = 0;
-	 
+
 	/// Present backbuffer
 	/// REQUIREMENT: This method shouldn't be called inside an engine's rendering code
 	/// as it could mess up the order, let app object be responsible for presenting

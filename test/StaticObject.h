@@ -8,12 +8,12 @@
 
 #include "common_types.h"
 
-#include "GameEntity.h"
+#include "IGameEntity.h"
 
 class Mesh;
 class CompiledMesh;
 
-class StaticObject : public GameEntity
+class StaticObject : public IGameEntity
 {
 public:
 	StaticObject(std::shared_ptr<CompiledMesh> compiledMesh, core::matrix4x4 const& worldMatrix);

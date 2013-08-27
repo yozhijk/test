@@ -5,7 +5,6 @@
 #include <string>
 
 #include "common_types.h"
-
 #include "ScnFilePayload.h"
 
 class ScnParser

@@ -94,7 +94,7 @@
     <ClInclude Include="DX11ShaderManager.h" />
     <ClInclude Include="DXInput.h" />
     <ClInclude Include="GameEngine.h" />
-    <ClInclude Include="GameEntity.h" />
+    <ClInclude Include="IGameEntity.h" />
     <ClInclude Include="GameScene.h" />
     <ClInclude Include="IGraphicsContext.h" />
     <ClInclude Include="IInput.h" />
