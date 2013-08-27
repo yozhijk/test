@@ -26,17 +26,17 @@ void PointLight::SetCastShadow(bool bCastShadow)
 	bCastShadow_ = bCastShadow;
 }
 
- vector3 PointLight::Position() const
+ vector3 PointLight::GetPosition() const
 {
 	return pos_;
 }
 
- color_rgba PointLight::Color() const
+ color_rgba PointLight::GetColor() const
 {
 	return color_;
 }
 
-bool	PointLight::CastShadow() const
+bool	PointLight::GetCastShadow() const
 {
 	return bCastShadow_;
 }

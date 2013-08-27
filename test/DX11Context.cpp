@@ -313,8 +313,8 @@ void DX11Context::OnReleaseMesh(CompiledMesh const& mesh)
 void DX11Context::SetPointLight(PointLightIndex index, PointLight const& light)
 {
 	assert (index < POINT_LIGHT_MAX);
-	pointLights_[index].vPos = light.Position();
-	pointLights_[index].vColor = light.Color();
+	pointLights_[index].vPos = light.GetPosition();
+	pointLights_[index].vColor = light.GetColor();
 }
 
 void DX11Context::SetPointLightEnabled(PointLightIndex index, bool bEnabled)
@@ -332,11 +332,11 @@ bool DX11Context::IsPointLightEnabled(PointLightIndex index)
 void DX11Context::SetSpotLight(SpotLightIndex index, SpotLight const& light)
 {
 	assert (index < SPOT_LIGHT_MAX);
-	spotLights_[index].vPos = light.Position();
-	spotLights_[index].vDir = light.Direction();
-	spotLights_[index].vColor = light.Color();
-	spotLights_[index].vAngle.x() = light.InnerAngle();
-	spotLights_[index].vAngle.y() = light.OuterAngle();
+	spotLights_[index].vPos = light.GetPosition();
+	spotLights_[index].vDir = light.GetDirection();
+	spotLights_[index].vColor = light.GetColor();
+	spotLights_[index].vAngle.x() = light.GetInnerAngle();
+	spotLights_[index].vAngle.y() = light.GetOuterAngle();
 }
 
 void DX11Context::SetSpotLightEnabled(SpotLightIndex index, bool bEnabled)

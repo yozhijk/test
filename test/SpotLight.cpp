@@ -37,31 +37,31 @@ void SpotLight::SetCastShadow(bool bCastShadow)
 	bCastShadow_ = bCastShadow;
 }
 
- vector3 SpotLight::Position() const
+ vector3 SpotLight::GetPosition() const
 {
 	return pos_;
 }
 
- vector3 SpotLight::Direction() const
+ vector3 SpotLight::GetDirection() const
 {
 	return dir_;
 }
 
- color_rgba SpotLight::Color() const
+ color_rgba SpotLight::GetColor() const
 {
 	return color_;
 }
 
- core::real SpotLight::InnerAngle() const
+ core::real SpotLight::GetInnerAngle() const
  {
 	 return innerAngle_;
  }
- core::real SpotLight::OuterAngle() const
+ core::real SpotLight::GetOuterAngle() const
  {
 	 return outerAngle_;
  }
 
-bool	SpotLight::CastShadow() const
+bool	SpotLight::GetCastShadow() const
 {
 	return bCastShadow_;
 }

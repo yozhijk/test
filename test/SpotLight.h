@@ -16,12 +16,12 @@ public:
 	void SetAngles(core::real innerAngle, core::real outerAngle);
 	void SetCastShadow(bool bCastShadow);
 
-	core::vector3 Position() const;
-	core::color_rgba Color() const;
-	core::vector3 Direction() const;
-	core::real InnerAngle() const;
-	core::real OuterAngle() const;
-	bool	CastShadow() const;
+	core::vector3 GetPosition() const;
+	core::color_rgba GetColor() const;
+	core::vector3 GetDirection() const;
+	core::real GetInnerAngle() const;
+	core::real GetOuterAngle() const;
+	bool	GetCastShadow() const;
 private:
 	SpotLight(SpotLight const&);
 	SpotLight& operator = (SpotLight const&);

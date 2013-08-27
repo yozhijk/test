@@ -14,9 +14,9 @@ public:
 	void SetColor(core::color_rgba color);
 	void SetCastShadow(bool bCastShadow);
 
-	core::vector3 Position() const;
-	core::color_rgba Color() const;
-	bool	CastShadow() const;
+	core::vector3 GetPosition() const;
+	core::color_rgba GetColor() const;
+	bool	GetCastShadow() const;
 
 private:
 	PointLight(PointLight const&);
