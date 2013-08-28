@@ -135,6 +135,12 @@
     <ClInclude Include="QuaternionCamera.h">
       <Filter>GameEngine</Filter>
     </ClInclude>
+    <ClInclude Include="IEntityFactory.h">
+      <Filter>Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineFactory.h">
+      <Filter>GameEngine</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="sampler.cpp">
