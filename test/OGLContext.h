@@ -40,6 +40,24 @@ public:
 	/// Draw 3D model with default lighting / effects
 	void DrawMesh(CompiledMesh const& mesh);
     
+    /// Set point light properties
+    void SetPointLight(PointLightIndex index, PointLight const& light);
+	/// Set point light enabled flag
+	void SetPointLightEnabled(PointLightIndex index, bool bEnabled);
+	/// Enabled query
+	bool IsPointLightEnabled(PointLightIndex index);
+    
+	/// Set spot light properties
+	void SetSpotLight(SpotLightIndex index, SpotLight const& light);
+	/// Set point light enabled flag
+	void SetSpotLightEnabled(SpotLightIndex index, bool bEnabled);
+	/// Enabled query
+	bool IsSpotLightEnabled(SpotLightIndex index);
+    
+	/// Commit per-frame states (such as lighting params) to device
+	void CommitState();
+
+    
 	/// Clear canvas
 	void Clear(core::color_rgba const& color);
 	/// Present backbuffer
@@ -52,7 +70,7 @@ public:
     
     /// IResourceManager overrides
     /// Transform model into API-friendly form (would look into AssImp)
-	std::unique_ptr<CompiledMesh> CompileMesh(Mesh const& mesh);
+	std::shared_ptr<CompiledMesh> CompileMesh(Mesh const& mesh);
     
 protected:
     /// Release model callback

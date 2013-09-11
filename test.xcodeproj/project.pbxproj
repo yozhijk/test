@@ -7,12 +7,17 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2E039A4D17E0B659001E4A64 /* PointLight.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E039A4217E0B659001E4A64 /* PointLight.cpp */; };
+		2E039A4E17E0B659001E4A64 /* QuaternionCamera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E039A4417E0B659001E4A64 /* QuaternionCamera.cpp */; };
+		2E039A4F17E0B659001E4A64 /* ScnParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E039A4717E0B659001E4A64 /* ScnParser.cpp */; };
+		2E039A5017E0B659001E4A64 /* SpotLight.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E039A4917E0B659001E4A64 /* SpotLight.cpp */; };
+		2E039A5117E0B659001E4A64 /* StaticObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E039A4B17E0B659001E4A64 /* StaticObject.cpp */; };
+		2E039A5217E0B7E7001E4A64 /* many_monkeys_scene.scn in CopyFiles */ = {isa = PBXBuildFile; fileRef = 2E039A4117E0B659001E4A64 /* many_monkeys_scene.scn */; };
 		2E4BEA7817198079004A5CBD /* simple_ogl.vsh in Sources */ = {isa = PBXBuildFile; fileRef = 2E4BEA7717198079004A5CBD /* simple_ogl.vsh */; };
 		2E4BEA7A17198343004A5CBD /* simple_ogl.vsh in CopyFiles */ = {isa = PBXBuildFile; fileRef = 2E4BEA7717198079004A5CBD /* simple_ogl.vsh */; };
 		2E4BEA7B17198343004A5CBD /* simple_ogl.psh in CopyFiles */ = {isa = PBXBuildFile; fileRef = 2E4BEA7917198091004A5CBD /* simple_ogl.psh */; };
 		2E81C9121718702C00428B87 /* GameScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E81C9111718702C00428B87 /* GameScene.cpp */; };
 		2E81C9161718770600428B87 /* OGLShaderManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E81C9151718770600428B87 /* OGLShaderManager.cpp */; };
-		2EA38B9217284A4A00853F7C /* Camera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2EA38B9017284A4A00853F7C /* Camera.cpp */; };
 		2EA38B9517284BD200853F7C /* monkey.objm in CopyFiles */ = {isa = PBXBuildFile; fileRef = 2EA38B9417284BBB00853F7C /* monkey.objm */; };
 		2EAC428D175682A40034DC8B /* MacInput.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2EAC428B175682A40034DC8B /* MacInput.cpp */; };
 		2EDB2FA4171806A700F27F46 /* CompiledMesh.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2EDB2FA0171806A700F27F46 /* CompiledMesh.cpp */; };
@@ -35,6 +40,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 16;
 			files = (
+				2E039A5217E0B7E7001E4A64 /* many_monkeys_scene.scn in CopyFiles */,
 				2EA38B9517284BD200853F7C /* monkey.objm in CopyFiles */,
 				2E4BEA7A17198343004A5CBD /* simple_ogl.vsh in CopyFiles */,
 				2E4BEA7B17198343004A5CBD /* simple_ogl.psh in CopyFiles */,
@@ -44,6 +50,22 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		2E039A3D17E0B659001E4A64 /* EngineFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EngineFactory.h; sourceTree = "<group>"; };
+		2E039A3E17E0B659001E4A64 /* ICamera.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ICamera.h; sourceTree = "<group>"; };
+		2E039A3F17E0B659001E4A64 /* IEntityFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IEntityFactory.h; sourceTree = "<group>"; };
+		2E039A4017E0B659001E4A64 /* IGameEntity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IGameEntity.h; sourceTree = "<group>"; };
+		2E039A4117E0B659001E4A64 /* many_monkeys_scene.scn */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = many_monkeys_scene.scn; sourceTree = "<group>"; };
+		2E039A4217E0B659001E4A64 /* PointLight.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PointLight.cpp; sourceTree = "<group>"; };
+		2E039A4317E0B659001E4A64 /* PointLight.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PointLight.h; sourceTree = "<group>"; };
+		2E039A4417E0B659001E4A64 /* QuaternionCamera.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = QuaternionCamera.cpp; sourceTree = "<group>"; };
+		2E039A4517E0B659001E4A64 /* QuaternionCamera.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QuaternionCamera.h; sourceTree = "<group>"; };
+		2E039A4617E0B659001E4A64 /* ScnFilePayload.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScnFilePayload.h; sourceTree = "<group>"; };
+		2E039A4717E0B659001E4A64 /* ScnParser.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ScnParser.cpp; sourceTree = "<group>"; };
+		2E039A4817E0B659001E4A64 /* ScnParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScnParser.h; sourceTree = "<group>"; };
+		2E039A4917E0B659001E4A64 /* SpotLight.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SpotLight.cpp; sourceTree = "<group>"; };
+		2E039A4A17E0B659001E4A64 /* SpotLight.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SpotLight.h; sourceTree = "<group>"; };
+		2E039A4B17E0B659001E4A64 /* StaticObject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = StaticObject.cpp; sourceTree = "<group>"; };
+		2E039A4C17E0B659001E4A64 /* StaticObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StaticObject.h; sourceTree = "<group>"; };
 		2E4BEA7717198079004A5CBD /* simple_ogl.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = simple_ogl.vsh; sourceTree = "<group>"; };
 		2E4BEA7917198091004A5CBD /* simple_ogl.psh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = simple_ogl.psh; sourceTree = "<group>"; };
 		2E4D3561174F2D0B006B168F /* IInput.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IInput.h; sourceTree = "<group>"; };
@@ -51,8 +73,6 @@
 		2E81C9111718702C00428B87 /* GameScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameScene.cpp; sourceTree = "<group>"; };
 		2E81C9141718753C00428B87 /* OGLShaderManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OGLShaderManager.h; sourceTree = "<group>"; };
 		2E81C9151718770600428B87 /* OGLShaderManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OGLShaderManager.cpp; sourceTree = "<group>"; };
-		2EA38B9017284A4A00853F7C /* Camera.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Camera.cpp; sourceTree = "<group>"; };
-		2EA38B9117284A4A00853F7C /* Camera.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Camera.h; sourceTree = "<group>"; };
 		2EA38B9417284BBB00853F7C /* monkey.objm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = monkey.objm; sourceTree = "<group>"; };
 		2EAC428B175682A40034DC8B /* MacInput.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MacInput.cpp; sourceTree = "<group>"; };
 		2EAC428C175682A40034DC8B /* MacInput.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MacInput.h; sourceTree = "<group>"; };
@@ -70,7 +90,6 @@
 		3E1ACA0B168E1AFE00F8B28D /* complex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = complex.h; sourceTree = "<group>"; };
 		3E1ACA0E168E1AFE00F8B28D /* GameEngine.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameEngine.cpp; sourceTree = "<group>"; };
 		3E1ACA0F168E1AFE00F8B28D /* GameEngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameEngine.h; sourceTree = "<group>"; };
-		3E1ACA10168E1AFE00F8B28D /* GameEntity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameEntity.h; sourceTree = "<group>"; };
 		3E1ACA11168E1AFE00F8B28D /* GameScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameScene.h; sourceTree = "<group>"; };
 		3E1ACA12168E1AFE00F8B28D /* IGraphicsContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IGraphicsContext.h; sourceTree = "<group>"; };
 		3E1ACA13168E1AFE00F8B28D /* IResourceManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IResourceManager.h; sourceTree = "<group>"; };
@@ -121,6 +140,7 @@
 		2EA38B9317284BAD00853F7C /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				2E039A4117E0B659001E4A64 /* many_monkeys_scene.scn */,
 				2EA38B9417284BBB00853F7C /* monkey.objm */,
 			);
 			name = Resources;
@@ -165,6 +185,9 @@
 		3E1ACA33168E252700F8B28D /* Interfaces */ = {
 			isa = PBXGroup;
 			children = (
+				2E039A3E17E0B659001E4A64 /* ICamera.h */,
+				2E039A3F17E0B659001E4A64 /* IEntityFactory.h */,
+				2E039A4017E0B659001E4A64 /* IGameEntity.h */,
 				2E4D3561174F2D0B006B168F /* IInput.h */,
 				2E4D3562174F2D0B006B168F /* ILogger.h */,
 				3E1ACA12168E1AFE00F8B28D /* IGraphicsContext.h */,
@@ -178,9 +201,18 @@
 		3E1ACA34168E253B00F8B28D /* GameEngine */ = {
 			isa = PBXGroup;
 			children = (
-				2EA38B9017284A4A00853F7C /* Camera.cpp */,
-				2EA38B9117284A4A00853F7C /* Camera.h */,
 				2E81C9111718702C00428B87 /* GameScene.cpp */,
+				2E039A4217E0B659001E4A64 /* PointLight.cpp */,
+				2E039A4317E0B659001E4A64 /* PointLight.h */,
+				2E039A4417E0B659001E4A64 /* QuaternionCamera.cpp */,
+				2E039A4517E0B659001E4A64 /* QuaternionCamera.h */,
+				2E039A4617E0B659001E4A64 /* ScnFilePayload.h */,
+				2E039A4717E0B659001E4A64 /* ScnParser.cpp */,
+				2E039A4817E0B659001E4A64 /* ScnParser.h */,
+				2E039A4917E0B659001E4A64 /* SpotLight.cpp */,
+				2E039A4A17E0B659001E4A64 /* SpotLight.h */,
+				2E039A4B17E0B659001E4A64 /* StaticObject.cpp */,
+				2E039A4C17E0B659001E4A64 /* StaticObject.h */,
 				2EDB2FA0171806A700F27F46 /* CompiledMesh.cpp */,
 				2EDB2FA1171806A700F27F46 /* CompiledMesh.h */,
 				2EDB2FA2171806A700F27F46 /* Mesh.cpp */,
@@ -188,8 +220,8 @@
 				3E1ACA11168E1AFE00F8B28D /* GameScene.h */,
 				3E1ACA0E168E1AFE00F8B28D /* GameEngine.cpp */,
 				3E1ACA0F168E1AFE00F8B28D /* GameEngine.h */,
-				3E1ACA10168E1AFE00F8B28D /* GameEntity.h */,
 				3E1ACA1B168E1AFE00F8B28D /* SceneGraph.h */,
+				2E039A3D17E0B659001E4A64 /* EngineFactory.h */,
 			);
 			name = GameEngine;
 			sourceTree = "<group>";
@@ -303,8 +335,12 @@
 				2E81C9121718702C00428B87 /* GameScene.cpp in Sources */,
 				2E81C9161718770600428B87 /* OGLShaderManager.cpp in Sources */,
 				2E4BEA7817198079004A5CBD /* simple_ogl.vsh in Sources */,
-				2EA38B9217284A4A00853F7C /* Camera.cpp in Sources */,
 				2EAC428D175682A40034DC8B /* MacInput.cpp in Sources */,
+				2E039A4D17E0B659001E4A64 /* PointLight.cpp in Sources */,
+				2E039A4E17E0B659001E4A64 /* QuaternionCamera.cpp in Sources */,
+				2E039A4F17E0B659001E4A64 /* ScnParser.cpp in Sources */,
+				2E039A5017E0B659001E4A64 /* SpotLight.cpp in Sources */,
+				2E039A5117E0B659001E4A64 /* StaticObject.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

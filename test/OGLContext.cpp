@@ -101,7 +101,7 @@ IResourceManager& OGLContext::GetResourceManager()
     return *this;
 }
 
-std::unique_ptr<CompiledMesh> OGLContext::CompileMesh(const Mesh &mesh)
+std::shared_ptr<CompiledMesh> OGLContext::CompileMesh(const Mesh &mesh)
 {
     GLuint vertexBufferId, indexBufferId;
     
@@ -119,9 +119,7 @@ std::unique_ptr<CompiledMesh> OGLContext::CompileMesh(const Mesh &mesh)
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
     
-    return std::unique_ptr<CompiledMesh>(
-        new CompiledMesh(vertexBufferId, indexBufferId,  mesh.GetIndexCount(), mesh.GetVertexSizeInBytes(), std::bind(&OGLContext::OnReleaseMesh, this, std::placeholders::_1))
-                                        );
+    return std::make_shared<CompiledMesh>(vertexBufferId, indexBufferId,  mesh.GetIndexCount(), mesh.GetVertexSizeInBytes(), std::bind(&OGLContext::OnReleaseMesh, this, std::placeholders::_1));
 }
 
 void OGLContext::OnReleaseMesh(const CompiledMesh &mesh)
@@ -130,4 +128,39 @@ void OGLContext::OnReleaseMesh(const CompiledMesh &mesh)
     GLuint indexBufferId  = mesh.GetIndexBufferID();
     glDeleteBuffers(1, &vertexBufferId);
     glDeleteBuffers(1, &indexBufferId);
+}
+
+void OGLContext::SetPointLight(PointLightIndex index, PointLight const& light)
+{
+    
+}
+
+void OGLContext::SetPointLightEnabled(PointLightIndex index, bool bEnabled)
+{
+    
+}
+
+bool OGLContext::IsPointLightEnabled(PointLightIndex index)
+{
+    return false;
+}
+
+void OGLContext::SetSpotLight(SpotLightIndex index, SpotLight const& light)
+{
+    
+}
+
+void OGLContext::SetSpotLightEnabled(SpotLightIndex index, bool bEnabled)
+{
+    
+}
+
+bool OGLContext::IsSpotLightEnabled(SpotLightIndex index)
+{
+    return false;
+}
+
+void OGLContext::CommitState()
+{
+    
 }

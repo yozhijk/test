@@ -5,6 +5,7 @@
 /// scn. file payload, consider using 
 /// Google protobuffers later
 #include <string>
+#include "utils.h"
 #include "common_types.h"
 
 /*------------------------------
@@ -61,7 +62,7 @@ template <typename Stream> inline Stream& operator >> (Stream& stream, StaticObj
 
 	stream >> tmp >> staticObjectDesc.tag >> staticObjectDesc.fileName >> x >> y >> z;
 
-	staticObjectDesc.worldMatrix = translation_matrix(vector3(x, y, z));
+	staticObjectDesc.worldMatrix = core::translation_matrix(core::vector3(x, y, z));
 
 	return stream;
 }
