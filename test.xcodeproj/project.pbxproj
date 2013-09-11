@@ -15,7 +15,7 @@
 		2E039A5217E0B7E7001E4A64 /* many_monkeys_scene.scn in CopyFiles */ = {isa = PBXBuildFile; fileRef = 2E039A4117E0B659001E4A64 /* many_monkeys_scene.scn */; };
 		2E4BEA7817198079004A5CBD /* simple_ogl.vsh in Sources */ = {isa = PBXBuildFile; fileRef = 2E4BEA7717198079004A5CBD /* simple_ogl.vsh */; };
 		2E4BEA7A17198343004A5CBD /* simple_ogl.vsh in CopyFiles */ = {isa = PBXBuildFile; fileRef = 2E4BEA7717198079004A5CBD /* simple_ogl.vsh */; };
-		2E4BEA7B17198343004A5CBD /* simple_ogl.psh in CopyFiles */ = {isa = PBXBuildFile; fileRef = 2E4BEA7917198091004A5CBD /* simple_ogl.psh */; };
+		2E4BEA7B17198343004A5CBD /* simple_ogl.fsh in CopyFiles */ = {isa = PBXBuildFile; fileRef = 2E4BEA7917198091004A5CBD /* simple_ogl.fsh */; };
 		2E81C9121718702C00428B87 /* GameScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E81C9111718702C00428B87 /* GameScene.cpp */; };
 		2E81C9161718770600428B87 /* OGLShaderManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2E81C9151718770600428B87 /* OGLShaderManager.cpp */; };
 		2EA38B9517284BD200853F7C /* monkey.objm in CopyFiles */ = {isa = PBXBuildFile; fileRef = 2EA38B9417284BBB00853F7C /* monkey.objm */; };
@@ -43,7 +43,7 @@
 				2E039A5217E0B7E7001E4A64 /* many_monkeys_scene.scn in CopyFiles */,
 				2EA38B9517284BD200853F7C /* monkey.objm in CopyFiles */,
 				2E4BEA7A17198343004A5CBD /* simple_ogl.vsh in CopyFiles */,
-				2E4BEA7B17198343004A5CBD /* simple_ogl.psh in CopyFiles */,
+				2E4BEA7B17198343004A5CBD /* simple_ogl.fsh in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -67,7 +67,7 @@
 		2E039A4B17E0B659001E4A64 /* StaticObject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = StaticObject.cpp; sourceTree = "<group>"; };
 		2E039A4C17E0B659001E4A64 /* StaticObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StaticObject.h; sourceTree = "<group>"; };
 		2E4BEA7717198079004A5CBD /* simple_ogl.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = simple_ogl.vsh; sourceTree = "<group>"; };
-		2E4BEA7917198091004A5CBD /* simple_ogl.psh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = simple_ogl.psh; sourceTree = "<group>"; };
+		2E4BEA7917198091004A5CBD /* simple_ogl.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = simple_ogl.fsh; sourceTree = "<group>"; };
 		2E4D3561174F2D0B006B168F /* IInput.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IInput.h; sourceTree = "<group>"; };
 		2E4D3562174F2D0B006B168F /* ILogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ILogger.h; sourceTree = "<group>"; };
 		2E81C9111718702C00428B87 /* GameScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameScene.cpp; sourceTree = "<group>"; };
@@ -132,7 +132,7 @@
 			isa = PBXGroup;
 			children = (
 				2E4BEA7717198079004A5CBD /* simple_ogl.vsh */,
-				2E4BEA7917198091004A5CBD /* simple_ogl.psh */,
+				2E4BEA7917198091004A5CBD /* simple_ogl.fsh */,
 			);
 			name = Shaders;
 			sourceTree = "<group>";

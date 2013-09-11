@@ -43,6 +43,8 @@ void GameScene::Init(IResourceManager& resourceManager)
 
 void GameScene::Render(IGraphicsContext& graphicsContext)
 {
+    graphicsContext.Clear(color_rgba(1,1,1,1));
+    
 	graphicsContext.SetViewMatrix(GetActiveCamera().GetViewMatrix());
 	graphicsContext.SetFrustum(GetActiveCamera().GetFrustum());
 

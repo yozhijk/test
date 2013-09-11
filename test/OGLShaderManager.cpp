@@ -56,7 +56,7 @@ OGLShaderManager::~OGLShaderManager()
 GLuint OGLShaderManager::CompileProgram(std::string const& programName)
 {
     std::string vertexShaderName = programName + ".vsh";
-    std::string fragmentShaderName = programName + ".psh";
+    std::string fragmentShaderName = programName + ".fsh";
     
     // Need to wrap the shader program here to be exception-safe
     std::vector<GLchar> sourceCode;

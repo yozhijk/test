@@ -23,7 +23,6 @@ public:
     ~OGLContext();
     
     /// IGraphicsContext overrides
-    
 	/// Initialize graphics API and create necessarry recources
 	/// Should be called once at startup priop to any use
     void Init();
@@ -56,7 +55,6 @@ public:
     
 	/// Commit per-frame states (such as lighting params) to device
 	void CommitState();
-
     
 	/// Clear canvas
 	void Clear(core::color_rgba const& color);
@@ -80,6 +78,24 @@ private:
     
     OGLContext(OGLContext const&);
     OGLContext& operator = (OGLContext const&);
+    
+    struct PointLightData
+	{
+		core::vector4 vPos;
+		core::vector4 vColor;
+	};
+    
+	struct SpotLightData
+	{
+		core::vector4 vPos;
+		core::vector4 vDir;
+		core::vector4 vColor;
+		core::vector4 vAngle;
+	};
+    
+    /// Point lights
+	std::vector<PointLightData> pointLights_;
+	std::vector<SpotLightData>  spotLights_;
     
     OGLShaderManager shaderManager_;
     

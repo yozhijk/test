@@ -1,13 +1,20 @@
 #include "OGLContext.h"
+#include "PointLight.h"
+#include "SpotLight.h"
 #include "Mesh.h"
 #include "CompiledMesh.h"
 #include "utils.h"
-#include <GLUT/glut.h>
 
+#include <GLUT/glut.h>
+#include <sstream>
+
+using namespace std;
 using namespace core;
 
 
 OGLContext::OGLContext()
+: pointLights_(POINT_LIGHT_MAX)
+, spotLights_(SPOT_LIGHT_MAX)
 {
     
 }
@@ -52,22 +59,19 @@ void OGLContext::SetFrustum(frustum const& frustum)
 
 void OGLContext::DrawMesh(CompiledMesh const& mesh)
 {
-    glCullFace(GL_NONE);
-    glEnable(GL_DEPTH_TEST);
-    
-    
-    matrix4x4 worldMatrix = worldMatrix_;
-    matrix4x4 worldViewProj = projMatrix_ * viewMatrix_ * worldMatrix_;
-
-    GLuint program = shaderManager_.GetShaderProgram("simple_ogl");
-    
-    glUseProgram(program);
-    
-    glUniformMatrix4fv(glGetUniformLocation(program, "g_mWorld"), 1, false, &(worldMatrix(0,0)));
-    glUniformMatrix4fv(glGetUniformLocation(program, "g_mWorldViewProj"), 1, false, &(worldViewProj(0,0)));
+    //CommitState();
     
     glBindBuffer(GL_ARRAY_BUFFER, mesh.GetVertexBufferID());
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh.GetIndexBufferID());
+    
+    GLuint program = shaderManager_.GetShaderProgram("simple_ogl");
+    
+    matrix4x4 worldMatrix = worldMatrix_;
+    matrix4x4 worldViewProj = projMatrix_ * viewMatrix_ * worldMatrix_;
+    
+    glUniformMatrix4fv(glGetUniformLocation(program, "g_mWorld"), 1, false, &(worldMatrix(0,0)));
+    glUniformMatrix4fv(glGetUniformLocation(program, "g_mWorldViewProj"), 1, false, &(worldViewProj(0,0)));
+
     
     GLuint positionAttribId = glGetAttribLocation(program, "inPosition");
     GLuint normalAttribId   = glGetAttribLocation(program, "inNormal");
@@ -130,37 +134,72 @@ void OGLContext::OnReleaseMesh(const CompiledMesh &mesh)
     glDeleteBuffers(1, &indexBufferId);
 }
 
+void OGLContext::CommitState()
+{
+    glCullFace(GL_NONE);
+    glEnable(GL_DEPTH_TEST);
+    
+    GLuint program = shaderManager_.GetShaderProgram("simple_ogl");
+    
+    glUseProgram(program);
+    
+    // Lights data
+    for (int i = 0; i < pointLights_.size(); ++i)
+    {
+        ostringstream stream;
+        stream << "g_PointLights[" << i << "].vPos";
+    
+        GLint location = glGetUniformLocation(program, stream.str().c_str());
+        assert(location != -1);
+        glUniform4fv(location, 1, &pointLights_[i].vPos[0]);
+    
+        stream.flush();
+        stream << "g_PointLights[" << i << "].vColor";
+    
+        location = glGetUniformLocation(program, stream.str().c_str());
+        assert(location != -1);
+        glUniform4fv(location, 1, &pointLights_[i].vColor[0]);
+   }
+}
+
 void OGLContext::SetPointLight(PointLightIndex index, PointLight const& light)
 {
-    
+	assert (index < POINT_LIGHT_MAX);
+	pointLights_[index].vPos = light.GetPosition();
+	pointLights_[index].vColor = light.GetColor();
 }
 
 void OGLContext::SetPointLightEnabled(PointLightIndex index, bool bEnabled)
 {
-    
+	assert (index < POINT_LIGHT_MAX);
+	pointLights_[index].vPos.w() = bEnabled?1.f:0.f;
 }
 
 bool OGLContext::IsPointLightEnabled(PointLightIndex index)
 {
-    return false;
+	assert (index < POINT_LIGHT_MAX);
+	return pointLights_[index].vPos.w() > 0.f;
 }
 
 void OGLContext::SetSpotLight(SpotLightIndex index, SpotLight const& light)
 {
-    
+	assert (index < SPOT_LIGHT_MAX);
+	spotLights_[index].vPos = light.GetPosition();
+	spotLights_[index].vDir = light.GetDirection();
+	spotLights_[index].vColor = light.GetColor();
+	spotLights_[index].vAngle.x() = light.GetInnerAngle();
+	spotLights_[index].vAngle.y() = light.GetOuterAngle();
 }
 
 void OGLContext::SetSpotLightEnabled(SpotLightIndex index, bool bEnabled)
 {
-    
+	assert (index < SPOT_LIGHT_MAX);
+	spotLights_[index].vPos.w() = bEnabled?1.f:0.f;
 }
 
 bool OGLContext::IsSpotLightEnabled(SpotLightIndex index)
 {
-    return false;
+	assert (index < SPOT_LIGHT_MAX);
+	return spotLights_[index].vPos.w() > 0.f;
 }
 
-void OGLContext::CommitState()
-{
-    
-}
