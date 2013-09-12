@@ -143,7 +143,7 @@ void OGLContext::CommitState()
     
     glUseProgram(program);
     
-    // Lights data
+    // Point lights data
     for (int i = 0; i < pointLights_.size(); ++i)
     {
         ostringstream stream;
@@ -153,13 +153,46 @@ void OGLContext::CommitState()
         assert(location != -1);
         glUniform4fv(location, 1, &pointLights_[i].vPos[0]);
     
-        stream.flush();
+        stream = std::ostringstream();
         stream << "g_PointLights[" << i << "].vColor";
     
         location = glGetUniformLocation(program, stream.str().c_str());
         assert(location != -1);
         glUniform4fv(location, 1, &pointLights_[i].vColor[0]);
    }
+    
+    // Spot lights data
+    for (int i = 0; i < spotLights_.size(); ++i)
+    {
+        ostringstream stream;
+        stream << "g_SpotLights[" << i << "].vPos";
+        
+        GLint location = glGetUniformLocation(program, stream.str().c_str());
+        assert(location != -1);
+        glUniform4fv(location, 1, &spotLights_[i].vPos[0]);
+        
+        stream = std::ostringstream();
+        stream << "g_SpotLights[" << i << "].vColor";
+        
+        location = glGetUniformLocation(program, stream.str().c_str());
+        assert(location != -1);
+        glUniform4fv(location, 1, &spotLights_[i].vColor[0]);
+        
+        stream = std::ostringstream();
+        stream << "g_SpotLights[" << i << "].vDir";
+        
+        location = glGetUniformLocation(program, stream.str().c_str());
+        assert(location != -1);
+        glUniform4fv(location, 1, &spotLights_[i].vDir[0]);
+        
+        stream = std::ostringstream();
+        stream << "g_SpotLights[" << i << "].vAngle";
+        
+        location = glGetUniformLocation(program, stream.str().c_str());
+        assert(location != -1);
+        glUniform4fv(location, 1, &spotLights_[i].vAngle[0]);
+    }
+
 }
 
 void OGLContext::SetPointLight(PointLightIndex index, PointLight const& light)
