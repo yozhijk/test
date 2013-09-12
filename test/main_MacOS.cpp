@@ -13,6 +13,7 @@
 #include <time.h>
 #include <iostream>
 #include <functional>
+#include <chrono>
 
 std::unique_ptr<MacOS> g_OS;
 std::unique_ptr<App>   g_App;
@@ -22,13 +23,12 @@ std::unique_ptr<App>   g_App;
 
 void display()
 {
-    /// TODO: switch to using hight resoluion MAC specific timer later
-    static clock_t prevTime = clock();
+    static auto prevTime = std::chrono::high_resolution_clock::now();
     
-    clock_t currentTime = clock();
-    core::real timeDelta = (core::real)(currentTime - prevTime)/CLOCKS_PER_SEC;
+    auto currentTime = std::chrono::high_resolution_clock::now();
+    auto timeDelta = std::chrono::duration_cast<std::chrono::duration<double> >(currentTime - prevTime);
     
-    g_OS->Loop(timeDelta);
+    g_OS->Loop(timeDelta.count());
     
     prevTime = currentTime;
 }
